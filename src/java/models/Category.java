@@ -10,19 +10,20 @@ package models;
  * @author Oshadee
  */
 public class Category {
-   
+
     private int id;
-    private String name,description;
- public Category(){};   
+    private String name, description;
+
+    public Category() {
+    };   
 
     public Category(int id, String name, String description) {
         this.id = id;
         this.name = name;
         this.description = description;
     }
-    
-  
-   public int getId() {
+
+    public int getId() {
         return id;
     }
 

@@ -12,9 +12,10 @@ import java.sql.Timestamp;
  * @author Oshadee
  */
 public class User {
-   private int id;
-    private String nic,fullName,dislayName,occupationid,office,role,active,password;
-    private Timestamp createAt,updateAt;
+
+    private int id;
+    private String nic, fullName, dislayName, occupationid, office, role, active, password;
+    private Timestamp createAt, updateAt;
 
     public User(int id, String nic, String fullName, String dislayName, String occupationid, String office, String role, String active, String password, Timestamp createAt, Timestamp updateAt) {
         this.id = id;
@@ -117,6 +118,5 @@ public class User {
     public void setUpdateAt(Timestamp updateAt) {
         this.updateAt = updateAt;
     }
-
 
 }

@@ -4,16 +4,21 @@
  * and open the template in the editor.
  */
 package models;
+
 import java.sql.Timestamp;
+
 /**
  *
  * @author Oshadee
  */
 public class Inbox {
-     private int id,categryId;
-    private String name,sender,collector,assingedTo,imageURL,content;
-    private Timestamp registerAt,updateAt; 
-public Inbox(){};
+
+    private int id, categryId;
+    private String name, sender, collector, assingedTo, imageURL, content;
+    private Timestamp registerAt, updateAt;
+
+    public Inbox() {
+    };
 
     public Inbox(int id, int categryId, String name, String sender, String collector, String assingedTo, String imageURL, String content, Timestamp registerAt, Timestamp updateAt) {
         this.id = id;

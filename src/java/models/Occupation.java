@@ -10,6 +10,7 @@ package models;
  * @author Oshadee
  */
 public class Occupation {
+
     private int id;
     private String title;
 

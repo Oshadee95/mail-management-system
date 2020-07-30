@@ -15,7 +15,7 @@ public class Inbox {
 
     private int id, categryId;
     private String name, sender, collector, assingedTo, imageURL, content;
-    private Timestamp registerAt, updateAt;
+    private Timestamp registeredAt, updateAt;
 
     public Inbox() {
     };
@@ -29,7 +29,7 @@ public class Inbox {
         this.assingedTo = assingedTo;
         this.imageURL = imageURL;
         this.content = content;
-        this.registerAt = registerAt;
+        this.registeredAt = registerAt;
         this.updateAt = updateAt;
     }
 
@@ -98,11 +98,11 @@ public class Inbox {
     }
 
     public Timestamp getRegisterAt() {
-        return registerAt;
+        return registeredAt;
     }
 
     public void setRegisterAt(Timestamp registerAt) {
-        this.registerAt = registerAt;
+        this.registeredAt = registerAt;
     }
 
     public Timestamp getUpdateAt() {

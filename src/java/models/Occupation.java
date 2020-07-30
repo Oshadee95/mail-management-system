@@ -20,9 +20,7 @@ public class Occupation {
     }
 
     public Occupation() {
-    }
-
-    ;   
+    };   
     public int getId() {
         return id;
     }

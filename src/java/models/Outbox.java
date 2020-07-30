@@ -25,9 +25,7 @@ public class Outbox {
     }
 
     public Outbox() {
-    }
-
-    ;   
+    };   
     public int getMailId() {
         return mailId;
     }

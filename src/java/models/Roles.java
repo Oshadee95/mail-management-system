@@ -20,9 +20,7 @@ public class Roles {
     }
 
     public Roles() {
-    }
-
-    ;   
+    };   
     public int getWeight() {
         return weight;
     }

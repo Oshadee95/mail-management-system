@@ -12,9 +12,10 @@ import java.sql.Timestamp;
  * @author Oshadee
  */
 public class Outbox {
+
     private int mailId;
-    private String senderId,content;
-     private Timestamp repliedAt;
+    private String senderId, content;
+    private Timestamp repliedAt;
 
     public Outbox(int mailId, String senderId, String content, Timestamp repliedAt) {
         this.mailId = mailId;
@@ -22,7 +23,8 @@ public class Outbox {
         this.content = content;
         this.repliedAt = repliedAt;
     }
-
+public Outbox () {
+    };   
     public int getMailId() {
         return mailId;
     }
@@ -56,4 +58,3 @@ public class Outbox {
     }
 
 }
-

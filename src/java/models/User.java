@@ -14,15 +14,15 @@ import java.sql.Timestamp;
 public class User {
 
     private int id;
-    private String nic, fullName, dislayName, occupationid, office, role, active, password;
+    private String nic, fullName, dislayName, occupationId, office, role, active, password;
     private Timestamp createdAt, updatedAt;
 
-    public User(int id, String nic, String fullName, String dislayName, String occupationid, String office, String role, String active, String password, Timestamp createdAt, Timestamp updatedAt) {
+    public User(int id, String nic, String fullName, String dislayName, String occupationId, String office, String role, String active, String password, Timestamp createdAt, Timestamp updatedAt) {
         this.id = id;
         this.nic = nic;
         this.fullName = fullName;
         this.dislayName = dislayName;
-        this.occupationid = occupationid;
+        this.occupationId = occupationId;
         this.office = office;
         this.role = role;
         this.active = active;
@@ -30,7 +30,8 @@ public class User {
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
     }
-
+public User () {
+    };   
     public int getId() {
         return id;
     }
@@ -63,12 +64,12 @@ public class User {
         this.dislayName = dislayName;
     }
 
-    public String getOccupationid() {
-        return occupationid;
+    public String getOccupationId() {
+        return occupationId;
     }
 
-    public void setOccupationid(String occupationid) {
-        this.occupationid = occupationid;
+    public void setOccupationId(String occupationId) {
+        this.occupationId = occupationId;
     }
 
     public String getOffice() {
@@ -103,20 +104,20 @@ public class User {
         this.password = password;
     }
 
-    public Timestamp getCreateAt() {
+    public Timestamp getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreateAt(Timestamp createAt) {
-        this.createdAt = createAt;
+    public void setCreatedAt(Timestamp createdAt) {
+        this.createdAt = createdAt;
     }
 
-    public Timestamp getUpdateAt() {
+    public Timestamp getUpdatedAt() {
         return updatedAt;
     }
 
-    public void setUpdateAt(Timestamp updateAt) {
-        this.updatedAt = updateAt;
+    public void setUpdatedAt(Timestamp updatedAt) {
+        this.updatedAt = updatedAt;
     }
 
 }

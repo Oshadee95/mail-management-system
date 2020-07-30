@@ -18,7 +18,8 @@ public class Occupation {
         this.id = id;
         this.title = title;
     }
-
+ public Occupation () {
+    };   
     public int getId() {
         return id;
     }

@@ -20,7 +20,7 @@ public class Inbox {
     public Inbox() {
     };
 
-    public Inbox(int id, int categryId, String name, String sender, String collector, String assingedTo, String imageURL, String content, Timestamp registerAt, Timestamp updatedAt) {
+    public Inbox(int id, int categryId, String name, String sender, String collector, String assingedTo, String imageURL, String content, Timestamp registeredAt, Timestamp updatedAt) {
         this.id = id;
         this.categryId = categryId;
         this.name = name;
@@ -97,11 +97,11 @@ public class Inbox {
         this.content = content;
     }
 
-    public Timestamp getRegisterAt() {
+    public Timestamp getRegisteredAt() {
         return registeredAt;
     }
 
-    public void setRegisterAt(Timestamp registerAt) {
+    public void setRegisteredAt(Timestamp registeredAt) {
         this.registeredAt = registeredAt;
     }
 
@@ -109,7 +109,7 @@ public class Inbox {
         return updatedAt;
     }
 
-    public void setUpdatedAt(Timestamp updateAt) {
+    public void setUpdatedAt(Timestamp updatedAt) {
         this.updatedAt = updatedAt;
     }
 

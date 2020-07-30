@@ -30,8 +30,11 @@ public class User {
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
     }
-public User () {
-    };   
+
+    public User() {
+    }
+
+    ;   
     public int getId() {
         return id;
     }

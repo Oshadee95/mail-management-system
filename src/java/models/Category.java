@@ -15,7 +15,9 @@ public class Category {
     private String name, description;
 
     public Category() {
-    };   
+    }
+
+    ;   
 
     public Category(int id, String name, String description) {
         this.id = id;

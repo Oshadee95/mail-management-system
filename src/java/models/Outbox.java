@@ -23,8 +23,11 @@ public class Outbox {
         this.content = content;
         this.repliedAt = repliedAt;
     }
-public Outbox () {
-    };   
+
+    public Outbox() {
+    }
+
+    ;   
     public int getMailId() {
         return mailId;
     }

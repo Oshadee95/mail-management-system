@@ -18,7 +18,9 @@ public class Inbox {
     private Timestamp registeredAt, updatedAt;
 
     public Inbox() {
-    };
+    }
+
+    ;
 
     public Inbox(int id, int categryId, String name, String sender, String collector, String assingedTo, String imageURL, String content, Timestamp registeredAt, Timestamp updatedAt) {
         this.id = id;

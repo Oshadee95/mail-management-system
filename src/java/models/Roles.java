@@ -18,8 +18,11 @@ public class Roles {
         this.weight = weight;
         this.role = role;
     }
-public Roles () {
-    };   
+
+    public Roles() {
+    }
+
+    ;   
     public int getWeight() {
         return weight;
     }

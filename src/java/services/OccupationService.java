@@ -10,5 +10,5 @@ package services;
  * @author Oshadee
  */
 public class OccupationService {
-    
+
 }

@@ -15,9 +15,9 @@ public class User {
 
     private int id;
     private String nic, fullName, dislayName, occupationid, office, role, active, password;
-    private Timestamp createAt, updateAt;
+    private Timestamp createdAt, updatedAt;
 
-    public User(int id, String nic, String fullName, String dislayName, String occupationid, String office, String role, String active, String password, Timestamp createAt, Timestamp updateAt) {
+    public User(int id, String nic, String fullName, String dislayName, String occupationid, String office, String role, String active, String password, Timestamp createdAt, Timestamp updatedAt) {
         this.id = id;
         this.nic = nic;
         this.fullName = fullName;
@@ -27,8 +27,8 @@ public class User {
         this.role = role;
         this.active = active;
         this.password = password;
-        this.createAt = createAt;
-        this.updateAt = updateAt;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
     }
 
     public int getId() {
@@ -104,19 +104,19 @@ public class User {
     }
 
     public Timestamp getCreateAt() {
-        return createAt;
+        return createdAt;
     }
 
     public void setCreateAt(Timestamp createAt) {
-        this.createAt = createAt;
+        this.createdAt = createAt;
     }
 
     public Timestamp getUpdateAt() {
-        return updateAt;
+        return updatedAt;
     }
 
     public void setUpdateAt(Timestamp updateAt) {
-        this.updateAt = updateAt;
+        this.updatedAt = updateAt;
     }
 
 }

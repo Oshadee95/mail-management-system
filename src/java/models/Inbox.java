@@ -15,12 +15,12 @@ public class Inbox {
 
     private int id, categryId;
     private String name, sender, collector, assingedTo, imageURL, content;
-    private Timestamp registeredAt, updateAt;
+    private Timestamp registeredAt, updatedAt;
 
     public Inbox() {
     };
 
-    public Inbox(int id, int categryId, String name, String sender, String collector, String assingedTo, String imageURL, String content, Timestamp registerAt, Timestamp updateAt) {
+    public Inbox(int id, int categryId, String name, String sender, String collector, String assingedTo, String imageURL, String content, Timestamp registerAt, Timestamp updatedAt) {
         this.id = id;
         this.categryId = categryId;
         this.name = name;
@@ -29,8 +29,8 @@ public class Inbox {
         this.assingedTo = assingedTo;
         this.imageURL = imageURL;
         this.content = content;
-        this.registeredAt = registerAt;
-        this.updateAt = updateAt;
+        this.registeredAt = registeredAt;
+        this.updatedAt = updatedAt;
     }
 
     public int getId() {
@@ -102,15 +102,15 @@ public class Inbox {
     }
 
     public void setRegisterAt(Timestamp registerAt) {
-        this.registeredAt = registerAt;
+        this.registeredAt = registeredAt;
     }
 
-    public Timestamp getUpdateAt() {
-        return updateAt;
+    public Timestamp getUpdatedAt() {
+        return updatedAt;
     }
 
-    public void setUpdateAt(Timestamp updateAt) {
-        this.updateAt = updateAt;
+    public void setUpdatedAt(Timestamp updateAt) {
+        this.updatedAt = updatedAt;
     }
 
 }

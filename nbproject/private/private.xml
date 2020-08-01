@@ -8,15 +8,20 @@
             <file>file:/C:/Users/Oshadee/Documents/NetBeansProjects/mail-management-system/src/java/services/InboxService.java</file>
             <file>file:/C:/Users/Oshadee/Documents/NetBeansProjects/mail-management-system/src/java/models/Inbox.java</file>
             <file>file:/C:/Users/Oshadee/Documents/NetBeansProjects/mail-management-system/web/WEB-INF/web.xml</file>
+            <file>file:/C:/Users/Oshadee/Documents/NetBeansProjects/mail-management-system/src/java/queries/CategoryQueryHandler.java</file>
+            <file>file:/C:/Users/Oshadee/Documents/NetBeansProjects/mail-management-system/src/java/services/ServiceInterface.java</file>
             <file>file:/C:/Users/Oshadee/Documents/NetBeansProjects/mail-management-system/web/index.html</file>
             <file>file:/C:/Users/Oshadee/Documents/NetBeansProjects/mail-management-system/src/java/services/UserService.java</file>
             <file>file:/C:/Users/Oshadee/Documents/NetBeansProjects/mail-management-system/src/java/models/User.java</file>
             <file>file:/C:/Users/Oshadee/Documents/NetBeansProjects/mail-management-system/src/java/services/RoleService.java</file>
+            <file>file:/C:/Users/Oshadee/Documents/NetBeansProjects/mail-management-system/src/java/queries/QueryHandler.java</file>
             <file>file:/C:/Users/Oshadee/Documents/NetBeansProjects/mail-management-system/src/java/models/Occupation.java</file>
             <file>file:/C:/Users/Oshadee/Documents/NetBeansProjects/mail-management-system/src/java/services/OccupationService.java</file>
             <file>file:/C:/Users/Oshadee/Documents/NetBeansProjects/mail-management-system/src/java/services/OutboxService.java</file>
             <file>file:/C:/Users/Oshadee/Documents/NetBeansProjects/mail-management-system/src/java/models/Outbox.java</file>
+            <file>file:/C:/Users/Oshadee/Documents/NetBeansProjects/mail-management-system/src/java/queries/RoleQueryHandler.java</file>
             <file>file:/C:/Users/Oshadee/Documents/NetBeansProjects/mail-management-system/src/java/models/Roles.java</file>
+            <file>file:/C:/Users/Oshadee/Documents/NetBeansProjects/mail-management-system/src/java/services/DBConnection.java</file>
         </group>
     </open-files>
 </project-private>

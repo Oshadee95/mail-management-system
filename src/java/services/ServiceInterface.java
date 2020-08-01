@@ -15,5 +15,5 @@ public interface ServiceInterface <T>{
     
     public List<T> getAll() throws ClassNotFoundException, SQLException;
     
-    public List<T> search() throws ClassNotFoundException, SQLException;
+    
 }

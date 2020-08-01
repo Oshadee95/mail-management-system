@@ -1,24 +1,14 @@
 package queries;
 
-public abstract class QueryHandler {
+public interface QueryHandler {
 
-    public static String getAddDataQuery(){
-        return null;
-    };
+    public String getAddDataQuery();
 
-    public static String getUpdateDataQuery(){
-        return null;
-    };
+    public String getUpdateDataQuery();
 
-    public static String getRemoveDataQuery(){
-        return null;
-    };
+    public String getRemoveDataQuery();
 
-    public static String getFetchDataQuery(){
-        return null;
-    };
+    public String getFetchDataQuery();
 
-    public static String getFetchAllDataQuery(){
-        return null;
-    };
+    public String getFetchAllDataQuery();
 }

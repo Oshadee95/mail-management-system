@@ -5,13 +5,14 @@
  */
 package services;
 
+import servers.DB;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 import models.Category;
-import queries.CategoryQueryHandler;
+import queries.QueryHandler;
 
 /**
  *
@@ -22,11 +23,12 @@ public class CategoryService implements ServiceInterface<Category> {
     private PreparedStatement ps;
     private ResultSet rs;
     private int eResult; // execution result will either return 1 for successful execution and 0 for error
-
+    QueryHandler CategoryQueryHandler;
+    
     @Override
     public boolean add(Category category) throws ClassNotFoundException, SQLException {
-        if (DBConnection.getInstance() != null) {
-            Connection con = DBConnection.getConnction();
+        if (DB.getInstance() != null) {
+            Connection con = DB.getConnction();
             ps = con.prepareStatement(CategoryQueryHandler.getAddDataQuery());
             ps.setString(1, category.getName());
             ps.setString(2, category.getDescription());
@@ -44,8 +46,8 @@ public class CategoryService implements ServiceInterface<Category> {
 
     @Override
     public boolean remove(Category category) throws ClassNotFoundException, SQLException {
-        if (DBConnection.getInstance() != null) {
-            Connection con = DBConnection.getConnction();
+        if (DB.getInstance() != null) {
+            Connection con = DB.getConnction();
             ps = con.prepareStatement(CategoryQueryHandler.getRemoveDataQuery());
             ps.setString(1, category.getName());
             eResult = ps.executeUpdate();
@@ -64,8 +66,4 @@ public class CategoryService implements ServiceInterface<Category> {
     public List<Category> getAll() throws ClassNotFoundException, SQLException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-
-    
-    
-
 }

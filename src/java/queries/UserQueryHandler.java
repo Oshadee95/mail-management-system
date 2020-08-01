@@ -1,10 +1,19 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package queries;
 
-public class CategoryQueryHandler implements QueryHandler {
-
-    private static final String INSERT_DATA_QUERY = "INSERT INTO `categories`(`id`, `name`, `description`) VALUES (?, ?, ?)";
+/**
+ *
+ * @author RED-HAWK
+ */
+public class UserQueryHandler implements QueryHandler{
+    
+    private static final String INSERT_DATA_QUERY = "INSERT INTO `users`(`nic`, `fullName`, `displayName`, `occupationId`, `office`, `role`, `password`) VALUES (?, ?, ?, ?, ?, ?, ?)";
     private static final String UPDATE_DATA_QUERY = "";
-    private static final String DELETE_DATA_QUERY = "DELETE FROM `categories` WHERE `id`=?";
+    private static final String DELETE_DATA_QUERY = "DELETE FROM `users` WHERE `id`=?";
     private static final String FETCH_DATA_QUERY = "";
     private static final String FETCH_ALL_DATA_QUERY = "";
     

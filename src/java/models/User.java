@@ -13,11 +13,11 @@ import java.sql.Timestamp;
  */
 public class User {
 
-    private int id;
-    private String nic, fullName, dislayName, occupationId, office, role, active, password;
+    private int id, occupationId;
+    private String nic, fullName, dislayName, office, role, active, password;
     private Timestamp createdAt, updatedAt;
 
-    public User(int id, String nic, String fullName, String dislayName, String occupationId, String office, String role, String active, String password, Timestamp createdAt, Timestamp updatedAt) {
+    public User(int id, String nic, String fullName, String dislayName, int occupationId, String office, String role, String active, String password, Timestamp createdAt, Timestamp updatedAt) {
         this.id = id;
         this.nic = nic;
         this.fullName = fullName;
@@ -32,7 +32,8 @@ public class User {
     }
 
     public User() {
-    };   
+    }; 
+    
     public int getId() {
         return id;
     }
@@ -65,11 +66,11 @@ public class User {
         this.dislayName = dislayName;
     }
 
-    public String getOccupationId() {
+    public int getOccupationId() {
         return occupationId;
     }
 
-    public void setOccupationId(String occupationId) {
+    public void setOccupationId(int occupationId) {
         this.occupationId = occupationId;
     }
 

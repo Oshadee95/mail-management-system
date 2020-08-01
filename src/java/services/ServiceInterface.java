@@ -14,6 +14,4 @@ public interface ServiceInterface <T>{
     public T get(T type) throws ClassNotFoundException, SQLException;
     
     public List<T> getAll() throws ClassNotFoundException, SQLException;
-    
-    
 }

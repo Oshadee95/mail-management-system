@@ -2,9 +2,9 @@ package queries;
 
 public class CategoryQueryHandler implements QueryHandler {
 
-    private static final String INSERT_DATA_QUERY = "INSERT INTO `categories`(`id`, `name`, `description`) VALUES (?, ?, ?)";
+    private static final String INSERT_DATA_QUERY = "INSERT INTO `categories`(`name`, `description`) VALUES (?, ?)";
     private static final String UPDATE_DATA_QUERY = "";
-    private static final String DELETE_DATA_QUERY = "DELETE FROM `categories` WHERE `id`=?";
+    private static final String DELETE_DATA_QUERY = "DELETE FROM `categories` WHERE `id`= ?";
     private static final String FETCH_DATA_QUERY = "";
     private static final String FETCH_ALL_DATA_QUERY = "";
     

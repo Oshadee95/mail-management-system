@@ -13,32 +13,40 @@ import java.sql.Timestamp;
  */
 public class User {
 
-    private int id, occupationId;
-    private String nic, fullName, dislayName, office, role, active, password;
+    private int occupationId;
+    private String id, nic, fullName, displayName, office, roleId, active, password, photoURL;
     private Timestamp createdAt, updatedAt;
 
-    public User(int id, String nic, String fullName, String dislayName, int occupationId, String office, String role, String active, String password, Timestamp createdAt, Timestamp updatedAt) {
+    public User() {}; 
+
+    public User(int occupationId, String id, String nic, String fullName, String displayName, String office, String roleId, String active, String password, String photoURL, Timestamp createdAt, Timestamp updatedAt) {
+        this.occupationId = occupationId;
         this.id = id;
         this.nic = nic;
         this.fullName = fullName;
-        this.dislayName = dislayName;
-        this.occupationId = occupationId;
+        this.displayName = displayName;
         this.office = office;
-        this.role = role;
+        this.roleId = roleId;
         this.active = active;
         this.password = password;
+        this.photoURL = photoURL;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
     }
 
-    public User() {
-    }; 
-    
-    public int getId() {
+    public int getOccupationId() {
+        return occupationId;
+    }
+
+    public void setOccupationId(int occupationId) {
+        this.occupationId = occupationId;
+    }
+
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -58,20 +66,12 @@ public class User {
         this.fullName = fullName;
     }
 
-    public String getDislayName() {
-        return dislayName;
+    public String getDisplayName() {
+        return displayName;
     }
 
-    public void setDislayName(String dislayName) {
-        this.dislayName = dislayName;
-    }
-
-    public int getOccupationId() {
-        return occupationId;
-    }
-
-    public void setOccupationId(int occupationId) {
-        this.occupationId = occupationId;
+    public void setDisplayName(String displayName) {
+        this.displayName = displayName;
     }
 
     public String getOffice() {
@@ -82,12 +82,12 @@ public class User {
         this.office = office;
     }
 
-    public String getRole() {
-        return role;
+    public String getRoleId() {
+        return roleId;
     }
 
-    public void setRole(String role) {
-        this.role = role;
+    public void setRoleId(String roleId) {
+        this.roleId = roleId;
     }
 
     public String getActive() {
@@ -106,6 +106,14 @@ public class User {
         this.password = password;
     }
 
+    public String getPhotoURL() {
+        return photoURL;
+    }
+
+    public void setPhotoURL(String photoURL) {
+        this.photoURL = photoURL;
+    }
+
     public Timestamp getCreatedAt() {
         return createdAt;
     }
@@ -120,6 +128,5 @@ public class User {
 
     public void setUpdatedAt(Timestamp updatedAt) {
         this.updatedAt = updatedAt;
-    }
-
+    }  
 }

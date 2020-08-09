@@ -16,7 +16,7 @@ import servers.DB;
  *
  * @author RED-HAWK
  */
-public class DatabaseServices {
+public class DatabaseService {
 
     private PreparedStatement ps;
     private ResultSet rs;

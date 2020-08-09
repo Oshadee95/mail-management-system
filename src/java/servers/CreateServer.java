@@ -13,7 +13,7 @@ import java.io.Reader;
 import java.sql.Connection;
 import java.sql.SQLException;
 import org.apache.ibatis.jdbc.ScriptRunner;
-import services.DatabaseServices;
+import services.DatabaseService;
 
 /**
  *
@@ -22,7 +22,7 @@ import services.DatabaseServices;
 public class CreateServer {
 
     private boolean isDatabaseCreated() throws ClassNotFoundException, SQLException, FileNotFoundException {
-        if (new DatabaseServices().getDatabaseExistence() == false) {
+        if (new DatabaseService().getDatabaseExistence() == false) {
             CreateServer cs = new CreateServer();
             return cs.createDatabse();
         }

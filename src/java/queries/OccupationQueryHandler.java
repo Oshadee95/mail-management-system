@@ -11,11 +11,12 @@ package queries;
  */
 public class OccupationQueryHandler implements QueryHandler {
 
-    private static final String INSERT_DATA_QUERY = "INSERT INTO `occupations`(`title`) VALUES (?)";
-    private static final String UPDATE_DATA_QUERY = "";
-    private static final String DELETE_DATA_QUERY = "DELETE FROM `occupations` WHERE `id`= ?";
-    private static final String FETCH_DATA_QUERY = "";
-    private static final String FETCH_ALL_DATA_QUERY = "";
+    private final String TABLE_NAME = "occupations";
+    private final String INSERT_DATA_QUERY = "INSERT INTO `"+TABLE_NAME+"`(`title`) VALUES (?)";
+    private final String UPDATE_DATA_QUERY = "";
+    private final String DELETE_DATA_QUERY = "DELETE FROM `"+TABLE_NAME+"` WHERE `id`= ?";
+    private final String FETCH_DATA_QUERY = "";
+    private final String FETCH_ALL_DATA_QUERY = "";
     
     @Override
     public String getAddDataQuery() {
@@ -40,5 +41,10 @@ public class OccupationQueryHandler implements QueryHandler {
     @Override
     public String getFetchAllDataQuery() {
         return FETCH_ALL_DATA_QUERY;
+    }
+    
+    @Override
+    public String getTableName(){
+        return TABLE_NAME;
     }
 }

@@ -8,6 +8,7 @@ package testers;
 import models.User;
 import services.ServiceInterface;
 import services.UserService;
+import utils.Crypto;
 
 /**
  *
@@ -18,15 +19,18 @@ public class UserServiceTester {
     public static void main(String args[]) {
 
 //        ServiceInterface us = new UserService();
-
+//
 //        User u = new User();
+//        String uid = Crypto.generateUUID();
+//        u.setId(uid);
 //        u.setNic("960523501V");
 //        u.setFullName("Uditha Arjuna Silva");
-//        u.setDislayName("Uditha Silva");
+//        u.setDisplayName("Uditha Silva");
 //        u.setOccupationId(1);
 //        u.setOffice("Government");
-//        u.setRole("ADMIN");
+//        u.setRoleId("ADMIN");
 //        u.setPassword("123456");
+//        u.setPhotoURL("l");
 //
 //        try {
 //            boolean result = us.add(u);
@@ -43,7 +47,7 @@ public class UserServiceTester {
 
 
 //        User u1 = new User();
-//        u1.setId(2);
+//        u1.setId(uid);
 //
 //        try {
 //            boolean result = us.remove(u1);

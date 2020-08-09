@@ -13,48 +13,38 @@ import java.sql.Timestamp;
  */
 public class Inbox {
 
-    private int id, categryId;
-    private String name, sender, collector, assingedTo, imageURL, content;
-    private Timestamp registeredAt, updatedAt;
+    private int categoryId;
+    private String id, sender, content, collectorId, recipientId, imageURL;
+    private Timestamp recordedAt, updatedAt;
 
-    public Inbox() {
-    };
+    public Inbox() {};
 
-    public Inbox(int id, int categryId, String name, String sender, String collector, String assingedTo, String imageURL, String content, Timestamp registeredAt, Timestamp updatedAt) {
+    public Inbox(int categoryId, String id, String sender, String content, String collectorId, String recipientId, String imageURL, Timestamp recordedAt, Timestamp updatedAt) {
+        this.categoryId = categoryId;
         this.id = id;
-        this.categryId = categryId;
-        this.name = name;
         this.sender = sender;
-        this.collector = collector;
-        this.assingedTo = assingedTo;
-        this.imageURL = imageURL;
         this.content = content;
-        this.registeredAt = registeredAt;
+        this.collectorId = collectorId;
+        this.recipientId = recipientId;
+        this.imageURL = imageURL;
+        this.recordedAt = recordedAt;
         this.updatedAt = updatedAt;
     }
 
-    public int getId() {
+    public int getCategoryId() {
+        return categoryId;
+    }
+
+    public void setCategoryId(int categoryId) {
+        this.categoryId = categoryId;
+    }
+
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
-    }
-
-    public int getCategryId() {
-        return categryId;
-    }
-
-    public void setCategryId(int categryId) {
-        this.categryId = categryId;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public String getSender() {
@@ -65,20 +55,28 @@ public class Inbox {
         this.sender = sender;
     }
 
-    public String getCollector() {
-        return collector;
+    public String getContent() {
+        return content;
     }
 
-    public void setCollector(String collector) {
-        this.collector = collector;
+    public void setContent(String content) {
+        this.content = content;
     }
 
-    public String getAssingedTo() {
-        return assingedTo;
+    public String getCollectorId() {
+        return collectorId;
     }
 
-    public void setAssingedTo(String assingedTo) {
-        this.assingedTo = assingedTo;
+    public void setCollectorId(String collectorId) {
+        this.collectorId = collectorId;
+    }
+
+    public String getRecipientId() {
+        return recipientId;
+    }
+
+    public void setRecipientId(String recipientId) {
+        this.recipientId = recipientId;
     }
 
     public String getImageURL() {
@@ -89,20 +87,12 @@ public class Inbox {
         this.imageURL = imageURL;
     }
 
-    public String getContent() {
-        return content;
+    public Timestamp getRecordedAt() {
+        return recordedAt;
     }
 
-    public void setContent(String content) {
-        this.content = content;
-    }
-
-    public Timestamp getRegisteredAt() {
-        return registeredAt;
-    }
-
-    public void setRegisteredAt(Timestamp registeredAt) {
-        this.registeredAt = registeredAt;
+    public void setRecordedAt(Timestamp recordedAt) {
+        this.recordedAt = recordedAt;
     }
 
     public Timestamp getUpdatedAt() {
@@ -112,5 +102,4 @@ public class Inbox {
     public void setUpdatedAt(Timestamp updatedAt) {
         this.updatedAt = updatedAt;
     }
-
 }

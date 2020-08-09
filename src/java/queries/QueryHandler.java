@@ -11,4 +11,6 @@ public interface QueryHandler {
     public String getFetchDataQuery();
 
     public String getFetchAllDataQuery();
+    
+    public String getTableName();
 }

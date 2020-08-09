@@ -21,8 +21,7 @@ public class DB {
 
     public static DB getInstance() throws ClassNotFoundException, SQLException {
         if (db == null) {
-            db = new DB();
-            return db;
+            return db = new DB();
         } else {
             return db;
         }
@@ -30,5 +29,9 @@ public class DB {
 
     public static Connection getConnction() {
         return connection;
+    }
+    
+    public static String getDbName() throws ClassNotFoundException, SQLException{
+        return getInstance().dbname;
     }
 }

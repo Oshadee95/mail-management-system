@@ -31,16 +31,16 @@ public class UserService implements ServiceInterface<User> {
         if (DB.getInstance() != null) {
             Connection con = DB.getConnction();
             ps = con.prepareStatement(userQueryHandler.getAddDataQuery());
-            ps.setString(1, user.getNic());
-            ps.setString(2, user.getFullName());
-            ps.setString(3, user.getDislayName());
-            ps.setInt(4, user.getOccupationId());
-            ps.setString(5, user.getOffice());
-            ps.setString(6, user.getRole());
-            ps.setString(7, user.getPassword());
-
+            ps.setString(1, user.getId());
+            ps.setString(2, user.getNic());
+            ps.setString(3, user.getFullName());
+            ps.setString(4, user.getDisplayName());
+            ps.setInt(5, user.getOccupationId());
+            ps.setString(6, user.getOffice());
+            ps.setString(7, user.getRoleId());
+            ps.setString(8, user.getPassword());
+            ps.setString(9, user.getPhotoURL());
             eResult = ps.executeUpdate();
-
             return (eResult == 1); //This will return true if eResult is 1 and false if 0
         }
         return false; //By default if connection to database fails, method will return false
@@ -56,9 +56,8 @@ public class UserService implements ServiceInterface<User> {
         if (DB.getInstance() != null) {
             Connection con = DB.getConnction();
             ps = con.prepareStatement(userQueryHandler.getRemoveDataQuery());
-            ps.setInt(1, user.getId());
+            ps.setString(1, user.getId());
             eResult = ps.executeUpdate();
-
             return (eResult == 1); //This will return true if eResult is 1 and false if 0
         }
         return false; //By default if connection to database fails, method will return false

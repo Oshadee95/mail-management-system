@@ -10,6 +10,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import models.Category;
 import queries.CategoryQueryHandler;
@@ -25,7 +26,7 @@ public class CategoryService implements ServiceInterface<Category> {
     private ResultSet rs;
     private int eResult; // execution result will either return 1 for successful execution and 0 for error
     QueryHandler categoryQueryHandler = new CategoryQueryHandler();
-    
+
     @Override
     public boolean add(Category category) throws ClassNotFoundException, SQLException {
         if (DB.getInstance() != null) {
@@ -40,8 +41,17 @@ public class CategoryService implements ServiceInterface<Category> {
     }
 
     @Override
-    public boolean update(Category type) throws ClassNotFoundException, SQLException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public boolean update(Category category) throws ClassNotFoundException, SQLException {
+        if (DB.getInstance() != null) {
+            Connection con = DB.getConnction();
+            ps = con.prepareStatement(categoryQueryHandler.getUpdateDataQuery());
+            ps.setString(1, category.getName());
+            ps.setString(2, category.getDescription());
+            ps.setInt(3, category.getId());
+            eResult = ps.executeUpdate();
+            return (eResult == 1); //This will return true if eResult is 1 and false if 0
+        }
+        return false; //By default if connection to database fails, method will return false
     }
 
     @Override
@@ -57,12 +67,27 @@ public class CategoryService implements ServiceInterface<Category> {
     }
 
     @Override
-    public Category get(Category type) throws ClassNotFoundException, SQLException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public Category get(Category category) throws ClassNotFoundException, SQLException {
+        return null; // // Not necesserily required 
     }
 
     @Override
     public List<Category> getAll() throws ClassNotFoundException, SQLException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if (DB.getInstance() != null) {
+            Connection con = DB.getConnction();
+            ps = con.prepareStatement(categoryQueryHandler.getFetchAllDataQuery());
+            rs = ps.executeQuery();
+
+            List<Category> categoryList = new ArrayList<>();
+            while (rs.next()) {
+                Category dbCategory = new Category();
+                dbCategory.setId(rs.getInt(1));
+                dbCategory.setName(rs.getString(2));
+                dbCategory.setDescription(rs.getString(3));
+                categoryList.add(dbCategory);
+            }
+            return categoryList;
+        }
+        return null; //By default if connection to database fails, method will return null
     }
 }

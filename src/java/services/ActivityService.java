@@ -61,9 +61,8 @@ public class ActivityService implements ServiceInterface<Activity> {
             Activity dbActivity = new Activity();
             while (rs.next()) {
                 dbActivity.setId(rs.getInt(1));
-                dbActivity.setUserId(rs.getString(2)+"|"+rs.getString(3));
-                dbActivity.setAction(rs.getString(4));
-                dbActivity.setOccuredAt(rs.getTimestamp(5));
+                dbActivity.setAction(rs.getString(2));
+                dbActivity.setOccuredAt(rs.getTimestamp(3));
             }
             return dbActivity;
         }

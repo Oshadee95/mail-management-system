@@ -13,11 +13,12 @@ public class ActivityQueryHandler implements QueryHandlerInterface {
 
     private final QueryHandlerInterface userQueryHandler = new UserQueryHandler();
     private final String TABLE_NAME = "activities";
+    private final String VIEW_NAME = "activityinfoview";
     private final String INSERT_DATA_QUERY = "INSERT INTO `" + TABLE_NAME + "`(`userId`, `action`) VALUES (?, ?)";
     private final String DELETE_DATA_QUERY = "DELETE FROM `" + TABLE_NAME + "` WHERE `id`= ?";
-    private final String FETCH_DATA_QUERY = "SELECT id, action, occuredAt " + "FROM `" + TABLE_NAME + "` WHERE userId = ?";
-    private final String FETCH_ALL_DATA_QUERY = "SELECT a.id, a.userId, u.displayName, a.action, a.occuredAt " + "FROM " + TABLE_NAME + " a, " + userQueryHandler.getTableName() + " u WHERE a.userId = u.id";
-    
+    private final String FETCH_DATA_QUERY = "SELECT * FROM `" + VIEW_NAME + "` WHERE userId = ?";
+    private final String FETCH_ALL_DATA_QUERY = "SELECT * FROM `" + VIEW_NAME + "`";
+
     @Override
     public String getAddDataQuery() {
         return INSERT_DATA_QUERY;

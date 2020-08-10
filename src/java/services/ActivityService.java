@@ -11,7 +11,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import models.Activity;
+import models.ActivityInfo;
 import queries.ActivityQueryHandler;
 import servers.DB;
 import queries.QueryHandlerInterface;
@@ -20,7 +20,7 @@ import queries.QueryHandlerInterface;
  *
  * @author RED-HAWK
  */
-public class ActivityService implements ServiceInterface<Activity> {
+public class ActivityService implements ServiceInterface<ActivityInfo> {
 
     private PreparedStatement ps;
     private ResultSet rs;
@@ -28,12 +28,12 @@ public class ActivityService implements ServiceInterface<Activity> {
     QueryHandlerInterface activityQueryHandler = new ActivityQueryHandler();
 
     @Override
-    public boolean add(Activity activity) throws ClassNotFoundException, SQLException {
+    public boolean add(ActivityInfo activityInfo) throws ClassNotFoundException, SQLException {
         if (DB.getInstance() != null) {
             Connection con = DB.getConnction();
             ps = con.prepareStatement(activityQueryHandler.getAddDataQuery());
-            ps.setString(1, activity.getUserId());
-            ps.setString(2, activity.getAction());
+            ps.setString(1, activityInfo.getUserId());
+            ps.setString(2, activityInfo.getAction());
             eResult = ps.executeUpdate();
             return (eResult == 1); //This will return true if eResult is 1 and false if 0
         }
@@ -41,51 +41,56 @@ public class ActivityService implements ServiceInterface<Activity> {
     }
 
     @Override
-    public boolean update(Activity activity) throws ClassNotFoundException, SQLException {
+    public boolean update(ActivityInfo activity) throws ClassNotFoundException, SQLException {
         return false; // Updating activity is not permitted
     }
 
     @Override
-    public boolean remove(Activity activity) throws ClassNotFoundException, SQLException {
+    public boolean remove(ActivityInfo activity) throws ClassNotFoundException, SQLException {
         return false; // Removing activity is not permitted
     }
 
     @Override
-    public Activity get(Activity activity) throws ClassNotFoundException, SQLException {
-       if (DB.getInstance() != null) {
+    public ActivityInfo get(ActivityInfo activityInfo) throws ClassNotFoundException, SQLException {
+        if (DB.getInstance() != null) {
             Connection con = DB.getConnction();
             ps = con.prepareStatement(activityQueryHandler.getFetchDataQuery());
-            ps.setString(1, activity.getUserId());
+            ps.setString(1, activityInfo.getUserId());
             rs = ps.executeQuery();
 
-            Activity dbActivity = new Activity();
+            ActivityInfo dbActivityInfo = new ActivityInfo();
             while (rs.next()) {
-                dbActivity.setId(rs.getInt(1));
-                dbActivity.setAction(rs.getString(2));
-                dbActivity.setOccuredAt(rs.getTimestamp(3));
+                dbActivityInfo.setId(rs.getInt(1));
+                dbActivityInfo.setUserId(rs.getString(2));
+                dbActivityInfo.setUserName(rs.getString(3));
+                dbActivityInfo.setUserPhotoURL(rs.getString(4));
+                dbActivityInfo.setAction(rs.getString(5));
+                dbActivityInfo.setOccuredAt(rs.getTimestamp(6));
             }
-            return dbActivity;
+            return activityInfo;
         }
         return null; //By default if connection to database fails, method will return null
     }
 
     @Override
-    public List<Activity> getAll() throws ClassNotFoundException, SQLException {
+    public List<ActivityInfo> getAll() throws ClassNotFoundException, SQLException {
         if (DB.getInstance() != null) {
             Connection con = DB.getConnction();
             ps = con.prepareStatement(activityQueryHandler.getFetchAllDataQuery());
             rs = ps.executeQuery();
 
-            List<Activity> activityList = new ArrayList<>();
+            List<ActivityInfo> activityInfoList = new ArrayList<>();
             while (rs.next()) {
-                Activity dbActivity = new Activity();
-                dbActivity.setId(rs.getInt(1));
-                dbActivity.setUserId(rs.getString(2)+"|"+rs.getString(3));
-                dbActivity.setAction(rs.getString(4));
-                dbActivity.setOccuredAt(rs.getTimestamp(5));
-                activityList.add(dbActivity);
+                ActivityInfo dbActivityInfo = new ActivityInfo();
+                dbActivityInfo.setId(rs.getInt(1));
+                dbActivityInfo.setUserId(rs.getString(2));
+                dbActivityInfo.setUserName(rs.getString(3));
+                dbActivityInfo.setUserPhotoURL(rs.getString(4));
+                dbActivityInfo.setAction(rs.getString(5));
+                dbActivityInfo.setOccuredAt(rs.getTimestamp(6));
+                activityInfoList.add(dbActivityInfo);
             }
-            return activityList;
+            return activityInfoList;
         }
         return null; //By default if connection to database fails, method will return null
     }

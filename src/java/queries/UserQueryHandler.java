@@ -9,7 +9,7 @@ package queries;
  *
  * @author RED-HAWK
  */
-public class UserQueryHandler implements QueryHandler {
+public class UserQueryHandler implements QueryHandlerInterface {
 
     private final String TABLE_NAME = "users";
     private final String INSERT_DATA_QUERY = "INSERT INTO `"+TABLE_NAME+"`(`id`, `nic`, `fullName`, `displayName`, `occupationId`, `office`, `roleId`, `password`, `photoURL`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";

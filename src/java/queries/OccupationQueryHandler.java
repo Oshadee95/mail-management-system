@@ -9,7 +9,7 @@ package queries;
  *
  * @author RED-HAWK
  */
-public class OccupationQueryHandler implements QueryHandler {
+public class OccupationQueryHandler implements QueryHandlerInterface {
 
     private final String TABLE_NAME = "occupations";
     private final String INSERT_DATA_QUERY = "INSERT INTO `"+TABLE_NAME+"`(`title`) VALUES (?)";

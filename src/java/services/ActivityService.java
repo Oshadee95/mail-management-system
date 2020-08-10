@@ -13,8 +13,8 @@ import java.util.ArrayList;
 import java.util.List;
 import models.Activity;
 import queries.ActivityQueryHandler;
-import queries.QueryHandler;
 import servers.DB;
+import queries.QueryHandlerInterface;
 
 /**
  *
@@ -25,7 +25,7 @@ public class ActivityService implements ServiceInterface<Activity> {
     private PreparedStatement ps;
     private ResultSet rs;
     private int eResult; // execution result will either return 1 for successful execution and 0 for error
-    QueryHandler activityQueryHandler = new ActivityQueryHandler();
+    QueryHandlerInterface activityQueryHandler = new ActivityQueryHandler();
 
     @Override
     public boolean add(Activity activity) throws ClassNotFoundException, SQLException {

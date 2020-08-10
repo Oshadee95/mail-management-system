@@ -12,8 +12,8 @@ import java.sql.SQLException;
 import java.util.List;
 import models.Occupation;
 import queries.OccupationQueryHandler;
-import queries.QueryHandler;
 import servers.DB;
+import queries.QueryHandlerInterface;
 
 /**
  *
@@ -24,7 +24,7 @@ public class OccupationService implements ServiceInterface<Occupation> {
     private PreparedStatement ps;
     private ResultSet rs;
     private int eResult; // execution result will either return 1 for successful execution and 0 for error
-    QueryHandler occupationQueryHandler = new OccupationQueryHandler();
+    QueryHandlerInterface occupationQueryHandler = new OccupationQueryHandler();
     
     @Override
     public boolean add(Occupation occupation) throws ClassNotFoundException, SQLException {

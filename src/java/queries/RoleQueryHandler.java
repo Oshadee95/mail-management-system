@@ -9,7 +9,7 @@ package queries;
  *
  * @author RED-HAWK
  */
-public class RoleQueryHandler implements QueryHandler {
+public class RoleQueryHandler implements QueryHandlerInterface {
 
     private final String TABLE_NAME = "roles";
     private final String INSERT_DATA_QUERY = "INSERT INTO `"+TABLE_NAME+"`(`id`, `weight`) VALUES (?, ?)";

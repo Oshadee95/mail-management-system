@@ -11,9 +11,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 import models.Role;
-import queries.QueryHandler;
 import queries.RoleQueryHandler;
 import servers.DB;
+import queries.QueryHandlerInterface;
 
 /**
  *
@@ -24,7 +24,7 @@ public class RoleService  implements ServiceInterface<Role> {
     private PreparedStatement ps;
     private ResultSet rs;
     private int eResult; // execution result will either return 1 for successful execution and 0 for error
-    QueryHandler roleQueryHandler = new RoleQueryHandler();
+    QueryHandlerInterface roleQueryHandler = new RoleQueryHandler();
 
     @Override
     public boolean add(Role role) throws ClassNotFoundException, SQLException {

@@ -11,9 +11,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 import models.User;
-import queries.QueryHandler;
 import queries.UserQueryHandler;
 import servers.DB;
+import queries.QueryHandlerInterface;
 
 /**
  *
@@ -24,7 +24,7 @@ public class UserService implements ServiceInterface<User> {
     private PreparedStatement ps;
     private ResultSet rs;
     private int eResult; // execution result will either return 1 for successful execution and 0 for error
-    QueryHandler userQueryHandler = new UserQueryHandler();
+    QueryHandlerInterface userQueryHandler = new UserQueryHandler();
 
     @Override
     public boolean add(User user) throws ClassNotFoundException, SQLException {

@@ -9,7 +9,7 @@ package queries;
  *
  * @author RED-HAWK
  */
-public class OutboxQueryHandler implements QueryHandler {
+public class OutboxQueryHandler implements QueryHandlerInterface {
 
     private final String TABLE_NAME = "outbox";
     private final String INSERT_DATA_QUERY = "INSERT INTO `"+TABLE_NAME+"`(`mailId`, `senderId`, `content`) VALUES (?, ?, ?)";

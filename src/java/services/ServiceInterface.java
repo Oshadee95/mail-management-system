@@ -3,7 +3,7 @@ package services;
 import java.sql.SQLException;
 import java.util.List;
 
-public interface ServiceInterface <T>{
+public interface ServiceInterface <T> {
     
     public boolean add(T type) throws ClassNotFoundException, SQLException;
     

@@ -1,6 +1,6 @@
 package queries;
 
-public class CategoryQueryHandler implements QueryHandler {
+public class CategoryQueryHandler implements QueryHandlerInterface {
 
     private final String TABLE_NAME = "categories";
     private final String INSERT_DATA_QUERY = "INSERT INTO `" + TABLE_NAME + "`(`name`, `description`) VALUES (?, ?)";

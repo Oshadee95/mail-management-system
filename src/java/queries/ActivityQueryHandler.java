@@ -9,9 +9,9 @@ package queries;
  *
  * @author RED-HAWK
  */
-public class ActivityQueryHandler implements QueryHandler {
+public class ActivityQueryHandler implements QueryHandlerInterface {
 
-    private final UserQueryHandler userQueryHandler = new UserQueryHandler();
+    private final QueryHandlerInterface userQueryHandler = new UserQueryHandler();
     private final String TABLE_NAME = "activities";
     private final String INSERT_DATA_QUERY = "INSERT INTO `" + TABLE_NAME + "`(`userId`, `action`) VALUES (?, ?)";
     private final String DELETE_DATA_QUERY = "DELETE FROM `" + TABLE_NAME + "` WHERE `id`= ?";

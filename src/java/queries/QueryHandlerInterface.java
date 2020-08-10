@@ -1,6 +1,6 @@
 package queries;
 
-public interface QueryHandler {
+public interface QueryHandlerInterface {
 
     public String getAddDataQuery();
 

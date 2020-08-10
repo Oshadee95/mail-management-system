@@ -9,15 +9,18 @@ package queries;
  *
  * @author RED-HAWK
  */
-public class InboxQueryHandler implements QueryHandler {
+public class InboxQueryHandler implements QueryHandlerInterface {
 
+    private final QueryHandlerInterface userQueryHandler = new UserQueryHandler();
+    private final QueryHandlerInterface CategoryQueryHandler = new CategoryQueryHandler();
     private final String TABLE_NAME = "inbox";
-    private final String INSERT_DATA_QUERY = "INSERT INTO `"+TABLE_NAME+"`(`id`, `categoryId`, `sender`, `content`, `collectorId`, `recipientId`, `imageURL`) VALUES (?, ?, ?, ?, ?, ?, ?)";
-    private final String UPDATE_DATA_QUERY = "";
-    private final String DELETE_DATA_QUERY = "DELETE FROM `"+TABLE_NAME+"` WHERE `id`= ?";
-    private final String FETCH_DATA_QUERY = "";
-    private final String FETCH_ALL_DATA_QUERY = "";
-    
+    private final String VIEW_NAME = "inboxinfoview";
+    private final String INSERT_DATA_QUERY = "INSERT INTO `" + TABLE_NAME + "`(`id`, `categoryId`, `sender`, `content`, `collectorId`, `recipientId`, `imageURL`) VALUES (?, ?, ?, ?, ?, ?, ?)";
+    private final String UPDATE_DATA_QUERY = "UPDATE `" + TABLE_NAME + "` SET `categoryId`= ?,`sender`= ? ,`content`= ?,`recipientId`= ?,`imageURL`= ? WHERE `id` = ?";
+    private final String DELETE_DATA_QUERY = "DELETE FROM `" + TABLE_NAME + "` WHERE `id`= ?";
+    private final String FETCH_DATA_QUERY = "SELECT * FROM `inboxview` WHERE id = ?";
+    private final String FETCH_ALL_DATA_QUERY = "SELECT * FROM `inboxview` WHERE id = ";
+
     @Override
     public String getAddDataQuery() {
         return INSERT_DATA_QUERY;
@@ -32,7 +35,7 @@ public class InboxQueryHandler implements QueryHandler {
     public String getRemoveDataQuery() {
         return DELETE_DATA_QUERY;
     }
-    
+
     @Override
     public String getFetchDataQuery() {
         return FETCH_DATA_QUERY;
@@ -42,9 +45,9 @@ public class InboxQueryHandler implements QueryHandler {
     public String getFetchAllDataQuery() {
         return FETCH_ALL_DATA_QUERY;
     }
-    
+
     @Override
-    public String getTableName(){
+    public String getTableName() {
         return TABLE_NAME;
     }
 }

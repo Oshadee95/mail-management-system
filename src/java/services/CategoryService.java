@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 import models.Category;
 import queries.CategoryQueryHandler;
-import queries.QueryHandler;
+import queries.QueryHandlerInterface;
 
 /**
  *
@@ -25,7 +25,7 @@ public class CategoryService implements ServiceInterface<Category> {
     private PreparedStatement ps;
     private ResultSet rs;
     private int eResult; // execution result will either return 1 for successful execution and 0 for error
-    QueryHandler categoryQueryHandler = new CategoryQueryHandler();
+    QueryHandlerInterface categoryQueryHandler = new CategoryQueryHandler();
 
     @Override
     public boolean add(Category category) throws ClassNotFoundException, SQLException {

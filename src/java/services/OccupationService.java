@@ -9,6 +9,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import models.Occupation;
 import queries.OccupationQueryHandler;
@@ -40,7 +41,15 @@ public class OccupationService implements ServiceInterface<Occupation> {
 
     @Override
     public boolean update(Occupation occupation) throws ClassNotFoundException, SQLException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if (DB.getInstance() != null) {
+            Connection con = DB.getConnction();
+            ps = con.prepareStatement(occupationQueryHandler.getUpdateDataQuery());
+            ps.setString(1, occupation.getTitle());
+            ps.setInt(2, occupation.getId());
+            eResult = ps.executeUpdate();
+            return (eResult == 1); //This will return true if eResult is 1 and false if 0
+        }
+        return false; //By default if connection to database fails, method will return false
     }
 
     @Override
@@ -57,12 +66,26 @@ public class OccupationService implements ServiceInterface<Occupation> {
 
     @Override
     public Occupation get(Occupation occupation) throws ClassNotFoundException, SQLException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return null; // Not necesserily required 
     }
 
     @Override
     public List<Occupation> getAll() throws ClassNotFoundException, SQLException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if (DB.getInstance() != null) {
+            Connection con = DB.getConnction();
+            ps = con.prepareStatement(occupationQueryHandler.getFetchAllDataQuery());
+            rs = ps.executeQuery();
+
+            List<Occupation> occupationList = new ArrayList<>();
+            while (rs.next()) {
+                Occupation dbOccupation = new Occupation();
+                dbOccupation.setId(rs.getInt(1));
+                dbOccupation.setTitle(rs.getString(2));
+                occupationList.add(dbOccupation);
+            }
+            return occupationList;
+        }
+        return null; //By default if connection to database fails, method will return null
     }
 
 }

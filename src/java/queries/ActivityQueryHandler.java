@@ -11,7 +11,6 @@ package queries;
  */
 public class ActivityQueryHandler implements QueryHandlerInterface {
 
-    private final QueryHandlerInterface userQueryHandler = new UserQueryHandler();
     private final String TABLE_NAME = "activities";
     private final String VIEW_NAME = "activityinfoview";
     private final String INSERT_DATA_QUERY = "INSERT INTO `" + TABLE_NAME + "`(`userId`, `action`) VALUES (?, ?)";

@@ -9,6 +9,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import models.Role;
 import queries.RoleQueryHandler;
@@ -41,7 +42,15 @@ public class RoleService  implements ServiceInterface<Role> {
 
     @Override
     public boolean update(Role role) throws ClassNotFoundException, SQLException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if (DB.getInstance() != null) {
+            Connection con = DB.getConnction();
+            ps = con.prepareStatement(roleQueryHandler.getUpdateDataQuery());
+            ps.setInt(1, role.getWeight());
+            ps.setString(2, role.getId());
+            eResult = ps.executeUpdate();
+            return (eResult == 1); //This will return true if eResult is 1 and false if 0
+        }
+        return false; //By default if connection to database fails, method will return false
     }
 
     @Override
@@ -58,12 +67,26 @@ public class RoleService  implements ServiceInterface<Role> {
 
     @Override
     public Role get(Role role) throws ClassNotFoundException, SQLException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return null; // Not necesserily required
     }
 
     @Override
     public List<Role> getAll() throws ClassNotFoundException, SQLException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if (DB.getInstance() != null) {
+            Connection con = DB.getConnction();
+            ps = con.prepareStatement(roleQueryHandler.getFetchAllDataQuery());
+            rs = ps.executeQuery();
+
+            List<Role>  roleList = new ArrayList<>();
+            while (rs.next()) {
+                Role dbRole = new Role();
+                dbRole.setId(rs.getString(1));
+                dbRole.setWeight(rs.getInt(2));
+                roleList.add(dbRole);
+            }
+            return roleList;
+        }
+        return null; //By default if connection to database fails, method will return null
     }
 
 }

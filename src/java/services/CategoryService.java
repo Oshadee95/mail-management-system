@@ -68,7 +68,7 @@ public class CategoryService implements ServiceInterface<Category> {
 
     @Override
     public Category get(Category category) throws ClassNotFoundException, SQLException {
-        return null; // // Not necesserily required 
+        return null; // Not necesserily required 
     }
 
     @Override

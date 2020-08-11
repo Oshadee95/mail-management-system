@@ -5,7 +5,7 @@
  */
 package testers;
 
-import models.Storage;
+import configurations.StorageConfig;
 import services.StorageService;
 
 /**

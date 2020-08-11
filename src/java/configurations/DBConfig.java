@@ -3,13 +3,13 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package models;
+package configurations;
 
 /**
  *
  * @author RED-HAWK
  */
-public class Database {
+public class DBConfig {
     
     private final String url = "jdbc:mysql://localhost/";
     private final String dbname = "mmdb";

@@ -17,7 +17,7 @@ import com.amazonaws.services.s3.model.PutObjectRequest;
 import java.io.File;
 import java.net.URL;
 import java.sql.SQLException;
-import models.Storage;
+import configurations.StorageConfig;
 
 /**
  *
@@ -30,8 +30,8 @@ public class StorageService {
 
     private StorageService() {
         s3Client = AmazonS3ClientBuilder.standard()
-                .withEndpointConfiguration(new AwsClientBuilder.EndpointConfiguration(Storage.getSpaceEndpoint(), Storage.getSpaceRegion()))
-                .withCredentials(new AWSStaticCredentialsProvider(new BasicAWSCredentials(Storage.getSpaceSecret(), Storage.getSpaceKey()))).build();
+                .withEndpointConfiguration(new AwsClientBuilder.EndpointConfiguration(StorageConfig.getSpaceEndpoint(), StorageConfig.getSpaceRegion()))
+                .withCredentials(new AWSStaticCredentialsProvider(new BasicAWSCredentials(StorageConfig.getSpaceSecret(), StorageConfig.getSpaceKey()))).build();
     }
 
     public static StorageService getInstance() {
@@ -46,27 +46,27 @@ public class StorageService {
         return s3Client;
     }
 
-    public static boolean add(Storage storage) throws ClassNotFoundException, SQLException {
+    public static boolean add(StorageConfig storage) throws ClassNotFoundException, SQLException {
         if (StorageService.getInstance() != null) {
-            PutObjectRequest request = new PutObjectRequest(Storage.getSpaceName(), storage.getFilePath(), new File("localPathToFile"));
+            PutObjectRequest request = new PutObjectRequest(StorageConfig.getSpaceName(), storage.getFilePath(), new File("localPathToFile"));
             StorageService.getConnection().putObject(request);
             return true;
         }
         return false;
     }
 
-    public static boolean remove(Storage storage) throws ClassNotFoundException, SQLException {
+    public static boolean remove(StorageConfig storage) throws ClassNotFoundException, SQLException {
         if (StorageService.getInstance() != null) {
-            DeleteObjectRequest request = new DeleteObjectRequest(Storage.getSpaceName(), storage.getFilePath());
+            DeleteObjectRequest request = new DeleteObjectRequest(StorageConfig.getSpaceName(), storage.getFilePath());
             StorageService.getConnection().deleteObject(request);
             return true;
         }
         return false;
     }
 
-    public static URL get(Storage storage) throws ClassNotFoundException, SQLException {
+    public static URL get(StorageConfig storage) throws ClassNotFoundException, SQLException {
         if (StorageService.getInstance() != null) {
-            GeneratePresignedUrlRequest request = new GeneratePresignedUrlRequest(Storage.getSpaceName(), storage.getFilePath()).withMethod(HttpMethod.GET);
+            GeneratePresignedUrlRequest request = new GeneratePresignedUrlRequest(StorageConfig.getSpaceName(), storage.getFilePath()).withMethod(HttpMethod.GET);
             return s3Client.generatePresignedUrl(request);
         }
         return null;

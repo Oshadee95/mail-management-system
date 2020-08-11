@@ -6,14 +6,14 @@
 package queries;
 
 import java.sql.SQLException;
-import models.Database;
+import configurations.DBConfig;
 
 /**
  *
  * @author RED-HAWK
  */
 public class DatabaseQueryHandler {
-    private final Database dbConfig = new Database();
+    private final DBConfig dbConfig = new DBConfig();
     
     public String getTableExistenceQuery() throws ClassNotFoundException, SQLException {
         UserQueryHandler userQueryHandler = new UserQueryHandler();

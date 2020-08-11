@@ -10,7 +10,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import models.Database;
+import configurations.DBConfig;
 import queries.DatabaseQueryHandler;
 import servers.DB;
 
@@ -24,7 +24,7 @@ public class DatabaseService {
     private ResultSet rs;
     private int eResult = 0; // execution result will either return 1 for successful execution and 0 for error
     DatabaseQueryHandler databaseQueryHandler = new DatabaseQueryHandler();
-    private final Database dbConfig = new Database();
+    private final DBConfig dbConfig = new DBConfig();
 
     public boolean getDatabaseExistence() throws ClassNotFoundException, SQLException {
         if (DB.getInstance() != null) {

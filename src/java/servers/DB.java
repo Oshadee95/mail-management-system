@@ -3,14 +3,14 @@ package servers;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Connection;
-import models.Database;
+import configurations.DBConfig;
 
 // Singleton design pattern implemented to avoid duplicate database instances 
 public class DB {
 
     private static DB db;
     private static Connection connection;
-    private final Database dbConfig = new Database();
+    private final DBConfig dbConfig = new DBConfig();
 
     private DB() throws ClassNotFoundException, SQLException {
         Class.forName("com.mysql.cj.jdbc.Driver");

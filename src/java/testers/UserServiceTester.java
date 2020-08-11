@@ -5,7 +5,7 @@
  */
 package testers;
 
-import models.User;
+import models.UserInfo;
 import services.ServiceInterface;
 import services.UserService;
 import utils.Crypto;
@@ -20,7 +20,7 @@ public class UserServiceTester {
 
 //        ServiceInterface us = new UserService();
 //
-//        User u = new User();
+//        UserInfo u = new UserInfo();
 //        String uid = Crypto.generateUUID();
 //        u.setId(uid);
 //        u.setNic("960523501V");

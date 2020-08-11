@@ -6,16 +6,21 @@
 package queries;
 
 import java.sql.SQLException;
-import servers.DB;
+import models.Database;
 
 /**
  *
  * @author RED-HAWK
  */
 public class DatabaseQueryHandler {
-
-    public String getTableExistence() throws ClassNotFoundException, SQLException {
+    private final Database dbConfig = new Database();
+    
+    public String getTableExistenceQuery() throws ClassNotFoundException, SQLException {
         UserQueryHandler userQueryHandler = new UserQueryHandler();
-        return "SELECT COUNT('TABLE_NAME') AS 'RESULT' FROM information_schema.tables WHERE table_schema = '" + DB.getDbName() + "' AND table_name = '" + userQueryHandler.getTableName() + "'";
+        return "SELECT COUNT('TABLE_NAME') AS 'RESULT' FROM information_schema.tables WHERE table_schema = '" + dbConfig.getDbName() + "' AND table_name = '" + userQueryHandler.getTableName() + "'";
     }
+    
+    public String getDatabaseCreateQuery(){
+        return "CREATE DATABASE IF NOT EXISTS "+dbConfig.getDbName()+"";
+    }   
 }

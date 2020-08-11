@@ -21,15 +21,18 @@ import services.DatabaseService;
  */
 public class CreateServer {
 
+    private final DatabaseService dbService =  new DatabaseService();
+    
     private boolean isDatabaseCreated() throws ClassNotFoundException, SQLException, FileNotFoundException {
-        if (new DatabaseService().getDatabaseExistence() == false) {
+        dbService.createDatabse(); // Create database if not present
+        if (dbService.getDatabaseExistence() == false) {
             CreateServer cs = new CreateServer();
             return cs.createDatabse();
         }
         return false;
     }
 
-    private boolean createDatabse() throws FileNotFoundException {
+    private boolean createDatabse() throws FileNotFoundException, ClassNotFoundException, SQLException {
         if (DB.getConnction() != null) {
             Connection con = DB.getConnction();
             //Initialize the script runner
@@ -42,8 +45,17 @@ public class CreateServer {
         }
         return false;
     }
-    
-    public boolean setUpEnv() throws ClassNotFoundException, SQLException, FileNotFoundException {
-        return isDatabaseCreated();
+
+    public void setUpEnv() throws ClassNotFoundException, SQLException, FileNotFoundException {
+        isDatabaseCreated();
+        
+          // Functionality to delete database environment setup files
+//        String abPath = new File("").getAbsolutePath();
+//        File f1 = new File(abPath+"/src/java/servers/CreateServer.java");
+//        File f2 = new File(abPath+"/src/java/testers/EnvironmentSetUpTester.java");
+//        
+//        if(f1.delete()){
+//            f2.delete();
+//        }
     }
 }

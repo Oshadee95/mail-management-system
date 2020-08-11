@@ -18,7 +18,7 @@ public class EnvironmentSetUpTester {
         try {
 
             CreateServer cs = new CreateServer();
-            System.out.println(cs.setUpEnv());
+            cs.setUpEnv();
 
         } catch (Exception e) {
             e.printStackTrace();

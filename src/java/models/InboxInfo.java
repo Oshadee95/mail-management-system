@@ -17,8 +17,8 @@ public class InboxInfo extends Inbox{
 
     public InboxInfo(){};
 
-    public InboxInfo(String categoryName, String collectorName, String collectorPhotoURL, String recipientName, String recipientPhotoURL, int categoryId, String id, String sender, String content, String collectorId, String recipientId, String imageURL, Timestamp recordedAt, Timestamp updatedAt) {
-        super(categoryId, id, sender, content, collectorId, recipientId, imageURL, recordedAt, updatedAt);
+    public InboxInfo(String categoryName, String collectorName, String collectorPhotoURL, String recipientName, String recipientPhotoURL, int categoryId, String id, String sender, String content, String collectorId, String recipientId, String imageURL, String replied, Timestamp recordedAt, Timestamp updatedAt) {
+        super(categoryId, id, sender, content, collectorId, recipientId, imageURL, replied, recordedAt, updatedAt);
         this.categoryName = categoryName;
         this.collectorName = collectorName;
         this.collectorPhotoURL = collectorPhotoURL;

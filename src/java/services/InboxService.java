@@ -95,8 +95,9 @@ public class InboxService implements ServiceInterface<InboxInfo> {
                 dbInboxInfo.setRecipientName(rs.getString(9));
                 dbInboxInfo.setRecipientPhotoURL(rs.getString(10));
                 dbInboxInfo.setImageURL(rs.getString(11));
-                dbInboxInfo.setRecordedAt(rs.getTimestamp(12));
-                dbInboxInfo.setUpdatedAt(rs.getTimestamp(13));
+                dbInboxInfo.setReplied(rs.getString(12));
+                dbInboxInfo.setRecordedAt(rs.getTimestamp(13));
+                dbInboxInfo.setUpdatedAt(rs.getTimestamp(14));
             }
             return dbInboxInfo;
         }
@@ -124,8 +125,9 @@ public class InboxService implements ServiceInterface<InboxInfo> {
                 dbInboxInfo.setRecipientName(rs.getString(9));
                 dbInboxInfo.setRecipientPhotoURL(rs.getString(10));
                 dbInboxInfo.setImageURL(rs.getString(11));
-                dbInboxInfo.setRecordedAt(rs.getTimestamp(12));
-                dbInboxInfo.setUpdatedAt(rs.getTimestamp(13));
+                dbInboxInfo.setReplied(rs.getString(12));
+                dbInboxInfo.setRecordedAt(rs.getTimestamp(13));
+                dbInboxInfo.setUpdatedAt(rs.getTimestamp(14));
                 inboxInfoList.add(dbInboxInfo);
             }
             return inboxInfoList;

@@ -14,12 +14,12 @@ import java.sql.Timestamp;
 public class Inbox {
 
     private int categoryId;
-    private String id, sender, content, collectorId, recipientId, imageURL;
+    private String id, sender, content, collectorId, recipientId, imageURL, replied;
     private Timestamp recordedAt, updatedAt;
 
     public Inbox() {};
 
-    public Inbox(int categoryId, String id, String sender, String content, String collectorId, String recipientId, String imageURL, Timestamp recordedAt, Timestamp updatedAt) {
+    public Inbox(int categoryId, String id, String sender, String content, String collectorId, String recipientId, String imageURL, String replied, Timestamp recordedAt, Timestamp updatedAt) {
         this.categoryId = categoryId;
         this.id = id;
         this.sender = sender;
@@ -27,6 +27,7 @@ public class Inbox {
         this.collectorId = collectorId;
         this.recipientId = recipientId;
         this.imageURL = imageURL;
+        this.replied = replied;
         this.recordedAt = recordedAt;
         this.updatedAt = updatedAt;
     }
@@ -85,6 +86,14 @@ public class Inbox {
 
     public void setImageURL(String imageURL) {
         this.imageURL = imageURL;
+    }
+
+    public String getReplied() {
+        return replied;
+    }
+
+    public void setReplied(String replied) {
+        this.replied = replied;
     }
 
     public Timestamp getRecordedAt() {

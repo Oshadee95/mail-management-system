@@ -17,8 +17,8 @@ public class InboxInfo extends Inbox{
 
     public InboxInfo(){};
 
-    public InboxInfo(String categoryName, String collectorName, String collectorPhotoURL, String recipientName, String recipientPhotoURL, int categoryId, String id, String sender, String content, String collectorId, String recipientId, String imageURL, String replied, Timestamp recordedAt, Timestamp updatedAt) {
-        super(categoryId, id, sender, content, collectorId, recipientId, imageURL, replied, recordedAt, updatedAt);
+    public InboxInfo(String categoryName, String collectorName, String collectorPhotoURL, String recipientName, String recipientPhotoURL, int categoryId, String id, String type, String sender, String content, String collectorId, String recipientId, String imageURL, String replied, Timestamp recordedAt, Timestamp updatedAt) {
+        super(categoryId, id, type, sender, content, collectorId, recipientId, imageURL, replied, recordedAt, updatedAt);
         this.categoryName = categoryName;
         this.collectorName = collectorName;
         this.collectorPhotoURL = collectorPhotoURL;
@@ -65,6 +65,4 @@ public class InboxInfo extends Inbox{
     public void setRecipientPhotoURL(String recipientPhotoURL) {
         this.recipientPhotoURL = recipientPhotoURL;
     }
-    
-    
 }

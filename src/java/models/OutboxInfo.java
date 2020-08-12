@@ -13,18 +13,27 @@ import java.sql.Timestamp;
  */
 public class OutboxInfo extends Outbox {
     
-    private String imageURL, collectorId, collectorName, collectorPhotoURL, senderName, senderPhotoURL;
+    private String type, imageURL, collectorId, collectorName, collectorPhotoURL, senderName, senderPhotoURL;
 
     public OutboxInfo(){};
     
-    public OutboxInfo(String imageURL, String collectorId, String collectorName, String collectorPhotoURL, String senderName, String senderPhotoURL, String mailId, String senderId, String content, Timestamp repliedAt, Timestamp updatedAt) {
+    public OutboxInfo(String type, String imageURL, String collectorId, String collectorName, String collectorPhotoURL, String senderName, String senderPhotoURL, String mailId, String senderId, String content, Timestamp repliedAt, Timestamp updatedAt) {
         super(mailId, senderId, content, repliedAt, updatedAt);
+        this.type = type;
         this.imageURL = imageURL;
         this.collectorId = collectorId;
         this.collectorName = collectorName;
         this.collectorPhotoURL = collectorPhotoURL;
         this.senderName = senderName;
         this.senderPhotoURL = senderPhotoURL;
+    }
+    
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 
     public String getImageURL() {

@@ -14,14 +14,15 @@ import java.sql.Timestamp;
 public class Inbox {
 
     private int categoryId;
-    private String id, sender, content, collectorId, recipientId, imageURL, replied;
+    private String id, type, sender, content, collectorId, recipientId, imageURL, replied;
     private Timestamp recordedAt, updatedAt;
 
     public Inbox() {};
 
-    public Inbox(int categoryId, String id, String sender, String content, String collectorId, String recipientId, String imageURL, String replied, Timestamp recordedAt, Timestamp updatedAt) {
+    public Inbox(int categoryId, String id, String type, String sender, String content, String collectorId, String recipientId, String imageURL, String replied, Timestamp recordedAt, Timestamp updatedAt) {
         this.categoryId = categoryId;
         this.id = id;
+        this.type = type;
         this.sender = sender;
         this.content = content;
         this.collectorId = collectorId;
@@ -46,6 +47,14 @@ public class Inbox {
 
     public void setId(String id) {
         this.id = id;
+    }
+    
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 
     public String getSender() {

@@ -77,16 +77,17 @@ public class OutboxService implements ServiceInterface<OutboxInfo> {
             OutboxInfo dbOutboxInfo = new OutboxInfo();
             while (rs.next()) {
                 dbOutboxInfo.setMailId(rs.getString(1));
-                dbOutboxInfo.setImageURL(rs.getString(2));
-                dbOutboxInfo.setCollectorId(rs.getString(3));
-                dbOutboxInfo.setCollectorName(rs.getString(4));
-                dbOutboxInfo.setCollectorPhotoURL(rs.getString(5));
-                dbOutboxInfo.setSenderId(rs.getString(6));
-                dbOutboxInfo.setSenderName(rs.getString(7));
-                dbOutboxInfo.setSenderPhotoURL(rs.getString(8));
-                dbOutboxInfo.setContent(rs.getString(9));
-                dbOutboxInfo.setRepliedAt(rs.getTimestamp(10));
-                dbOutboxInfo.setUpdatedAt(rs.getTimestamp(11));
+                dbOutboxInfo.setType(rs.getString(2));
+                dbOutboxInfo.setImageURL(rs.getString(3));
+                dbOutboxInfo.setCollectorId(rs.getString(4));
+                dbOutboxInfo.setCollectorName(rs.getString(5));
+                dbOutboxInfo.setCollectorPhotoURL(rs.getString(6));
+                dbOutboxInfo.setSenderId(rs.getString(7));
+                dbOutboxInfo.setSenderName(rs.getString(8));
+                dbOutboxInfo.setSenderPhotoURL(rs.getString(9));
+                dbOutboxInfo.setContent(rs.getString(10));
+                dbOutboxInfo.setRepliedAt(rs.getTimestamp(11));
+                dbOutboxInfo.setUpdatedAt(rs.getTimestamp(12));
             }
             return dbOutboxInfo;
         }
@@ -104,16 +105,17 @@ public class OutboxService implements ServiceInterface<OutboxInfo> {
             while (rs.next()) {
                 OutboxInfo dbOutboxInfo = new OutboxInfo();
                 dbOutboxInfo.setMailId(rs.getString(1));
-                dbOutboxInfo.setImageURL(rs.getString(2));
-                dbOutboxInfo.setCollectorId(rs.getString(3));
-                dbOutboxInfo.setCollectorName(rs.getString(4));
-                dbOutboxInfo.setCollectorPhotoURL(rs.getString(5));
-                dbOutboxInfo.setSenderId(rs.getString(6));
-                dbOutboxInfo.setSenderName(rs.getString(7));
-                dbOutboxInfo.setSenderPhotoURL(rs.getString(8));
-                dbOutboxInfo.setContent(rs.getString(9));
-                dbOutboxInfo.setRepliedAt(rs.getTimestamp(10));
-                dbOutboxInfo.setUpdatedAt(rs.getTimestamp(11));
+                dbOutboxInfo.setType(rs.getString(2));
+                dbOutboxInfo.setImageURL(rs.getString(3));
+                dbOutboxInfo.setCollectorId(rs.getString(4));
+                dbOutboxInfo.setCollectorName(rs.getString(5));
+                dbOutboxInfo.setCollectorPhotoURL(rs.getString(6));
+                dbOutboxInfo.setSenderId(rs.getString(7));
+                dbOutboxInfo.setSenderName(rs.getString(8));
+                dbOutboxInfo.setSenderPhotoURL(rs.getString(9));
+                dbOutboxInfo.setContent(rs.getString(10));
+                dbOutboxInfo.setRepliedAt(rs.getTimestamp(11));
+                dbOutboxInfo.setUpdatedAt(rs.getTimestamp(12));
                 outboxList.add(dbOutboxInfo);
             }
             return outboxList;

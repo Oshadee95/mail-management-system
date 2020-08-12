@@ -33,12 +33,13 @@ public class InboxService implements ServiceInterface<InboxInfo> {
             Connection con = DB.getConnction();
             ps = con.prepareStatement(inboxQueryHandler.getAddDataQuery());
             ps.setString(1, inboxInfo.getId());
-            ps.setInt(2, inboxInfo.getCategoryId());
-            ps.setString(3, inboxInfo.getSender());
-            ps.setString(4, inboxInfo.getContent());
-            ps.setString(5, inboxInfo.getCollectorId());
-            ps.setString(6, inboxInfo.getRecipientId());
-            ps.setString(7, inboxInfo.getImageURL());
+            ps.setString(2, inboxInfo.getType());
+            ps.setInt(3, inboxInfo.getCategoryId());
+            ps.setString(4, inboxInfo.getSender());
+            ps.setString(5, inboxInfo.getContent());
+            ps.setString(6, inboxInfo.getCollectorId());
+            ps.setString(7, inboxInfo.getRecipientId());
+            ps.setString(8, inboxInfo.getImageURL());
             eResult = ps.executeUpdate();
             return (eResult == 1); //This will return true if eResult is 1 and false if 0
         }
@@ -50,12 +51,13 @@ public class InboxService implements ServiceInterface<InboxInfo> {
         if (DB.getInstance() != null) {
             Connection con = DB.getConnction();
             ps = con.prepareStatement(inboxQueryHandler.getUpdateDataQuery());
-            ps.setInt(1, inboxInfo.getCategoryId());
-            ps.setString(2, inboxInfo.getSender());
-            ps.setString(3, inboxInfo.getContent());
-            ps.setString(4, inboxInfo.getRecipientId());
-            ps.setString(5, inboxInfo.getImageURL());
-            ps.setString(6, inboxInfo.getId());
+            ps.setString(1, inboxInfo.getType());
+            ps.setInt(2, inboxInfo.getCategoryId());
+            ps.setString(3, inboxInfo.getSender());
+            ps.setString(4, inboxInfo.getContent());
+            ps.setString(5, inboxInfo.getRecipientId());
+            ps.setString(6, inboxInfo.getImageURL());
+            ps.setString(7, inboxInfo.getId());
             eResult = ps.executeUpdate();
             return (eResult == 1); //This will return true if eResult is 1 and false if 0
         }
@@ -85,19 +87,20 @@ public class InboxService implements ServiceInterface<InboxInfo> {
             InboxInfo dbInboxInfo = new InboxInfo();
             while (rs.next()) {
                 dbInboxInfo.setId(rs.getString(1));
-                dbInboxInfo.setCategoryName(rs.getString(2));
-                dbInboxInfo.setSender(rs.getString(3));
-                dbInboxInfo.setContent(rs.getString(4));
-                dbInboxInfo.setCollectorId(rs.getString(5));
-                dbInboxInfo.setCollectorName(rs.getString(6));
-                dbInboxInfo.setCollectorPhotoURL(rs.getString(7));
-                dbInboxInfo.setRecipientId(rs.getString(8));
-                dbInboxInfo.setRecipientName(rs.getString(9));
-                dbInboxInfo.setRecipientPhotoURL(rs.getString(10));
-                dbInboxInfo.setImageURL(rs.getString(11));
-                dbInboxInfo.setReplied(rs.getString(12));
-                dbInboxInfo.setRecordedAt(rs.getTimestamp(13));
-                dbInboxInfo.setUpdatedAt(rs.getTimestamp(14));
+                dbInboxInfo.setType(rs.getString(2));
+                dbInboxInfo.setCategoryName(rs.getString(3));
+                dbInboxInfo.setSender(rs.getString(4));
+                dbInboxInfo.setContent(rs.getString(5));
+                dbInboxInfo.setCollectorId(rs.getString(6));
+                dbInboxInfo.setCollectorName(rs.getString(7));
+                dbInboxInfo.setCollectorPhotoURL(rs.getString(8));
+                dbInboxInfo.setRecipientId(rs.getString(9));
+                dbInboxInfo.setRecipientName(rs.getString(10));
+                dbInboxInfo.setRecipientPhotoURL(rs.getString(11));
+                dbInboxInfo.setImageURL(rs.getString(12));
+                dbInboxInfo.setReplied(rs.getString(13));
+                dbInboxInfo.setRecordedAt(rs.getTimestamp(14));
+                dbInboxInfo.setUpdatedAt(rs.getTimestamp(15));
             }
             return dbInboxInfo;
         }
@@ -115,20 +118,20 @@ public class InboxService implements ServiceInterface<InboxInfo> {
             while (rs.next()) {
                 InboxInfo dbInboxInfo = new InboxInfo();
                 dbInboxInfo.setId(rs.getString(1));
-                dbInboxInfo.setCategoryName(rs.getString(2));
-                dbInboxInfo.setSender(rs.getString(3));
-                dbInboxInfo.setContent(rs.getString(4));
-                dbInboxInfo.setCollectorId(rs.getString(5));
-                dbInboxInfo.setCollectorName(rs.getString(6));
-                dbInboxInfo.setCollectorPhotoURL(rs.getString(7));
-                dbInboxInfo.setRecipientId(rs.getString(8));
-                dbInboxInfo.setRecipientName(rs.getString(9));
-                dbInboxInfo.setRecipientPhotoURL(rs.getString(10));
-                dbInboxInfo.setImageURL(rs.getString(11));
-                dbInboxInfo.setReplied(rs.getString(12));
-                dbInboxInfo.setRecordedAt(rs.getTimestamp(13));
-                dbInboxInfo.setUpdatedAt(rs.getTimestamp(14));
-                inboxInfoList.add(dbInboxInfo);
+                dbInboxInfo.setType(rs.getString(2));
+                dbInboxInfo.setCategoryName(rs.getString(3));
+                dbInboxInfo.setSender(rs.getString(4));
+                dbInboxInfo.setContent(rs.getString(5));
+                dbInboxInfo.setCollectorId(rs.getString(6));
+                dbInboxInfo.setCollectorName(rs.getString(7));
+                dbInboxInfo.setCollectorPhotoURL(rs.getString(8));
+                dbInboxInfo.setRecipientId(rs.getString(9));
+                dbInboxInfo.setRecipientName(rs.getString(10));
+                dbInboxInfo.setRecipientPhotoURL(rs.getString(11));
+                dbInboxInfo.setImageURL(rs.getString(12));
+                dbInboxInfo.setReplied(rs.getString(13));
+                dbInboxInfo.setRecordedAt(rs.getTimestamp(14));
+                dbInboxInfo.setUpdatedAt(rs.getTimestamp(15));
             }
             return inboxInfoList;
         }

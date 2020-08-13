@@ -14,7 +14,7 @@ public class DB {
 
     private DB() throws ClassNotFoundException, SQLException {
         Class.forName("com.mysql.cj.jdbc.Driver");
-        connection = DriverManager.getConnection(dbConfig.getUrl() + dbConfig.getDbName(), dbConfig.getUsername(), dbConfig.getPassword());
+        connection = DriverManager.getConnection(dbConfig.getUrl() + dbConfig.getDbName() + dbConfig.getUnicode(), dbConfig.getUsername(), dbConfig.getPassword());
     }
 
     public static DB getInstance() throws ClassNotFoundException, SQLException {

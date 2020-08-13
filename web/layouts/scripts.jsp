@@ -1,3 +1,4 @@
+<%@page import="models.Notification"%>
 <script src="../../layouts/lib/js/core/jquery/jquery.js"></script>
 <script src="../../layouts/lib/js/core/jquery/jquery.ui.js"></script>
 <script src="../../layouts/lib/js/core/tether.min.js"></script>
@@ -14,6 +15,20 @@
 <script src="../../layouts/lib/js/forms/select2.min.js"></script>
 <script src="../../layouts/lib/js/plugins/ekko-lightbox.min.js"></script>
 
+<script src="../../layouts/lib/js/plugins/notifications/pnotify.min.js"></script>
+<script src="../../layouts/lib/js/pages/extensions/extension_pnotify.js"></script>
 
 <script src="../../layouts/lib/js/core/app/layouts.js"></script>
 <script src="../../layouts/lib/js/core/app/core.js"></script>
+
+<script>
+    <%
+        if (request.getSession().getAttribute("notification") != null) {
+            Notification n = (Notification) request.getSession().getAttribute("notification");
+    %>
+    new PNotify({title: '<%=n.getStatus()%>', text: '<%=n.getOutcomeDescription()%>', addclass: 'bg-<%=n.getClassName()%>'});
+    <%
+            request.getSession().removeAttribute("notification");
+        }
+    %>
+</script>

@@ -14,7 +14,7 @@
 }
 
 #preloader #status .loader {
-    top: 50%;
+    top: 50%;.radio-inline
     margin: -28px auto 0;
     width: 72px;
     height: 72px;
@@ -14345,7 +14345,7 @@ select[size] option+option {
 }
 
 .radio-inline {
-    padding-left: 25px;
+    /*padding-left: 25px;*/
     position: relative
 }
 
@@ -29806,7 +29806,7 @@ body>.ui-pnotify-modal-overlay {
     padding-right: 10px;
     padding-bottom: 0;
     padding-left: 20px;
-    border-top: 1px solid #eaeff0;
+    /*border-top: 1px solid #eaeff0;*/
     background: #fff;
     color: #111
 }

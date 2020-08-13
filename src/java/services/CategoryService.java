@@ -14,7 +14,6 @@ import java.util.ArrayList;
 import java.util.List;
 import models.Category;
 import queries.CategoryQueryHandler;
-import queries.QueryHandlerInterface;
 
 /**
  *
@@ -25,7 +24,7 @@ public class CategoryService implements ServiceInterface<Category> {
     private PreparedStatement ps;
     private ResultSet rs;
     private int eResult; // execution result will either return 1 for successful execution and 0 for error
-    QueryHandlerInterface categoryQueryHandler = new CategoryQueryHandler();
+    CategoryQueryHandler categoryQueryHandler = new CategoryQueryHandler();
 
     @Override
     public boolean add(Category category) throws ClassNotFoundException, SQLException {
@@ -69,6 +68,21 @@ public class CategoryService implements ServiceInterface<Category> {
     @Override
     public Category get(Category category) throws ClassNotFoundException, SQLException {
         return null; // Not necesserily required 
+    }
+    
+    public Category getLastCategory() throws ClassNotFoundException, SQLException {
+        if (DB.getInstance() != null) {
+            Connection con = DB.getConnction();
+            ps = con.prepareStatement(categoryQueryHandler.getLastDataQuery());
+            rs = ps.executeQuery();
+            
+            Category dbCategory = new Category();
+            while (rs.next()) {
+                dbCategory.setId(rs.getInt(1));
+            }
+            return dbCategory;
+        }
+        return null; //By default if connection to database fails, method will return null
     }
 
     @Override

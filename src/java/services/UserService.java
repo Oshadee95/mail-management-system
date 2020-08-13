@@ -25,7 +25,7 @@ public class UserService implements ServiceInterface<UserInfo> {
     private PreparedStatement ps;
     private ResultSet rs;
     private int eResult; // execution result will either return 1 for successful execution and 0 for error
-    QueryHandlerInterface userQueryHandler = new UserQueryHandler();
+    UserQueryHandler userQueryHandler = new UserQueryHandler();
 
     @Override
     public boolean add(UserInfo userInfo) throws ClassNotFoundException, SQLException {
@@ -135,4 +135,32 @@ public class UserService implements ServiceInterface<UserInfo> {
         return null; //By default if connection to database fails, method will return null
     }
 
+    public List<UserInfo> getAllOnLowLevel() throws ClassNotFoundException, SQLException {
+        if (DB.getInstance() != null) {
+            Connection con = DB.getConnction();
+            ps = con.prepareStatement(userQueryHandler.getFetchAllLowLevelDataQuery());
+            rs = ps.executeQuery();
+
+            List<UserInfo> userInfoList = new ArrayList<>();
+            while (rs.next()) {
+                UserInfo dbUserInfo = new UserInfo();
+                dbUserInfo.setId(rs.getString(1));
+                dbUserInfo.setNic(rs.getString(2));
+                dbUserInfo.setFullName(rs.getString(3));
+                dbUserInfo.setDisplayName(rs.getString(4));
+                dbUserInfo.setOccupationId(rs.getInt(5));
+                dbUserInfo.setOccupation(rs.getString(6));
+                dbUserInfo.setOffice(rs.getString(7));
+                dbUserInfo.setRoleId(rs.getString(8));
+                dbUserInfo.setRoleWeight(rs.getInt(9));
+                dbUserInfo.setActive(rs.getString(10));
+                dbUserInfo.setPhotoURL(rs.getString(12));
+                dbUserInfo.setCreatedAt(rs.getTimestamp(13));
+                dbUserInfo.setUpdatedAt(rs.getTimestamp(14));
+                userInfoList.add(dbUserInfo);
+            }
+            return userInfoList;
+        }
+        return null; //By default if connection to database fails, method will return null
+    }
 }

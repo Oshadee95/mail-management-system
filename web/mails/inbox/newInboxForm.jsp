@@ -4,6 +4,8 @@
     Author     : RED-HAWK
 --%>
 
+<%@page import="models.User"%>
+<%@page import="models.UserInfo"%>
 <%@page import="models.Category"%>
 <%@page import="java.util.List"%>
 <%@page import="services.CategoryService"%>
@@ -82,14 +84,11 @@
                                                         <option value="0">Select category</option>
                                                         <option value="01">New Category</option>
                                                         <%
-                                                            CategoryService cs = new CategoryService();
-                                                            List<Category> cList = cs.getAll();
-                                                            for (Category c : cList) {
+                                                            List<Category> catFormList = (List<Category>) request.getAttribute("categoryList");
+                                                            for (Category c : catFormList) {
                                                         %>
                                                         <option value="<%=c.getId()%>"><%=c.getName()%></option>
-                                                        <%
-                                                            };
-                                                        %>
+                                                        <% }; %>
                                                     </select>
                                                 </div>
                                                 <button type="button" id="addCategory" style="padding-top: 0; padding-left: 0;" class=" col-lg-1 col-1 btn btn-link btn-lg"><i id="newCategoryIcon" class="icon-plus-circle2" style="color : #6887ff; padding: 0; float: right"></i></button>
@@ -110,11 +109,23 @@
                                                 <div class="col-lg-8">
                                                     <select style="background-color: white" name="mailRecipient" class="form-control" required aria-required="true">
                                                         <option value="unselected">Select person</option>
-                                                        <optgroup label="Govenment">
-                                                            <option value="1">Alaska</option>
-                                                        </optgroup>
                                                         <optgroup label="Private">
-                                                            <option value="2">Alaska</option>
+                                                            <%
+                                                                List<UserInfo> uPFormList = (List<UserInfo>) request.getAttribute("userList");
+                                                                for (User u : uPFormList) {
+                                                                    if (u.getOffice().equals("Private")) {
+                                                            %>
+                                                            <option value="<%=u.getId()%>"><%=u.getDisplayName()%></option>
+                                                            <% } } %>
+                                                        </optgroup>
+                                                        <optgroup label="Government">
+                                                            <%
+                                                                List<UserInfo> uGFormList = (List<UserInfo>) request.getAttribute("userList");
+                                                                for (User u : uGFormList) {
+                                                                     if(u.getOffice().equals("Government")){
+                                                            %>
+                                                            <option value="<%=u.getId()%>"><%=u.getDisplayName()%></option>
+                                                            <% } } %>
                                                         </optgroup>
                                                     </select>
                                                 </div>
@@ -165,16 +176,21 @@
                                 <div class="card-block">
                                     <table id="mailCategorydt" class="table datatable table-striped table-responsive">
                                         <thead>
-                                            <tr class="col-md-12">
-                                                <th>#</th>
-                                                <th class="col">Period</th>
+                                            <tr>
+                                                <th style="width: 30vw !important">Name</th>
+                                                <th style="width: 70vw !important">Description</th>
                                             </tr>
                                         </thead>
                                         <tbody>
+                                            <%
+                                                List<Category> catList = (List<Category>) request.getAttribute("categoryList");
+                                                for (Category c : catList) {
+                                            %>
                                             <tr>
-                                                <td>#INV01514</td>
-                                                <td>කොහොමද ඉතින් </td>
+                                                <td style="width:30vw !important"><%=c.getName()%></td>
+                                                <td style="width:70vw !important"><%=c.getDescription()%></td>
                                             </tr>
+                                            <% } %>
                                         </tbody>
                                     </table>
                                 </div>
@@ -184,16 +200,21 @@
                                 <div class="card-block">
                                     <table class="table datatable table-striped table-responsive">
                                         <thead>
-                                            <tr class="col-md-12">
-                                                <th>#</th>
-                                                <th class="col">Period</th>
+                                            <tr>
+                                                <th style="width: 70vw !important">Employee</th>
+                                                <th style="width: 30vw !important">Office</th>
                                             </tr>
                                         </thead>
                                         <tbody>
+                                            <%
+                                                List<UserInfo> uList = (List<UserInfo>) request.getAttribute("userList");
+                                                for (User u : uList) {
+                                            %>
                                             <tr>
-                                                <td>#INV01514</td>
-                                                <td>කොහොමද ඉතින් </td>
+                                                <td style="width:70vw !important"><%=u.getDisplayName()%></td>
+                                                <td style="width:30vw !important"><%=u.getOffice()%></td>
                                             </tr>
+                                            <% } %>
                                         </tbody>
                                     </table>
                                 </div>

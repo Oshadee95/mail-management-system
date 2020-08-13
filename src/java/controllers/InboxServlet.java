@@ -23,6 +23,7 @@ import models.InboxInfo;
 import models.Notification;
 import services.CategoryService;
 import services.InboxService;
+import services.UserService;
 import utils.Crypto;
 
 /**
@@ -48,14 +49,40 @@ public class InboxServlet extends HttpServlet {
             HttpSession session = request.getSession();
 
             switch (request.getServletPath()) {
-                case "/Mails/Inbox":
-                    request.getRequestDispatcher("/mails/inbox/displayInbox.jsp").forward(request, response);
+                case "/Mails/Inbox/100":
+                    try {
+                        request.setAttribute("inboxList", new InboxService().getAll());
+                        request.getRequestDispatcher("/mails/inbox/displayInbox.jsp").forward(request, response);
+                    } catch (IOException | ClassNotFoundException | SQLException | ServletException e) {
+                        request.getSession().setAttribute("notification", new Notification("Error Notification", "Failed to retrieve inbox. ECODE - 1007.<br>Contact system administrator", "danger"));
+                        response.sendRedirect(request.getContextPath() + "/Mails/Inbox/100");
+                    }
                     break;
                 case "/Mails/Inbox/101":
-                    request.getRequestDispatcher("/mails/inbox/displayInboxForm.jsp").forward(request, response);
+                    if ((request.getParameter("mid") != null)) {
+                        try {
+                            InboxInfo displayInboxInfo = new InboxInfo();
+                            displayInboxInfo.setId(request.getParameter("mid"));
+                            request.setAttribute("inboxTemp", new InboxService().get(displayInboxInfo));
+                            request.getRequestDispatcher("/mails/inbox/displayInboxForm.jsp").forward(request, response);
+                        } catch (IOException | ClassNotFoundException | SQLException | ServletException e) {
+                            request.getSession().setAttribute("notification", new Notification("Error Notification", "Failed to open mail. ECODE - 1010.<br>Contact system administrator", "danger"));
+                            response.sendRedirect(request.getContextPath() + "/Mails/Inbox/100");
+                        }
+                    } else {
+                        request.getSession().setAttribute("notification", new Notification("Error Notification", "Unauthorized request. User is not permitted to perform action", "danger"));
+                        response.sendRedirect(request.getContextPath() + "/Mails/Inbox/100");
+                    }
                     break;
                 case "/Mails/Inbox/102":
-                    request.getRequestDispatcher("/mails/inbox/newInboxForm.jsp").forward(request, response);
+                    try {
+                        request.setAttribute("categoryList", new CategoryService().getAll());
+                        request.setAttribute("userList", new UserService().getAllOnLowLevel());
+                        request.getRequestDispatcher("/mails/inbox/newInboxForm.jsp").forward(request, response);
+                    } catch (IOException | ClassNotFoundException | SQLException | ServletException e) {
+                        request.getSession().setAttribute("notification", new Notification("Error Notification", "Failed to open inbox form. ECODE - 1006.<br>Contact system administrator", "danger"));
+                        response.sendRedirect(request.getContextPath() + "/Mails/Inbox/100");
+                    }
                     break;
                 case "/Mails/Inbox/103":
                     try {
@@ -72,13 +99,40 @@ public class InboxServlet extends HttpServlet {
                     }
                     break;
                 case "/Mails/Inbox/104":
-                    request.getRequestDispatcher("/mails/inbox/updateInboxForm.jsp").forward(request, response);
+                    if ((request.getParameter("mid") != null)) {
+                        try {
+                            InboxInfo iInfo = new InboxInfo();
+                            iInfo.setId(request.getParameter("mid"));
+                            request.setAttribute("inboxTemp", new InboxService().get(iInfo));
+                            request.setAttribute("categoryList", new CategoryService().getAll());
+                            request.setAttribute("userList", new UserService().getAllOnLowLevel());
+                            request.getRequestDispatcher("/mails/inbox/updateInboxForm.jsp").forward(request, response);
+                        } catch (IOException | ClassNotFoundException | SQLException | ServletException e) {
+                            request.getSession().setAttribute("notification", new Notification("Error Notification", "Failed to open mail. ECODE - 1009.<br>Contact system administrator", "danger"));
+                            response.sendRedirect(request.getContextPath() + "/Mails/Inbox/100");
+                        }
+                    } else {
+                        request.getSession().setAttribute("notification", new Notification("Error Notification", "Unauthorized request. User is not permitted to perform action", "danger"));
+                        response.sendRedirect(request.getContextPath() + "/Mails/Inbox/100");
+                    }
                     break;
                 case "/Mails/Inbox/105":
-                    out.print("update mail");
+                    try {
+                        request.setCharacterEncoding("UTF-8"); // to read sinhala characters
+                        request.getSession().removeAttribute("inboxTemp");
+                        if (updateMail(request)) {
+                            response.sendRedirect(request.getContextPath() + "/Mails/Inbox/100");
+                        } else { // TODO : add session to store the form values to sent it back when a error is occured
+                            response.sendRedirect(request.getContextPath() + "/Mails/Inbox/100");
+                        }
+                    } catch (IOException | ClassNotFoundException | SQLException | ServletException e) {
+                        e.printStackTrace();
+                        request.getSession().setAttribute("notification", new Notification("Error Notification", "Failed to update mail. ECODE - 1011.<br>Contact system administrator", "danger"));
+                        response.sendRedirect(request.getContextPath() + "/Mails/Inbox/100");
+                    }
                     break;
                 default:
-                    request.getRequestDispatcher("/mails/inbox/displayInbox.jsp").forward(request, response);
+                    response.sendRedirect(request.getContextPath() + "/Mails/Inbox/100");
                     break;
 
             }
@@ -90,7 +144,16 @@ public class InboxServlet extends HttpServlet {
                 && (request.getParameter("mailType") != null)
                 && (request.getParameter("mailCategory") != null)
                 && (request.getParameter("mailRecipient") != null)
-                && (request.getParameter("mailBrief") != null)) {
+                && (request.getParameter("mailBrief") != null
+                && (request.getPart("letter") != null))) {
+
+            // obtains the upload file part in this multipart request
+            Part filePart = request.getPart("letter");
+
+            if (!((filePart.getContentType().equals("image/png")) || (filePart.getContentType().equals("image/jpeg")))) {
+                request.getSession().setAttribute("notification", new Notification("Error Notification", "Failed to register mail. ECODE - 1008.<br>Uploaded image type not supported", "danger"));
+                return false; // If image type is not accecpted
+            }
 
             InboxInfo i = new InboxInfo();
             String mailId = Crypto.generateTimeStampId();
@@ -109,7 +172,7 @@ public class InboxServlet extends HttpServlet {
             InboxService ins = new InboxService();
 
             if (ins.add(i)) {
-                uploadFile(request, mailId);
+                uploadFile(request, mailId, filePart);
                 request.getSession().setAttribute("notification", new Notification("Success Notification", "Mail successfully registered", "success"));
                 return true;
             } else {
@@ -123,10 +186,46 @@ public class InboxServlet extends HttpServlet {
         }
     }
 
-    private void uploadFile(HttpServletRequest request, String mailId) throws IOException, ServletException {
-        // obtains the upload file part in this multipart request
-        Part filePart = request.getPart("letter");
+    private boolean updateMail(HttpServletRequest request) throws ClassNotFoundException, SQLException, IOException, ServletException {
+        if ((request.getParameter("mid") != null)
+                && (request.getParameter("senderName") != null)
+                && (request.getParameter("mailType") != null)
+                && (request.getParameter("mailCategory") != null)
+                && (request.getParameter("mailRecipient") != null)
+                && (request.getParameter("mailBrief") != null)) {
 
+            InboxInfo i = new InboxInfo();
+            String mailId = request.getParameter("mid");
+            i.setId(mailId);
+            i.setSender(request.getParameter("senderName")); // Sender's name
+            i.setType(request.getParameter("mailType")); // mail type
+            i.setContent(request.getParameter("mailBrief")); // mail brief
+            i.setRecipientId(request.getParameter("mailRecipient")); // mail recipient
+            String mailCategory = request.getParameter("mailCategory");
+            i.setCategoryId(Integer.parseInt(mailCategory)); // mail category id
+
+            createCategory(request, i, mailCategory);
+
+            InboxService ins = new InboxService();
+
+            if (ins.update(i)) {
+                if ((request.getPart("letter") != null) && (request.getPart("letter").getContentType().equals("image/png") || request.getPart("letter").getContentType().equals("image/jpeg"))) {
+                    uploadFile(request, mailId, request.getPart("letter"));
+                } 
+                request.getSession().setAttribute("notification", new Notification("Success Notification", "Mail successfully updated", "success"));
+                return true;
+            } else {
+                request.getSession().setAttribute("notification", new Notification("Error Notification", "Failed to register mail. ECODE - 1004.<br>Contact system administrator", "danger"));
+                return false; // If new category was selected but values are missing 
+            }
+
+        } else {
+            request.getSession().setAttribute("notification", new Notification("Error Notification", "Failed to register mail. ECODE - 1001.<br>Reqired values are missing, Please make sure all required vales are filled", "danger"));
+            return false; // if required form values are missing
+        }
+    }
+
+    private void uploadFile(HttpServletRequest request, String mailId, Part filePart) throws IOException, ServletException {
         // obtains input stream of the upload file
         InputStream inputStream = filePart.getInputStream();
 

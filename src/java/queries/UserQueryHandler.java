@@ -18,6 +18,7 @@ public class UserQueryHandler implements QueryHandlerInterface {
     private final String DELETE_DATA_QUERY = "DELETE FROM `" + TABLE_NAME + "` WHERE `id`= ?";
     private final String FETCH_DATA_QUERY = "SELECT * FROM `" + VIEW_NAME + "` WHERE id = ?";
     private final String FETCH_ALL_DATA_QUERY = "SELECT * FROM `" + VIEW_NAME + "`";
+    private final String FETCH_ALL_LOW_LEVEL_DATA_QUERY = "SELECT * FROM `" + VIEW_NAME + "` WHERE `roleWeight` < 80";
 
     @Override
     public String getAddDataQuery() {
@@ -47,5 +48,9 @@ public class UserQueryHandler implements QueryHandlerInterface {
     @Override
     public String getTableName() {
         return TABLE_NAME;
+    }
+    
+    public String getFetchAllLowLevelDataQuery(){
+        return FETCH_ALL_LOW_LEVEL_DATA_QUERY;
     }
 }

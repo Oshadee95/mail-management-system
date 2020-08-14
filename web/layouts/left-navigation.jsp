@@ -27,7 +27,7 @@
                     <li><a href="<%=request.getContextPath()%>/Occupations"><i class="icon-briefcase"></i> <span>Occupations</span></a></li>
                     <li><a href="<%=request.getContextPath()%>/Roles"><i class="icon-database-settings"></i> <span>Roles</span></a></li>       
                     <li><a href="<%=request.getContextPath()%>/Users"><i class="icon-users2"></i> <span>Users</span></a></li>  
-                    <li><a href="<%=request.getContextPath()%>/Activities"><i class="icon-computer-user"></i> <span>Activities</span></a></li>       
+                    <li><a href="<%=request.getContextPath()%>/Auth/Activities/100"><i class="icon-computer-user"></i> <span>Activities</span></a></li>       
                 </ul>
             </div>
         </div>

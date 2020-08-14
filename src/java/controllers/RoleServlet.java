@@ -30,16 +30,94 @@ public class RoleServlet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet RoleServlet</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet RoleServlet at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
+           
+             switch (request.getServletPath()) {
+                case "/Auth/Roles/100":
+                    try {
+//                        request.setAttribute("inboxList", new InboxService().getAll());
+                        request.getRequestDispatcher("/auth/roles/displayRoles.jsp").forward(request, response);
+                    } catch (IOException | ServletException e) {
+//                        request.getSession().setAttribute("notification", new Notification("Error Notification", "Failed to retrieve inbox. ECODE - 1007.<br>Contact system administrator", "danger"));
+//                        response.sendRedirect(request.getContextPath() + "/Mails/Inbox/100");
+                    }
+                    break;
+//                case "/Mails/Inbox/101":
+//                    if ((request.getParameter("mid") != null)) {
+//                        try {
+//                            InboxInfo displayInboxInfo = new InboxInfo();
+//                            displayInboxInfo.setId(request.getParameter("mid"));
+//                            request.setAttribute("inboxTemp", new InboxService().get(displayInboxInfo));
+//                            request.getRequestDispatcher("/mails/inbox/displayInboxForm.jsp").forward(request, response);
+//                        } catch (IOException | ClassNotFoundException | SQLException | ServletException e) {
+//                            request.getSession().setAttribute("notification", new Notification("Error Notification", "Failed to open mail. ECODE - 1010.<br>Contact system administrator", "danger"));
+//                            response.sendRedirect(request.getContextPath() + "/Mails/Inbox/100");
+//                        }
+//                    } else {
+//                        request.getSession().setAttribute("notification", new Notification("Error Notification", "Unauthorized request. User is not permitted to perform action", "danger"));
+//                        response.sendRedirect(request.getContextPath() + "/Mails/Inbox/100");
+//                    }
+//                    break;
+//                case "/Mails/Inbox/102":
+//                    try {
+//                        request.setAttribute("categoryList", new CategoryService().getAll());
+//                        request.setAttribute("userList", new UserService().getAllOnLowLevel());
+//                        request.getRequestDispatcher("/mails/inbox/newInboxForm.jsp").forward(request, response);
+//                    } catch (IOException | ClassNotFoundException | SQLException | ServletException e) {
+//                        request.getSession().setAttribute("notification", new Notification("Error Notification", "Failed to open inbox form. ECODE - 1006.<br>Contact system administrator", "danger"));
+//                        response.sendRedirect(request.getContextPath() + "/Mails/Inbox/100");
+//                    }
+//                    break;
+//                case "/Mails/Inbox/103":
+//                    try {
+//                        request.setCharacterEncoding("UTF-8"); // to read sinhala characters
+//                        request.getSession().removeAttribute("inboxTemp");
+//                        if (registerMail(request)) {
+//                            response.sendRedirect(request.getContextPath() + "/Mails/Inbox/102");
+//                        } else { // TODO : add session to store the form values to sent it back when a error is occured
+//                            response.sendRedirect(request.getContextPath() + "/Mails/Inbox/102");
+//                        }
+//                    } catch (IOException | ClassNotFoundException | SQLException | ServletException e) {
+//                        request.getSession().setAttribute("notification", new Notification("Error Notification", "Failed to register mail. ECODE - 1005.<br>Contact system administrator", "danger"));
+//                        response.sendRedirect(request.getContextPath() + "/Mails/Inbox/102");
+//                    }
+//                    break;
+//                case "/Mails/Inbox/104":
+//                    if ((request.getParameter("mid") != null)) {
+//                        try {
+//                            InboxInfo iInfo = new InboxInfo();
+//                            iInfo.setId(request.getParameter("mid"));
+//                            request.setAttribute("inboxTemp", new InboxService().get(iInfo));
+//                            request.setAttribute("categoryList", new CategoryService().getAll());
+//                            request.setAttribute("userList", new UserService().getAllOnLowLevel());
+//                            request.getRequestDispatcher("/mails/inbox/updateInboxForm.jsp").forward(request, response);
+//                        } catch (IOException | ClassNotFoundException | SQLException | ServletException e) {
+//                            request.getSession().setAttribute("notification", new Notification("Error Notification", "Failed to open mail. ECODE - 1009.<br>Contact system administrator", "danger"));
+//                            response.sendRedirect(request.getContextPath() + "/Mails/Inbox/100");
+//                        }
+//                    } else {
+//                        request.getSession().setAttribute("notification", new Notification("Error Notification", "Unauthorized request. User is not permitted to perform action", "danger"));
+//                        response.sendRedirect(request.getContextPath() + "/Mails/Inbox/100");
+//                    }
+//                    break;
+//                case "/Mails/Inbox/105":
+//                    try {
+//                        request.setCharacterEncoding("UTF-8"); // to read sinhala characters
+//                        request.getSession().removeAttribute("inboxTemp");
+//                        if (updateMail(request)) {
+//                            response.sendRedirect(request.getContextPath() + "/Mails/Inbox/100");
+//                        } else { // TODO : add session to store the form values to sent it back when a error is occured
+//                            response.sendRedirect(request.getContextPath() + "/Mails/Inbox/100");
+//                        }
+//                    } catch (IOException | ClassNotFoundException | SQLException | ServletException e) {
+//                        request.getSession().setAttribute("notification", new Notification("Error Notification", "Failed to update mail. ECODE - 1011.<br>Contact system administrator", "danger"));
+//                        response.sendRedirect(request.getContextPath() + "/Mails/Inbox/100");
+//                    }
+//                    break;
+//                default:
+//                    response.sendRedirect(request.getContextPath() + "/Mails/Inbox/100");
+//                    break;
+
+            }
         }
     }
 

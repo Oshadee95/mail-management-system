@@ -5,10 +5,6 @@
     <!--Servlet Mapping -->
     <!--Welcome Files-->
     <servlet>
-        <servlet-name>IndexServlet</servlet-name>
-        <servlet-class>controllers.IndexServlet</servlet-class>
-    </servlet>
-    <servlet>
         <servlet-name>InboxServlet</servlet-name>
         <servlet-class>controllers.InboxServlet</servlet-class>
     </servlet>
@@ -40,10 +36,6 @@
         <servlet-name>RoleServlet</servlet-name>
         <servlet-class>controllers.RoleServlet</servlet-class>
     </servlet>
-    <servlet-mapping>
-        <servlet-name>IndexServlet</servlet-name>
-        <url-pattern>/Home</url-pattern>
-    </servlet-mapping>
     <servlet-mapping>
         <servlet-name>InboxServlet</servlet-name>
         <url-pattern>/Mails/Inbox/100</url-pattern>
@@ -80,23 +72,31 @@
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>UserServlet</servlet-name>
-        <url-pattern>/Users</url-pattern>
+        <url-pattern>/Auth/Users/100</url-pattern>
+        <url-pattern>/Auth/Users/101</url-pattern>
+        <url-pattern>/Auth/Users/102</url-pattern>
+        <url-pattern>/Auth/Users/103</url-pattern>
+        <url-pattern>/Auth/Users/104</url-pattern>
+        <url-pattern>/Auth/Users/105</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>ActivityServlet</servlet-name>
-        <url-pattern>/Activities</url-pattern>
+        <url-pattern>/Auth/Activities/100</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>RoleServlet</servlet-name>
-        <url-pattern>/Roles</url-pattern>
-        <url-pattern>/Roles/Role/New</url-pattern>
-        <url-pattern>/Roles/Role/Update</url-pattern>
+        <url-pattern>/Auth/Roles/100</url-pattern>
+        <url-pattern>/Auth/Roles/101</url-pattern>
+        <url-pattern>/Auth/Roles/102</url-pattern>
+        <url-pattern>/Auth/Roles/103</url-pattern>
+        <url-pattern>/Auth/Roles/104</url-pattern>
+        <url-pattern>/Auth/Roles/105</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>120</session-timeout>
     </session-config>
     <welcome-file-list>
-        <welcome-file>Mails/Inbox</welcome-file>
+        <welcome-file>Login</welcome-file>
     </welcome-file-list>
 <!--        <error-page>
         <location>/Mails/Inbox</location>

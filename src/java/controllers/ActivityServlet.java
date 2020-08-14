@@ -7,10 +7,13 @@ package controllers;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.SQLException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import models.Notification;
+import services.ActivityService;
 
 /**
  *
@@ -30,16 +33,18 @@ public class ActivityServlet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet ActivityServlet</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet ActivityServlet at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
+
+            switch (request.getServletPath()) {
+                case "/Auth/Activities/100":
+                    try {
+                        request.setAttribute("activityList", new ActivityService().getAll());
+                        request.getRequestDispatcher("/auth/activities/displayActivities.jsp").forward(request, response);
+                    } catch (IOException | ClassNotFoundException | SQLException | ServletException e) {
+                        request.getSession().setAttribute("notification", new Notification("Error Notification", "Failed to retrieve activities. ECODE - 1023.<br>Contact system administrator", "danger"));
+                        response.sendRedirect(request.getContextPath() + "/Mails/Inbox/100");
+                    }
+                    break;
+            }
         }
     }
 

@@ -7,10 +7,13 @@ package controllers;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.SQLException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import models.Notification;
+import services.RoleService;
 
 /**
  *
@@ -34,11 +37,11 @@ public class RoleServlet extends HttpServlet {
              switch (request.getServletPath()) {
                 case "/Auth/Roles/100":
                     try {
-//                        request.setAttribute("inboxList", new InboxService().getAll());
+                        request.setAttribute("roleList", new RoleService().getAll());
                         request.getRequestDispatcher("/auth/roles/displayRoles.jsp").forward(request, response);
-                    } catch (IOException | ServletException e) {
-//                        request.getSession().setAttribute("notification", new Notification("Error Notification", "Failed to retrieve inbox. ECODE - 1007.<br>Contact system administrator", "danger"));
-//                        response.sendRedirect(request.getContextPath() + "/Mails/Inbox/100");
+                    } catch (IOException | ClassNotFoundException | SQLException | ServletException e) {
+                        request.getSession().setAttribute("notification", new Notification("Error Notification", "Failed to retrieve roles. ECODE - 1024.<br>Contact system administrator", "danger"));
+                        response.sendRedirect(request.getContextPath() + "/Mails/Inbox/100");
                     }
                     break;
 //                case "/Mails/Inbox/101":

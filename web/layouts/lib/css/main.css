@@ -1,4 +1,4 @@
-﻿#preloader {
+#preloader {
     position: fixed;
     top: 0;
     left: 0;
@@ -34593,12 +34593,12 @@ body>.ui-pnotify-modal-overlay {
 
 .our-team3 {
     position: relative;
-    overflow: hidden
+    overflow: hidden;
 }
 
 .our-team3 img {
     width: 100%;
-    height: auto
+    height: auto;
 }
 
 .our-team3 .team-content {
@@ -34635,11 +34635,6 @@ body>.ui-pnotify-modal-overlay {
     transform: translateX(0)
 }
 
-.our-team3:hover .team-prof {
-    -webkit-transform: translateX(100%);
-    -moz-transform: translateX(100%);
-    transform: translateX(100%)
-}
 
 .our-team3 .description {
     color: #fff;

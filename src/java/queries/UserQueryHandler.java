@@ -13,10 +13,10 @@ public class UserQueryHandler implements QueryHandlerInterface {
 
     private final String TABLE_NAME = "users";
     private final String VIEW_NAME = "userinfoview";
-    private final String INSERT_DATA_QUERY = "INSERT INTO `" + TABLE_NAME + "`(`id`, `nic`, `fullName`, `displayName`, `occupationId`, `office`, `roleId`, `password`, `photoURL`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
-    private final String UPDATE_DATA_QUERY = "UPDATE `" + TABLE_NAME + "` SET `nic`= ?,`fullName`= ?,`displayName`= ?,`password`= ?,`photoURL`= ? WHERE id = ?";
+    private final String INSERT_DATA_QUERY = "INSERT INTO `" + TABLE_NAME + "`(`id`, `nic`, `fullName`, `displayName`, `occupationId`, `office`, `roleId`, `active`, `password`, `photoURL`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    private final String UPDATE_DATA_QUERY = "UPDATE `" + TABLE_NAME + "` SET `fullName`= ?,`displayName`= ?,`occupationId` = ?, `office` = ?, `roleId` = ?, `active` = ?, `password`= ? WHERE id = ?";
     private final String DELETE_DATA_QUERY = "DELETE FROM `" + TABLE_NAME + "` WHERE `id`= ?";
-    private final String FETCH_DATA_QUERY = "SELECT * FROM `" + VIEW_NAME + "` WHERE id = ?";
+    private final String FETCH_DATA_QUERY = "SELECT * FROM `" + VIEW_NAME + "` WHERE `uid` = ?";
     private final String FETCH_ALL_DATA_QUERY = "SELECT * FROM `" + VIEW_NAME + "`";
     private final String FETCH_ALL_LOW_LEVEL_DATA_QUERY = "SELECT * FROM `" + VIEW_NAME + "` WHERE `roleWeight` < 80";
 

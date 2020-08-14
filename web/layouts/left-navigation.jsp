@@ -21,12 +21,12 @@
                 <ul class="sidebar-accordion" style="display: block;">
                     <li><a href="new"><i class="icon-display4"></i><span class="list-label"> Dashboard</span></a></li>
                     <li class="list-title">Apps</li>
-                    <li><a href="<%=request.getContextPath()%>/Categories"><i class="icon-three-bars"></i> <span>Categories</span></a></li>       
+                    <li><a href="<%=request.getContextPath()%>/Mails/Categories/100"><i class="icon-three-bars"></i> <span>Categories</span></a></li>       
                     <li><a href="<%=request.getContextPath()%>/Mails/Inbox/100"><i class="icon-envelop"></i> <span>Received Mails</span></a></li>       
-                    <li><a href="<%=request.getContextPath()%>/Mails/Outbox"><i class="icon-mail-read"></i> <span>Replied Mails</span></a></li>       
-                    <li><a href="<%=request.getContextPath()%>/Occupations"><i class="icon-briefcase"></i> <span>Occupations</span></a></li>
-                    <li><a href="<%=request.getContextPath()%>/Roles"><i class="icon-database-settings"></i> <span>Roles</span></a></li>       
-                    <li><a href="<%=request.getContextPath()%>/Users"><i class="icon-users2"></i> <span>Users</span></a></li>  
+                    <li><a href="<%=request.getContextPath()%>/Mails/Outbox/100"><i class="icon-mail-read"></i> <span>Replied Mails</span></a></li>       
+                    <li><a href="<%=request.getContextPath()%>/Office/Occupations"><i class="icon-briefcase"></i> <span>Occupations</span></a></li>
+                    <li><a href="<%=request.getContextPath()%>/Auth/Roles/100"><i class="icon-database-settings"></i> <span>Roles</span></a></li>       
+                    <li><a href="<%=request.getContextPath()%>/Auth/Users/100"><i class="icon-users2"></i> <span>Users</span></a></li>  
                     <li><a href="<%=request.getContextPath()%>/Auth/Activities/100"><i class="icon-computer-user"></i> <span>Activities</span></a></li>       
                 </ul>
             </div>

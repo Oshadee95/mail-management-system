@@ -14,7 +14,6 @@ import java.util.List;
 import models.UserInfo;
 import queries.UserQueryHandler;
 import servers.DB;
-import queries.QueryHandlerInterface;
 
 /**
  *
@@ -39,8 +38,9 @@ public class UserService implements ServiceInterface<UserInfo> {
             ps.setInt(5, userInfo.getOccupationId());
             ps.setString(6, userInfo.getOffice());
             ps.setString(7, userInfo.getRoleId());
-            ps.setString(8, userInfo.getPassword());
-            ps.setString(9, userInfo.getPhotoURL());
+            ps.setString(8, userInfo.getActive());
+            ps.setString(9, userInfo.getPassword());
+            ps.setString(10, userInfo.getPhotoURL());
             eResult = ps.executeUpdate();
             return (eResult == 1); //This will return true if eResult is 1 and false if 0
         }
@@ -52,12 +52,14 @@ public class UserService implements ServiceInterface<UserInfo> {
         if (DB.getInstance() != null) {
             Connection con = DB.getConnction();
             ps = con.prepareStatement(userQueryHandler.getUpdateDataQuery());
-            ps.setString(1, userInfo.getNic());
-            ps.setString(2, userInfo.getFullName());
-            ps.setString(3, userInfo.getDisplayName());
-            ps.setString(4, userInfo.getPassword());
-            ps.setString(5, userInfo.getPhotoURL());
-            ps.setString(6, userInfo.getId());
+            ps.setString(1, userInfo.getFullName());
+            ps.setString(2, userInfo.getDisplayName());
+            ps.setInt(3, userInfo.getOccupationId());
+            ps.setString(4, userInfo.getOffice());
+            ps.setString(5, userInfo.getRoleId());
+            ps.setString(6, userInfo.getActive());
+            ps.setString(7, userInfo.getPassword());
+            ps.setString(8, userInfo.getId());
             eResult = ps.executeUpdate();
             return (eResult == 1); //This will return true if eResult is 1 and false if 0
         }
@@ -96,6 +98,7 @@ public class UserService implements ServiceInterface<UserInfo> {
                 dbUserInfo.setRoleId(rs.getString(8));
                 dbUserInfo.setRoleWeight(rs.getInt(9));
                 dbUserInfo.setActive(rs.getString(10));
+                dbUserInfo.setPassword(rs.getString(11));
                 dbUserInfo.setPhotoURL(rs.getString(12));
                 dbUserInfo.setCreatedAt(rs.getTimestamp(13));
                 dbUserInfo.setUpdatedAt(rs.getTimestamp(14));

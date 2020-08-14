@@ -55,10 +55,12 @@
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>OutboxServlet</servlet-name>
-        <url-pattern>/Mails/Outbox</url-pattern>
-        <url-pattern>/Mails/Outbox/Mail</url-pattern>
-        <url-pattern>/Mails/Outbox/New</url-pattern>
-        <url-pattern>/Mails/Outbox/Update</url-pattern>
+        <url-pattern>/Mails/Outbox/100</url-pattern>
+        <url-pattern>/Mails/Outbox/101</url-pattern>
+        <url-pattern>/Mails/Outbox/102</url-pattern>
+        <url-pattern>/Mails/Outbox/103</url-pattern>
+        <url-pattern>/Mails/Outbox/104</url-pattern>
+        <url-pattern>/Mails/Outbox/105</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>CategoryServlet</servlet-name>

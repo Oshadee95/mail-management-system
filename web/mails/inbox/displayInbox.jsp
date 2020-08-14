@@ -31,7 +31,14 @@
                     <div class="row">
                         <div class="col-md-12 col-sm-12">
                             <div class="card card-inverse">
-                                <div class="card-block">
+                                <div class="card-header">
+                                    <div class="elements p-t-30">
+                                        <ul class="icons-list">
+                                            <li><a href="<%=request.getContextPath()%>/Mails/Inbox/102" class="btn btn-link btn-md"><i class="icon-new-tab x3" style="color :#24ab8f!important"></i></a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="card-block m-t-40">
                                     <table id="mailCategorydt" class="table datatable table-striped table-responsive">
                                         <thead>
                                             <tr>

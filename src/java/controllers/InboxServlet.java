@@ -126,7 +126,6 @@ public class InboxServlet extends HttpServlet {
                             response.sendRedirect(request.getContextPath() + "/Mails/Inbox/100");
                         }
                     } catch (IOException | ClassNotFoundException | SQLException | ServletException e) {
-                        e.printStackTrace();
                         request.getSession().setAttribute("notification", new Notification("Error Notification", "Failed to update mail. ECODE - 1011.<br>Contact system administrator", "danger"));
                         response.sendRedirect(request.getContextPath() + "/Mails/Inbox/100");
                     }
@@ -251,6 +250,7 @@ public class InboxServlet extends HttpServlet {
 
                 if (cs.add(c)) {
                     i.setCategoryId(cs.getLastCategory().getId()); // mail category id
+                    return true;
                 } else {
                     request.getSession().setAttribute("notification", new Notification("Error Notification", "Failed to register mail. ECODE - 1003.<br>Contact system administrator", "danger"));
                     return false; // if query execution failed while adding new category

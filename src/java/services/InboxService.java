@@ -25,7 +25,7 @@ public class InboxService implements ServiceInterface<InboxInfo> {
     private PreparedStatement ps;
     private ResultSet rs;
     private int eResult; // execution result will either return 1 for successful execution and 0 for error
-    QueryHandlerInterface inboxQueryHandler = new InboxQueryHandler();
+    InboxQueryHandler inboxQueryHandler = new InboxQueryHandler();
 
     @Override
     public boolean add(InboxInfo inboxInfo) throws ClassNotFoundException, SQLException {
@@ -57,6 +57,18 @@ public class InboxService implements ServiceInterface<InboxInfo> {
             ps.setString(4, inboxInfo.getContent());
             ps.setString(5, inboxInfo.getRecipientId());
             ps.setString(6, inboxInfo.getId());
+            eResult = ps.executeUpdate();
+            return (eResult == 1); //This will return true if eResult is 1 and false if 0
+        }
+        return false; //By default if connection to database fails, method will return false
+    }
+    
+    public boolean updateStatus(InboxInfo inboxInfo) throws ClassNotFoundException, SQLException {
+        if (DB.getInstance() != null) {
+            Connection con = DB.getConnction();
+            ps = con.prepareStatement(inboxQueryHandler.getUpdateStatusQuery());
+            ps.setString(1, inboxInfo.getReplied());
+            ps.setString(2, inboxInfo.getId());
             eResult = ps.executeUpdate();
             return (eResult == 1); //This will return true if eResult is 1 and false if 0
         }

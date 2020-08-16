@@ -16,4 +16,5 @@
     <link type="text/css" rel="stylesheet" href="../../layouts/lib/css/bootstrap.css">
     <link type="text/css" rel="stylesheet" href="../../layouts/lib/css/animate.min.css">
     <link type="text/css" rel="stylesheet" href="../../layouts/lib/css/main.css">
+    <link type="text/css" rel="stylesheet" href="../../layouts/lib/css/lightbox.min.css">
 </head>

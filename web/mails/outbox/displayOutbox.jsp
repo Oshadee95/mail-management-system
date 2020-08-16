@@ -35,13 +35,13 @@
                                     <table id="mailCategorydt" class="table datatable table-striped table-responsive">
                                         <thead>
                                             <tr>
-                                                <th>Mail ID</th>
-                                                <th>Type</th>
-                                                <th>Category</th>
-                                                <th>Brief</th>
-                                                <th>Collected By</th>
-                                                <th>Recipient</th>
-                                                <th></th>
+                                               <th style="width: 6vw !important">Mail ID</th>
+                                                <th style="width: 8vw !important">Type</th>
+                                                <th style="width: 20vw !important">Category</th>
+                                                <th style="width: 20vw !important">Brief</th>
+                                                <th style="width: 12vw !important">Collected By</th>
+                                                <th style="width: 12vw !important">Recipient</th>
+                                                <th style="width: 13vw !important"></th>
                                             </tr>
                                         </thead>
                                         <tbody>

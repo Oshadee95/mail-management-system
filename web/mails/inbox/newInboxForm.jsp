@@ -37,13 +37,14 @@
                                 <div class="card-header">
                                     <div class="card-title">Advanced inputs</div>
                                 </div>
+                                <% UserInfo user = (UserInfo) request.getSession().getAttribute("authUser"); %>
                                 <form class="form-validate" method="POST" action="<%=request.getContextPath()%>/Mails/Inbox/103" enctype="multipart/form-data">
                                     <div class="card-block">
                                         <fieldset>
                                             <div class="form-group row">
                                                 <label class="control-label col-lg-4">Collector's ID </label>
                                                 <div class="col-lg-8">
-                                                    <input type="text" class="form-control" readonly value="">
+                                                    <input type="text" class="form-control" readonly value="<%=user.getId()%>">
                                                 </div>
                                             </div>
 
@@ -51,7 +52,7 @@
                                             <div class="form-group row">
                                                 <label class="control-label col-lg-4">Collector's name </label>
                                                 <div class="col-lg-8">
-                                                    <input type="text" class="form-control" readonly value="">
+                                                    <input type="text" class="form-control" readonly value="<%=user.getDisplayName()%>">
                                                 </div>
                                             </div>
 
@@ -164,7 +165,7 @@
 
                                         <div class="float-right  m-t-50 m-b-20">
                                             <button type="reset" class="btn btn-lg btn-secondary" id="reset"><i class="icon-reload-alt position-left"></i>Reset</button>&nbsp;
-                                            <button type="submit" class="btn btn-lg btn-success"><i class="icon-arrow-right14"></i>Submit</button>
+                                            <button type="submit" name="nMFrom" class="btn btn-lg btn-success"><i class="icon-arrow-right14"></i>Submit</button>
                                         </div>
                                     </div>
                                 </form>

@@ -12,9 +12,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import models.InboxInfo;
+import models.UserInfo;
 import queries.InboxQueryHandler;
 import servers.DB;
-import queries.QueryHandlerInterface;
 
 /**
  *
@@ -113,6 +113,7 @@ public class InboxService implements ServiceInterface<InboxInfo> {
                 dbInboxInfo.setReplied(rs.getString(14));
                 dbInboxInfo.setRecordedAt(rs.getTimestamp(15));
                 dbInboxInfo.setUpdatedAt(rs.getTimestamp(16));
+                dbInboxInfo.setAllocatedOffice(rs.getString(17));
             }
             return dbInboxInfo;
         }
@@ -145,6 +146,75 @@ public class InboxService implements ServiceInterface<InboxInfo> {
                 dbInboxInfo.setReplied(rs.getString(14));
                 dbInboxInfo.setRecordedAt(rs.getTimestamp(15));
                 dbInboxInfo.setUpdatedAt(rs.getTimestamp(16));
+                dbInboxInfo.setAllocatedOffice(rs.getString(17));
+                inboxInfoList.add(dbInboxInfo);
+            }
+            return inboxInfoList;
+        }
+        return null; //By default if connection to database fails, method will return null    
+    }
+    
+    public List<InboxInfo> getAllByUser(UserInfo user) throws ClassNotFoundException, SQLException {
+        if (DB.getInstance() != null) {
+            Connection con = DB.getConnction();
+            ps = con.prepareStatement(inboxQueryHandler.getFetchAllDataByUser());
+            ps.setString(1, user.getId());
+            rs = ps.executeQuery();
+
+            List<InboxInfo> inboxInfoList = new ArrayList<>();
+            while (rs.next()) {
+                InboxInfo dbInboxInfo = new InboxInfo();
+                dbInboxInfo.setId(rs.getString(1));
+                dbInboxInfo.setType(rs.getString(2));
+                dbInboxInfo.setCategoryId(rs.getInt(3));
+                dbInboxInfo.setCategoryName(rs.getString(4));
+                dbInboxInfo.setSender(rs.getString(5));
+                dbInboxInfo.setContent(rs.getString(6));
+                dbInboxInfo.setCollectorId(rs.getString(7));
+                dbInboxInfo.setCollectorName(rs.getString(8));
+                dbInboxInfo.setCollectorPhotoURL(rs.getString(9));
+                dbInboxInfo.setRecipientId(rs.getString(10));
+                dbInboxInfo.setRecipientName(rs.getString(11));
+                dbInboxInfo.setRecipientPhotoURL(rs.getString(12));
+                dbInboxInfo.setImageURL(rs.getString(13));
+                dbInboxInfo.setReplied(rs.getString(14));
+                dbInboxInfo.setRecordedAt(rs.getTimestamp(15));
+                dbInboxInfo.setUpdatedAt(rs.getTimestamp(16));
+                dbInboxInfo.setAllocatedOffice(rs.getString(17));
+                inboxInfoList.add(dbInboxInfo);
+            }
+            return inboxInfoList;
+        }
+        return null; //By default if connection to database fails, method will return null    
+    }
+    
+    public List<InboxInfo> getAllByOffice(UserInfo user) throws ClassNotFoundException, SQLException {
+        if (DB.getInstance() != null) {
+            Connection con = DB.getConnction();
+            ps = con.prepareStatement(inboxQueryHandler.getFetchAllDataByOffice());
+            ps.setString(1, user.getOffice());
+            rs = ps.executeQuery();
+
+            List<InboxInfo> inboxInfoList = new ArrayList<>();
+            while (rs.next()) {
+                InboxInfo dbInboxInfo = new InboxInfo();
+                dbInboxInfo.setId(rs.getString(1));
+                dbInboxInfo.setType(rs.getString(2));
+                dbInboxInfo.setCategoryId(rs.getInt(3));
+                dbInboxInfo.setCategoryName(rs.getString(4));
+                dbInboxInfo.setSender(rs.getString(5));
+                dbInboxInfo.setContent(rs.getString(6));
+                dbInboxInfo.setCollectorId(rs.getString(7));
+                dbInboxInfo.setCollectorName(rs.getString(8));
+                dbInboxInfo.setCollectorPhotoURL(rs.getString(9));
+                dbInboxInfo.setRecipientId(rs.getString(10));
+                dbInboxInfo.setRecipientName(rs.getString(11));
+                dbInboxInfo.setRecipientPhotoURL(rs.getString(12));
+                dbInboxInfo.setImageURL(rs.getString(13));
+                dbInboxInfo.setReplied(rs.getString(14));
+                dbInboxInfo.setRecordedAt(rs.getTimestamp(15));
+                dbInboxInfo.setUpdatedAt(rs.getTimestamp(16));
+                dbInboxInfo.setAllocatedOffice(rs.getString(17));
                 inboxInfoList.add(dbInboxInfo);
             }
             return inboxInfoList;

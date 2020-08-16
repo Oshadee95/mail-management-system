@@ -18,7 +18,9 @@ public class InboxQueryHandler implements QueryHandlerInterface {
     private final String UPDATE_STATUS_QUERY = "UPDATE `" + TABLE_NAME + "` SET `replied`= ? WHERE `id` = ?";
     private final String DELETE_DATA_QUERY = "DELETE FROM `" + TABLE_NAME + "` WHERE `id`= ?";
     private final String FETCH_DATA_QUERY = "SELECT * FROM `" + VIEW_NAME + "` WHERE `id` = ?";
-    private final String FETCH_ALL_DATA_QUERY = "SELECT * FROM `" + VIEW_NAME + "`";
+    private final String FETCH_ALL_DATA_QUERY = "SELECT * FROM `" + VIEW_NAME + "` ORDER BY `" + VIEW_NAME + "`.`recordedAt` DESC";
+    private final String FETCH_ALL_BY_USER = "SELECT * FROM `" + VIEW_NAME + "` WHERE `recipientId`= ? ORDER BY `" + VIEW_NAME + "`.`recordedAt` DESC";
+    private final String FETCH_ALL_BY_OFFICE = "SELECT * FROM `" + VIEW_NAME + "` WHERE `office`= ? ORDER BY `" + VIEW_NAME + "`.`recordedAt` DESC";
 
     @Override
     public String getAddDataQuery() {
@@ -52,5 +54,13 @@ public class InboxQueryHandler implements QueryHandlerInterface {
     
     public String getUpdateStatusQuery(){
         return UPDATE_STATUS_QUERY;
+    }
+    
+    public String getFetchAllDataByUser(){
+        return FETCH_ALL_BY_USER;
+    }
+    
+    public String getFetchAllDataByOffice(){
+        return FETCH_ALL_BY_OFFICE;
     }
 }

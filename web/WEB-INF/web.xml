@@ -36,6 +36,10 @@
         <servlet-name>RoleServlet</servlet-name>
         <servlet-class>controllers.RoleServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>MyMailServlet</servlet-name>
+        <servlet-class>controllers.MyMailServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>InboxServlet</servlet-name>
         <url-pattern>/Mails/Inbox/100</url-pattern>
@@ -92,13 +96,17 @@
         <url-pattern>/Auth/Roles/104</url-pattern>
         <url-pattern>/Auth/Roles/105</url-pattern>
     </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>MyMailServlet</servlet-name>
+        <url-pattern>/Mails/MyMail/100</url-pattern>
+    </servlet-mapping>
     <session-config>
         <session-timeout>120</session-timeout>
     </session-config>
     <welcome-file-list>
         <welcome-file>Login</welcome-file>
     </welcome-file-list>
-<!--        <error-page>
+    <!--        <error-page>
         <location>/Mails/Inbox</location>
     </error-page>-->
 </web-app>

@@ -14,13 +14,14 @@ import java.sql.Timestamp;
 public class Activity {
     
     private int id;
-    private String userId, action;
+    private String type, userId, action;
     private Timestamp occuredAt;
 
     public Activity (){};
     
-    public Activity(int id, String userId, String action, Timestamp occuredAt) {
+    public Activity(int id, String type, String userId, String action, Timestamp occuredAt) {
         this.id = id;
+        this.type = type;
         this.userId = userId;
         this.action = action;
         this.occuredAt = occuredAt;
@@ -34,6 +35,14 @@ public class Activity {
         this.id = id;
     }
 
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+    
     public String getUserId() {
         return userId;
     }

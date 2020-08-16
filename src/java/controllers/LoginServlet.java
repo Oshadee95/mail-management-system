@@ -11,6 +11,8 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import models.UserInfo;
 
 /**
  *
@@ -30,16 +32,18 @@ public class LoginServlet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet LoginServlet</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet LoginServlet at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
+            
+            try {
+                UserInfo user = new UserInfo();
+                user.setId("a252c306-b586-4d7b-9391-ecf9da6f20f2");
+                user.setDisplayName("Uditha Silva");
+                user.setOffice("Government");
+                user.setRoleId("GOVERNOR");
+                request.getSession().setAttribute("authUser", user);
+                response.sendRedirect(request.getContextPath()+"/Mails/Inbox/100");
+            }catch (Exception e){
+                e.printStackTrace();
+            }
         }
     }
 

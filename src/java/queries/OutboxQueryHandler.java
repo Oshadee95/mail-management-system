@@ -13,11 +13,12 @@ public class OutboxQueryHandler implements QueryHandlerInterface {
 
     private final String TABLE_NAME = "outbox";
     private final String VIEW_NAME = "outboxinfoview";
-    private final String INSERT_DATA_QUERY = "INSERT INTO `" + TABLE_NAME + "`(`mailId`, `senderId`, `content`) VALUES (?, ?, ?)";
-    private final String UPDATE_DATA_QUERY = "UPDATE `" + TABLE_NAME + "` SET `content`= ? WHERE `mailId` = ?";
+    private final String INSERT_DATA_QUERY = "INSERT INTO `" + TABLE_NAME + "`(`mailId`, `senderId`, `replyImageURL`) VALUES (?, ?, ?)";
+    private final String UPDATE_DATA_QUERY = "UPDATE `" + TABLE_NAME + "` SET `senderId`= ? WHERE `mailId` = ?";
     private final String DELETE_DATA_QUERY = "DELETE FROM `" + TABLE_NAME + "` WHERE `mailId`= ?";
     private final String FETCH_DATA_QUERY = "SELECT * FROM `" + VIEW_NAME + "` WHERE mailId = ?";
-    private final String FETCH_ALL_DATA_QUERY = "SELECT * FROM `" + VIEW_NAME + "`";
+    private final String FETCH_ALL_DATA_QUERY = "SELECT * FROM `" + VIEW_NAME + "` ORDER BY `" + VIEW_NAME + "`.`repliedAt` DESC";
+    private final String FETCH_ALL_BY_OFFICE = "SELECT * FROM `" + VIEW_NAME + "` WHERE `office`= ? ORDER BY `" + VIEW_NAME + "`.`repliedAt` DESC";
 
     @Override
     public String getAddDataQuery() {
@@ -47,5 +48,9 @@ public class OutboxQueryHandler implements QueryHandlerInterface {
     @Override
     public String getTableName() {
         return TABLE_NAME;
+    }
+
+    public String getFetchAllDataByOffice() {
+        return FETCH_ALL_BY_OFFICE;
     }
 }

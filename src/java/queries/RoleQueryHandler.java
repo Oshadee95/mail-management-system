@@ -15,7 +15,7 @@ public class RoleQueryHandler implements QueryHandlerInterface {
     private final String INSERT_DATA_QUERY = "INSERT INTO `" + TABLE_NAME + "`(`id`, `weight`) VALUES (?, ?)";
     private final String UPDATE_DATA_QUERY = "UPDATE `" + TABLE_NAME + "` SET `weight`= ? WHERE `id` = ?";
     private final String DELETE_DATA_QUERY = "DELETE FROM `" + TABLE_NAME + "` WHERE `id`= ?";
-    private final String FETCH_ALL_DATA_QUERY = "SELECT * FROM `" + TABLE_NAME + "` WHERE `id` != 'SUPER_ADMIN'";
+    private final String FETCH_ALL_DATA_QUERY = "SELECT * FROM `" + TABLE_NAME + "` WHERE `id` != 'GOVERNOR' AND `id` != 'SYS_ADMIN'";
 
     @Override
     public String getAddDataQuery() {

@@ -17,8 +17,8 @@ public class ActivityInfo extends Activity {
 
     public ActivityInfo() {}
 
-    public ActivityInfo(String userName, String userPhotoURL, int id, String userId, String action, Timestamp occuredAt) {
-        super(id, userId, action, occuredAt);
+    public ActivityInfo(String userName, String userPhotoURL, int id, String type, String userId, String action, Timestamp occuredAt) {
+        super(id, type, userId, action, occuredAt);
         this.userName = userName;
         this.userPhotoURL = userPhotoURL;
     }
@@ -38,6 +38,4 @@ public class ActivityInfo extends Activity {
     public void setUserPhotoURL(String userPhotoURL) {
         this.userPhotoURL = userPhotoURL;
     }
-    
-    
 }

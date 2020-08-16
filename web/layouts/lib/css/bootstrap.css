@@ -2715,8 +2715,8 @@ fieldset[disabled] a.btn {
 
 .btn-secondary:hover {
   color: #292b2c;
-  background-color: #e6e6e6;
-  border-color: #adadad;
+  background-color: #fff;
+  border-color: #ccc;
 }
 
 .btn-secondary:focus, .btn-secondary.focus {
@@ -2888,33 +2888,33 @@ fieldset[disabled] a.btn {
 }
 
 .btn-outline-secondary {
-  color: #ccc;
-  background-image: none;
-  background-color: transparent;
-  border-color: #ccc;
+    color: #6c757d !important; 
+    background-color: transparent; 
+    background-image: none; 
+    border-color: #6c757d !important;
 }
 
 .btn-outline-secondary:hover {
-  color: #fff;
-  background-color: #ccc;
-  border-color: #ccc;
+    color: #fff !important;
+    background-color: #6c757d;
+    border-color: #6c757d;
 }
 
 .btn-outline-secondary:focus, .btn-outline-secondary.focus {
-  -webkit-box-shadow: 0 0 0 2px rgba(204, 204, 204, 0.5);
-          box-shadow: 0 0 0 2px rgba(204, 204, 204, 0.5);
+    -webkit-box-shadow: 0 0 0 0.2rem rgba(108,117,125,.5);
+    box-shadow: 0 0 0 0.2rem rgba(108,117,125,.5);
 }
 
 .btn-outline-secondary.disabled, .btn-outline-secondary:disabled {
-  color: #ccc;
-  background-color: transparent;
+    color: #ccc;
+    background-color: transparent;
 }
 
 .btn-outline-secondary:active, .btn-outline-secondary.active,
 .show > .btn-outline-secondary.dropdown-toggle {
-  color: #fff;
-  background-color: #ccc;
-  border-color: #ccc;
+    color: #fff;
+    background-color: #ccc;
+    border-color: #ccc;
 }
 
 .btn-outline-info {

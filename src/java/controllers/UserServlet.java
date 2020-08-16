@@ -60,10 +60,11 @@ public class UserServlet extends HttpServlet {
                             UserInfo uInfo = new UserInfo();
                             uInfo.setId(request.getParameter("uid"));
                             request.setAttribute("userTemp", new UserService().get(uInfo));
+                            request.setAttribute("userList", new UserService().getAll());
                             request.getRequestDispatcher("/auth/users/displayUserForm.jsp").forward(request, response);
                         } catch (IOException | ClassNotFoundException | SQLException | ServletException e) {
                             request.getSession().setAttribute("notification", new Notification("Error Notification", "Failed to retrieve user. ECODE - 1026.<br>Contact system administrator", "danger"));
-                            response.sendRedirect(request.getContextPath() + "/Mails/Inbox/100");
+                            response.sendRedirect(request.getContextPath() + "/Auth/Users/100");
                         }
                     } else {
                         request.getSession().setAttribute("notification", new Notification("Error Notification", "Unauthorized request. User is not permitted to perform action", "danger"));
@@ -124,7 +125,6 @@ public class UserServlet extends HttpServlet {
                             response.sendRedirect(request.getContextPath() + "/Auth/Users/100");
                         }
                     } catch (Exception e) {
-                        e.printStackTrace();
                         request.getSession().setAttribute("notification", new Notification("Error Notification", "Failed to update user. ECODE - 1030.<br>Contact system administrator", "danger"));
                         response.sendRedirect(request.getContextPath() + "/Auth/Users/100");
                     }

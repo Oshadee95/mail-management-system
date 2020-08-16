@@ -13,15 +13,15 @@ import java.sql.Timestamp;
  */
 public class Outbox {
 
-    private String mailId, senderId, content;
+    private String mailId, senderId, replyImageURL;
     private Timestamp repliedAt, updatedAt;
 
     public Outbox() {};  
 
-    public Outbox(String mailId, String senderId, String content, Timestamp repliedAt, Timestamp updatedAt) {
+    public Outbox(String mailId, String senderId, String replyImageURL, Timestamp repliedAt, Timestamp updatedAt) {
         this.mailId = mailId;
         this.senderId = senderId;
-        this.content = content;
+        this.replyImageURL = replyImageURL;
         this.repliedAt = repliedAt;
         this.updatedAt = updatedAt;
     }
@@ -42,12 +42,12 @@ public class Outbox {
         this.senderId = senderId;
     }
 
-    public String getContent() {
-        return content;
+    public String getReplyImageURL() {
+        return replyImageURL;
     }
 
-    public void setContent(String content) {
-        this.content = content;
+    public void setReplyImageURL(String replyImageURL) {
+        this.replyImageURL = replyImageURL;
     }
 
     public Timestamp getRepliedAt() {
@@ -65,6 +65,4 @@ public class Outbox {
     public void setUpdatedAt(Timestamp updatedAt) {
         this.updatedAt = updatedAt;
     }
-    
-    
 }

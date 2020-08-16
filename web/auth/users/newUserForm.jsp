@@ -84,11 +84,11 @@
                                                 <label class="control-label col-lg-4">Office type <span class="text-danger">*</span></label>
                                                 <div class="col-lg-8">
                                                     <label class="radio-inline">
-                                                        <input type="radio" value="govenment" name="officeType" required>
+                                                        <input type="radio" value="Government" name="officeType" required>
                                                         Govenment
                                                     </label>
                                                     <label class="radio-inline">
-                                                        <input type="radio" value="private" name="officeType" required>
+                                                        <input type="radio" value="Private" name="officeType" required>
                                                         Private
                                                     </label>
                                                 </div>

@@ -31,15 +31,17 @@
                 <div class="container-fluid page-content">
                     <div class="row">
                         <div class="col-md-12 col-sm-12">
+                            <% UserInfo user = (UserInfo) request.getSession().getAttribute("authUser"); %>
                             <div class="card card-inverse">
                                 <div class="card-header">
                                     <div class="elements p-t-30">
+                                        <% if(!(user.getRoleId().equals("G_SECRETARIAT") || user.getRoleId().equals("G_OPERATOR"))) { %>
                                         <ul class="icons-list">
                                             <li><a href="<%=request.getContextPath()%>/Mails/Inbox/102" class="btn btn-link btn-md"><i class="icon-new-tab x3" style="color :#24ab8f!important"></i></a></li>
                                         </ul>
+                                        <% } %>
                                     </div>
                                 </div>
-                                <% UserInfo user = (UserInfo) request.getSession().getAttribute("authUser"); %>
                                 <div class="card-block m-t-40">
                                     <table id="datatable" class="table datatable table-striped table-responsive">
                                         <thead>

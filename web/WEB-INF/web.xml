@@ -58,9 +58,10 @@
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>CategoryServlet</servlet-name>
-        <url-pattern>/Categories</url-pattern>
-        <url-pattern>/Categories/Category/New</url-pattern>
-        <url-pattern>/Categories/Category/Update</url-pattern>
+        <url-pattern>/Mails/Category/100</url-pattern>
+        <url-pattern>/Mails/Category/103</url-pattern>
+        <url-pattern>/Mails/Category/104</url-pattern>
+        <url-pattern>/Mails/Category/105</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>OccupationServlet</servlet-name>

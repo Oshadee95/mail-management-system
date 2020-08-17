@@ -26,7 +26,7 @@
                     <% if (!((authUser.getRoleId().equals("P_OPERATOR")) || (authUser.getRoleId().equals("G_OPERATOR")) || (authUser.getRoleId().equals("SYS_ADMIN")))) { %>
                         <li><a href="<%=request.getContextPath()%>/Mails/MyMail/100"><i class="icon-envelop"></i> <span>My Mail</span></a></li>    
                     <% } %>
-                    <li><a href="<%=request.getContextPath()%>/Mails/Categories/100"><i class="icon-three-bars"></i> <span>Categories</span></a></li>     
+                    <li><a href="<%=request.getContextPath()%>/Mails/Category/100"><i class="icon-three-bars"></i> <span>Categories</span></a></li>     
                     <li><a href="<%=request.getContextPath()%>/Mails/Inbox/100"><i class="icon-envelop"></i> <span>Mails</span></a></li>          
                     <% if (authUser.getRoleId().equals("SYS_ADMIN")) { %>
                         <li><a href="<%=request.getContextPath()%>/Auth/Roles/100"><i class="icon-database-settings"></i> <span>Roles</span></a></li> 

@@ -45,7 +45,7 @@
                             <div class="card card-inverse">
                                 <div class="card-header m-b-20">
                                     <div class="card-title p-t-10">
-                                        mail information
+                                        mail meta information
                                         <img alt="" src="../../resources/avatars/<%=inbox.getCollectorPhotoURL()%>" class="rounded-circle float-right" style="margin-top: 18px; max-height: 50px; height: 50px; width: 50px;">
                                     </div>
                                     <hr>
@@ -138,7 +138,7 @@
                             <div class="card card-inverse">
                                 <div class="card-header m-b-20">
                                     <div class="card-title p-t-10">
-                                        mail update reply form
+                                        mail information
                                         <img alt="" src="../../resources/avatars/<%=inbox.getRecipientPhotoURL()%>" class="rounded-circle float-right" style="margin-top: 18px; max-height: 50px; height: 50px; width: 50px;">
                                     </div>
                                     <hr>

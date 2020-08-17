@@ -67,7 +67,21 @@ public class CategoryService implements ServiceInterface<Category> {
 
     @Override
     public Category get(Category category) throws ClassNotFoundException, SQLException {
-        return null; // Not necesserily required 
+        if (DB.getInstance() != null) {
+            Connection con = DB.getConnction();
+            ps = con.prepareStatement(categoryQueryHandler.getFetchDataQuery());
+            ps.setInt(1, category.getId());
+            rs = ps.executeQuery();
+            
+            Category dbCategory = new Category();
+            while (rs.next()) {
+                dbCategory.setId(rs.getInt(1));
+                dbCategory.setName(rs.getString(2));
+                dbCategory.setDescription(rs.getString(3));
+            }
+            return dbCategory;
+        }
+        return null; //By default if connection to database fails, method will return null
     }
     
     public Category getLastCategory() throws ClassNotFoundException, SQLException {

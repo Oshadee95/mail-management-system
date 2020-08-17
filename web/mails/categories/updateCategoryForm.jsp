@@ -35,19 +35,14 @@
 
                 <div class="container-fluid page-content">
                     <div class="row">
-
-                        <%
-                            if(request.getSession().getAttribute("categoryAction") != null && request.getSession().getAttribute("categoryAction").equals("104")){
-                            Category category = category = (Category) request.getSession().getAttribute("dbCategory");
-                        %>
                         <div class="col-md-4 col-sm-4">
                             <div class="card card-inverse">
                                 <div class="card-header m-b-5">
-                                    <div class="card-title p-t-10"> category update form</div>
+                                    <div class="card-title p-t-10"> category registration form</div>
                                     <hr>
                                 </div>    
-                               
-                                <form class="form-validate m-b-20" method="POST" action="<%=request.getContextPath()%>/Mails/Category/105">
+                                <% Category category = (Category) request.getAttribute("dbCategory"); %>
+                                <form class="form-validate m-b-20" method="POST" action="<%=request.getContextPath()%>/Mails/Category/103">
                                     <div class="card-block">
                                         <fieldset>
                                             <div class="form-group row">
@@ -57,48 +52,11 @@
                                                 </div>
                                             </div>
 
+
                                             <div class="form-group row">
                                                 <label class="control-label col-lg-4">Category name </label>
                                                 <div class="col-lg-8">
-                                                    <input type="text" name="cDesc" class="form-control" value="<%=(category != null) ? category.getDescription() : ""%>">
-                                                </div>
-                                            </div>
-                                        </fieldset>
-                                        <div class="float-right  m-t-40 m-b-20">
-                                            <button type="reset" class="btn btn-md btn-secondary" id="reset"><i class="icon-reload-alt position-left"></i>Reset</button>&nbsp;&nbsp;
-                                            <button type="submit" name="cid" value="<%=category.getId()%>" class="btn btn-md btn-warning"><i class="icon-envelop  position-left"></i> Update</button>
-                                        </div>
-                                    </div>
-                                </form>
-                               
-                            </div>
-                        </div>
-                        <% }  else { %>
-                        <div class="col-md-4 col-sm-4">
-                            <div class="card card-inverse">
-                                <div class="card-header m-b-5">
-                                    <div class="card-title p-t-10"> category registration form</div>
-                                    <hr>
-                                </div>    
-                                <% 
-                                    Category category = null;
-                                    if(request.getSession().getAttribute("dbCategory") != null){
-                                        category = (Category) request.getSession().getAttribute("dbCategory");
-                                    }
-                                %>
-                                <form class="form-validate m-b-20" method="POST" action="<%=request.getContextPath()%>/Mails/Category/103">
-                                    <div class="card-block">
-                                        <fieldset>
-                                            <div class="form-group row">
-                                                <label class="control-label col-lg-4">Category name </label>
-                                                <div class="col-lg-8">
-                                                    <input type="text" name="cName" class="form-control" placeholder="Enter category name" value="<%=(category != null)? category.getName() : "" %>">
-                                                </div>
-                                            </div>
-                                            <div class="form-group row">
-                                                <label class="control-label col-lg-4">Category name </label>
-                                                <div class="col-lg-8">
-                                                    <input type="text" name="cDesc" class="form-control" placeholder="Enter category description" value="<%=(category != null)? category.getDescription(): "" %>">
+                                                    <input type="text" name="cDesc" class="form-control" placeholder="Enter category description">
                                                 </div>
                                             </div>
                                         </fieldset>
@@ -110,8 +68,7 @@
                                 </form>
                             </div>
                         </div>
-                        <% } %>
-                        
+
                         <div class="col-md-8 col-sm-">
                             <div class="card card-inverse">
                                 <div class="card-block">

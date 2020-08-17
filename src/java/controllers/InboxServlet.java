@@ -248,8 +248,8 @@ public class InboxServlet extends HttpServlet {
                 && (request.getParameter("mailType") != null)
                 && (request.getParameter("mailCategory") != null)
                 && (request.getParameter("mailRecipient") != null)
-                && (request.getParameter("mailBrief") != null
-                && (request.getPart("letter") != null))) {
+                && (request.getParameter("mailBrief") != null)
+                && (request.getPart("letter") != null)) {
 
             Part filePart = null;
             if (request.getPart("letter") != null) {
@@ -342,6 +342,7 @@ public class InboxServlet extends HttpServlet {
             inbox.setType(request.getParameter("mailType")); // mail type
             inbox.setRecipientId(request.getParameter("mailRecipient")); // mail recipient
             inbox.setCategoryId(Integer.parseInt(request.getParameter("mailCategory")));
+            inbox.setContent(request.getParameter("mailBrief")); // mail brief
             request.getSession().setAttribute("submittedMail", inbox);
 
             if (request.getParameter("mailRecipient").equals("unselected")) {

@@ -66,7 +66,20 @@ public class OccupationService implements ServiceInterface<Occupation> {
 
     @Override
     public Occupation get(Occupation occupation) throws ClassNotFoundException, SQLException {
-        return null; // Not necesserily required 
+        if (DB.getInstance() != null) {
+            Connection con = DB.getConnction();
+            ps = con.prepareStatement(occupationQueryHandler.getFetchDataQuery());
+            ps.setInt(1, occupation.getId());
+            rs = ps.executeQuery();
+            
+            Occupation dbOccupation = new Occupation();
+            while (rs.next()) {
+                dbOccupation.setId(rs.getInt(1));
+                dbOccupation.setTitle(rs.getString(2));
+            }
+            return dbOccupation;
+        }
+        return null; //By default if connection to database fails, method will return null
     }
 
     @Override

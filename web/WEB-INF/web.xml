@@ -65,9 +65,10 @@
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>OccupationServlet</servlet-name>
-        <url-pattern>/Occupations</url-pattern>
-        <url-pattern>/Occupations/Occupation/New</url-pattern>
-        <url-pattern>/Occupations/Occupation/Update</url-pattern>
+        <url-pattern>/Office/Occupation/100</url-pattern>
+        <url-pattern>/Office/Occupation/103</url-pattern>
+        <url-pattern>/Office/Occupation/104</url-pattern>
+        <url-pattern>/Office/Occupation/105</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>LoginServlet</servlet-name>

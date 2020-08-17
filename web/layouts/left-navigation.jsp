@@ -32,7 +32,7 @@
                         <li><a href="<%=request.getContextPath()%>/Auth/Roles/100"><i class="icon-database-settings"></i> <span>Roles</span></a></li> 
                     <% } %> 
                     <% if ((authUser.getRoleId().equals("GOVERNOR")) || (authUser.getRoleId().equals("P_SECRETARIAT")) || (authUser.getRoleId().equals("SYS_ADMIN"))) { %>
-                        <li><a href="<%=request.getContextPath()%>/Office/Occupations"><i class="icon-briefcase"></i> <span>Occupations</span></a></li>
+                        <li><a href="<%=request.getContextPath()%>/Office/Occupation/100"><i class="icon-briefcase"></i> <span>Occupations</span></a></li>
                        <li><a href="<%=request.getContextPath()%>/Auth/Users/100"><i class="icon-users2"></i> <span>Users</span></a></li>      
                     <% } %>
                     <% if ((authUser.getRoleId().equals("GOVERNOR")) || (authUser.getRoleId().equals("SYS_ADMIN"))) { %>

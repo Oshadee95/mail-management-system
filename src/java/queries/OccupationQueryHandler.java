@@ -14,8 +14,9 @@ public class OccupationQueryHandler implements QueryHandlerInterface {
     private final String TABLE_NAME = "occupations";
     private final String INSERT_DATA_QUERY = "INSERT INTO `" + TABLE_NAME + "`(`title`) VALUES (?)";
     private final String UPDATE_DATA_QUERY = "UPDATE `" + TABLE_NAME + "` SET `title`= ? WHERE `id` = ?";
+    private final String FETCH_DATA_QUERY = "SELECT * FROM `" + TABLE_NAME + "` WHERE `id` = ?";
     private final String DELETE_DATA_QUERY = "DELETE FROM `" + TABLE_NAME + "` WHERE `id`= ?";
-    private final String FETCH_ALL_DATA_QUERY = "SELECT * FROM `" + TABLE_NAME + "`";
+    private final String FETCH_ALL_DATA_QUERY = "SELECT * FROM `" + TABLE_NAME + "` WHERE `title` != 'SYSTEM'";
 
     @Override
     public String getAddDataQuery() {
@@ -34,7 +35,7 @@ public class OccupationQueryHandler implements QueryHandlerInterface {
 
     @Override
     public String getFetchDataQuery() {
-        return null;  // Not necesserily required 
+        return FETCH_DATA_QUERY; 
     }
 
     @Override

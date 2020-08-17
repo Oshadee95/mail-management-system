@@ -11,7 +11,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import models.UserInfo;
 import services.UserService;
 
@@ -19,7 +18,7 @@ import services.UserService;
  *
  * @author RED-HAWK
  */
-public class LoginServlet extends HttpServlet {
+public class LogoutServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -33,36 +32,11 @@ public class LoginServlet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-
+            
             switch (request.getServletPath()) {
-                case "/Login":
-                    request.getRequestDispatcher("/login/index.jsp").forward(request, response);
-                    break;
-                case "/Login/Authenticate":
-
-                    try {
-
-                        if (request.getParameter("username") != null && request.getParameter("password") != null) {
-                            UserService userService = new UserService();
-                            UserInfo user = new UserInfo();
-                            user.setNic(request.getParameter("username"));
-                            user.setPassword(request.getParameter("password"));
-
-                            UserInfo authUser = userService.getUserAuthenticated(user);
-                            if (authUser != null) {
-                                request.getSession().setAttribute("authUser", authUser);
-                                response.sendRedirect(request.getContextPath() + "/Mails/Inbox/100");
-                            } else {
-                                response.sendRedirect(request.getContextPath() + "/Login");
-                            }
-                        } else {
-                            response.sendRedirect(request.getContextPath() + "/Login");
-                        }
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                        response.sendRedirect(request.getContextPath() + "/Login");
-                    }
-
+                case "/Logout":
+                    request.getSession().invalidate();
+                    response.sendRedirect(request.getContextPath()+"/Login");
                     break;
             }
         }

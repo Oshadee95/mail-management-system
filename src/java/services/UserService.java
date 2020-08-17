@@ -14,6 +14,7 @@ import java.util.List;
 import models.UserInfo;
 import queries.UserQueryHandler;
 import servers.DB;
+import utils.Crypto;
 
 /**
  *
@@ -163,6 +164,32 @@ public class UserService implements ServiceInterface<UserInfo> {
                 userInfoList.add(dbUserInfo);
             }
             return userInfoList;
+        }
+        return null; //By default if connection to database fails, method will return null
+    }
+    
+    public UserInfo getUserAuthenticated(UserInfo user) throws ClassNotFoundException, SQLException, Exception {
+        if (DB.getInstance() != null) {
+            Connection con = DB.getConnction();
+            ps = con.prepareStatement(userQueryHandler.getUserAvailability());
+            ps.setString(1, user.getNic());
+            ps.setString(2, Crypto.generateSecurePassword(user.getPassword()));
+            rs = ps.executeQuery();
+            
+            int userAvailability = 0;
+            String uid = null;
+            while (rs.next()) {
+                userAvailability = rs.getInt(1);
+                uid = rs.getString(2);
+            }
+            
+            if(userAvailability != 0){
+                UserInfo u = new UserInfo();
+                u.setId(uid);
+                return get(u);
+            } else {
+                return null;
+            }
         }
         return null; //By default if connection to database fails, method will return null
     }

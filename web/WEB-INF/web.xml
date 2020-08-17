@@ -40,6 +40,10 @@
         <servlet-name>MyMailServlet</servlet-name>
         <servlet-class>controllers.MyMailServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>LogoutServlet</servlet-name>
+        <servlet-class>controllers.LogoutServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>InboxServlet</servlet-name>
         <url-pattern>/Mails/Inbox/100</url-pattern>
@@ -73,6 +77,7 @@
     <servlet-mapping>
         <servlet-name>LoginServlet</servlet-name>
         <url-pattern>/Login</url-pattern>
+        <url-pattern>/Login/Authenticate</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>UserServlet</servlet-name>
@@ -99,6 +104,10 @@
     <servlet-mapping>
         <servlet-name>MyMailServlet</servlet-name>
         <url-pattern>/Mails/MyMail/100</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>LogoutServlet</servlet-name>
+        <url-pattern>/Logout</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>120</session-timeout>

@@ -32,8 +32,11 @@
                 <div class="container-fluid page-content">
                     <div class="row">
                         <%                            
-                            InboxInfo inbox = (InboxInfo) request.getSession().getAttribute("selectedInbox");
-                            OutboxInfo outbox = (OutboxInfo) request.getSession().getAttribute("selectedOutbox");
+                            InboxInfo inbox = (InboxInfo) request.getAttribute("selectedInbox");
+                            OutboxInfo outbox = null;
+                            if(request.getAttribute("selectedOutbox") != null){
+                                outbox = (OutboxInfo) request.getAttribute("selectedOutbox");
+                            }
                             Date date = new Date();
                             SimpleDateFormat dFomatter = new SimpleDateFormat("MM/dd/yyyy");
                             SimpleDateFormat tFomatter = new SimpleDateFormat("HH:mm:ss");
@@ -102,7 +105,7 @@
                                             </div>
                                         </div>
 
-                                        <% if (inbox.getReplied().equals("true")){ %>
+                                        <% if ((inbox.getReplied().equals("true")) && (request.getAttribute("selectedOutbox") != null)){ %>
                                         <hr>
 
                                         <div class="form-group row m-t-40">
@@ -183,14 +186,14 @@
                         <div class="col-md-2 col-sm-2">
                             <div class="row">
                                 <div class="col-lg-12">
-                                    <a class="example-image-link" href="../../resources/mails/<%=inbox.getImageURL()%>" data-lightbox="example-2" data-title="INBOX ID <%=inbox.getId()%>">
+                                    <a class="example-image-link" href="../../resources/mails/<%=inbox.getImageURL()%>" data-lightbox="example-2" data-title="MAIL ID <%=inbox.getId()%>">
                                         <img class="img-fluid example-image" src="../../resources/mails/<%=inbox.getImageURL()%>" alt="<%=inbox.getImageURL()%>">
                                     </a>
                                     <a href="../../resources/mails/<%=inbox.getImageURL()%>" download="<%=inbox.getId()%>-I" class="btn btn-sm float-right p-t-5" style="color : #fff; border-color: #0275d8; border-radius: 0; margin-top: -34px; background-color: #0275d8; font-size: 14px">INBOX &nbsp;&nbsp;<i style="color : #fff" class="icon-download4"></i></a>
                                 </div>
-                                <% if (inbox.getReplied().equals("true")){ %>
+                                <% if ((inbox.getReplied().equals("true")) && (request.getAttribute("selectedOutbox") != null)){ %>
                                 <div class="col-lg-12 m-t-10">
-                                    <a class="example-image-link" href="../../resources/mails/<%=outbox.getReplyImageURL()%>" data-lightbox="example-2" data-title="REPLY - INBOX ID <%=inbox.getId()%>">
+                                    <a class="example-image-link" href="../../resources/mails/<%=outbox.getReplyImageURL()%>" data-lightbox="example-2" data-title="REPLY - MAIL ID <%=inbox.getId()%>">
                                         <img class="img-fluid example-image" src="../../resources/mails/<%=outbox.getReplyImageURL()%>" alt="<%=outbox.getReplyImageURL()%>">
                                     </a>
                                     <a href="../../resources/mails/<%=outbox.getReplyImageURL()%>" download="<%=inbox.getId()%>-O" class="btn btn-sm float-right p-t-5" style="color : #fff; border-color: #0275d8; border-radius: 0; margin-top: -34px; background-color: #0275d8; font-size: 14px">SENT &nbsp;&nbsp;<i style="color : #fff" class="icon-download4"></i></a>

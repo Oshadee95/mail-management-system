@@ -43,7 +43,6 @@
     <servlet-mapping>
         <servlet-name>InboxServlet</servlet-name>
         <url-pattern>/Mails/Inbox/100</url-pattern>
-        <url-pattern>/Mails/Inbox/101</url-pattern>
         <url-pattern>/Mails/Inbox/102</url-pattern>
         <url-pattern>/Mails/Inbox/103</url-pattern>
         <url-pattern>/Mails/Inbox/104</url-pattern>
@@ -51,7 +50,6 @@
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>OutboxServlet</servlet-name>
-        <url-pattern>/Mails/Outbox/100</url-pattern>
         <url-pattern>/Mails/Outbox/101</url-pattern>
         <url-pattern>/Mails/Outbox/102</url-pattern>
         <url-pattern>/Mails/Outbox/103</url-pattern>

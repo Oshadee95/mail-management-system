@@ -58,13 +58,14 @@ public class OutboxServlet extends HttpServlet {
                             try {
                                 InboxInfo inbox = new InboxInfo();
                                 inbox.setId(request.getParameter("mid"));
-                                request.getSession().setAttribute("selectedInbox", new InboxService().get(inbox));
-
+                                request.setAttribute("selectedInbox", new InboxService().get(inbox));
                                 OutboxInfo outbox = new OutboxInfo();
                                 outbox.setMailId(inbox.getId());
+                                request.setAttribute("selectedOutbox", new OutboxService().get(outbox));
 //                                request.getSession().setAttribute("previousRoute", request.getContextPath() + "/Mails/Outbox/101");
                                 request.getRequestDispatcher("/mails/outbox/displayOutboxForm.jsp").forward(request, response);
                             } catch (Exception e) {
+                                e.printStackTrace();
                                 try {
                                     activity.setUserId(authUser.getId());
                                     activity.setType("OS-ERROR");
@@ -129,7 +130,7 @@ public class OutboxServlet extends HttpServlet {
                             try {
                                 request.setCharacterEncoding("UTF-8"); // to read sinhala characters
                                 replyMail(request, authUser, activityService, activity);
-                                response.sendRedirect(previousRoute);
+                                response.sendRedirect(getInboxRoute(request, authUser));
                             } catch (Exception e) {
                                 try {
                                     activity.setUserId(authUser.getId());
@@ -174,6 +175,7 @@ public class OutboxServlet extends HttpServlet {
                                 request.getSession().setAttribute("previousRoute", request.getContextPath() + "/Mails/Outbox/104");
                                 request.getRequestDispatcher("/mails/outbox/updateOutboxForm.jsp").forward(request, response);
                             } catch (Exception e) {
+                                e.printStackTrace();
                                 try {
                                     activity.setUserId(authUser.getId());
                                     activity.setType("OS-ERROR");
@@ -203,7 +205,7 @@ public class OutboxServlet extends HttpServlet {
                             try {
                                 request.setCharacterEncoding("UTF-8"); // to read sinhala characters
                                 updateReplyMail(request, authUser, activityService, activity);
-                                response.sendRedirect(previousRoute);
+                                response.sendRedirect(getInboxRoute(request, authUser));
                             } catch (Exception e) {
                                 try {
                                     activity.setUserId(authUser.getId());

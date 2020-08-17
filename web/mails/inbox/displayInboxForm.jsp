@@ -37,7 +37,7 @@
                                     <div class="card-title text-center">Mail Details</div>
                                     <hr>
                                 </div>
-                                <% InboxInfo inbox = (InboxInfo) request.getAttribute("inboxTemp");%>
+                                <% InboxInfo inbox = (InboxInfo) request.getAttribute("selectedInbox");%>
                                 <div class="card-block">
 
                                     <div class="form-group row">

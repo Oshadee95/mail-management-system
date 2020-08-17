@@ -79,7 +79,7 @@
                                                                     <button type="submit" name="mid" value="<%=inbox.getId()%>" class="float-left btn btn-link dropdown-item"><i class="icon-reply-all2"></i>&nbsp;&nbsp;&nbsp; Reply &nbsp;</button>
                                                                 </form>
                                                                 <% } else {%>
-                                                                <form  method="POST" action="<%=request.getContextPath()%>/Mails/Outbox/104" class="">
+                                                                <form  method="POST" action="<%=request.getContextPath()%>/Mails/Outbox/104">
                                                                     <button type="submit" name="mid" value="<%=inbox.getId()%>" class="float-left btn btn-link dropdown-item"><i class="icon-reply-all2"></i>&nbsp;&nbsp;&nbsp; Update </button>
                                                                 </form>
                                                                 <% } %>

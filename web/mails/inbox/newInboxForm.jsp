@@ -4,6 +4,9 @@
     Author     : RED-HAWK
 --%>
 
+<%@page import="models.InboxInfo"%>
+<%@page import="java.util.Date"%>
+<%@page import="java.text.SimpleDateFormat"%>
 <%@page import="models.User"%>
 <%@page import="models.UserInfo"%>
 <%@page import="models.Category"%>
@@ -37,7 +40,15 @@
                                 <div class="card-header">
                                     <div class="card-title">Advanced inputs</div>
                                 </div>
-                                <% UserInfo user = (UserInfo) request.getSession().getAttribute("authUser"); %>
+                                <% 
+                                    UserInfo user = (UserInfo) request.getSession().getAttribute("authUser"); 
+                                    InboxInfo inbox = null;
+                                    if(request.getSession().getAttribute("submittedMail") != null){
+                                        inbox = (InboxInfo)request.getSession().getAttribute("submittedMail");
+                                    }
+                                    Date date = new Date();
+                                    SimpleDateFormat dFomatter = new SimpleDateFormat("MM/dd/yyyy");
+                                %>
                                 <form class="form-validate" method="POST" action="<%=request.getContextPath()%>/Mails/Inbox/103" enctype="multipart/form-data">
                                     <div class="card-block">
                                         <fieldset>
@@ -60,7 +71,7 @@
                                             <div class="form-group row">
                                                 <label class="control-label col-lg-4">Sender's name <span class="text-danger">*</span></label>
                                                 <div class="col-lg-8">
-                                                    <input style="background-color: white" type="text" name="senderName" class="form-control" required placeholder="Enter sender's name" aria-required="true">
+                                                    <input style="background-color: white" type="text" name="senderName" class="form-control" required placeholder="Enter sender's name" aria-required="true" value="<%=(inbox != null) ? inbox.getSender() : ""%>">
                                                 </div>
                                             </div>
 
@@ -68,11 +79,11 @@
                                                 <label class="control-label col-lg-4">Letter type <span class="text-danger">*</span></label>
                                                 <div class="col-lg-8">
                                                     <label class="radio-inline">
-                                                        <input type="radio" value="registered" name="mailType" required>
+                                                        <input type="radio" value="registered" name="mailType" required <%=((inbox != null) && (inbox.getType().equals("registered"))) ? "checked" : ""%>>
                                                         Registered
                                                     </label>
                                                     <label class="radio-inline">
-                                                        <input type="radio" value="non-registered" name="mailType" required>
+                                                        <input type="radio" value="non-registered" name="mailType" required <%=((inbox != null) && (inbox.getType().equals("non-registered"))) ? "checked" : ""%>>
                                                         Non-registered
                                                     </label>
                                                 </div>
@@ -88,7 +99,7 @@
                                                             List<Category> catFormList = (List<Category>) request.getAttribute("categoryList");
                                                             for (Category c : catFormList) {
                                                         %>
-                                                        <option value="<%=c.getId()%>"><%=c.getName()%></option>
+                                                        <option <%=((inbox != null) && (inbox.getCategoryId()== c.getId())) ? "selected" : ""%> value="<%=c.getId()%>"><%=c.getName()%></option>
                                                         <% }; %>
                                                     </select>
                                                 </div>
@@ -116,7 +127,7 @@
                                                                 for (User u : uPFormList) {
                                                                     if (u.getOffice().equals("Private")) {
                                                             %>
-                                                            <option value="<%=u.getId()%>"><%=u.getDisplayName()%></option>
+                                                            <option <%=((inbox != null) && (inbox.getRecipientId() == u.getId())) ? "selected" : ""%> value="<%=u.getId()%>"><%=u.getDisplayName()%></option>
                                                             <% } } %>
                                                         </optgroup>
                                                         <optgroup label="Government">
@@ -125,7 +136,7 @@
                                                                 for (User u : uGFormList) {
                                                                      if(u.getOffice().equals("Government")){
                                                             %>
-                                                            <option value="<%=u.getId()%>"><%=u.getDisplayName()%></option>
+                                                            <option <%=((inbox != null) && (inbox.getRecipientId() == u.getId())) ? "selected" : ""%> value="<%=u.getId()%>"><%=u.getDisplayName()%></option>
                                                             <% } } %>
                                                         </optgroup>
                                                     </select>
@@ -143,7 +154,7 @@
                                             <div class="form-group row">
                                                 <label class="control-label col-lg-4">Letter brief <span class="text-danger">*</span></label>
                                                 <div class="col-lg-8">
-                                                    <textarea style="background-color: white" rows="4" cols="5" name="mailBrief" class="form-control" required="required" placeholder="Enter brief of the letter content" aria-required="true"></textarea>
+                                                    <textarea style="background-color: white" rows="4" cols="5" name="mailBrief" class="form-control" required="required" placeholder="Enter brief of the letter content" aria-required="true"><%=(inbox != null) ? inbox.getContent(): ""%></textarea>
                                                 </div>
                                             </div>
 
@@ -155,18 +166,18 @@
                                             </div>
 
                                             <div class="form-group row">
-                                                <label class="control-label col-lg-4">Submitted At </label>
+                                                <label class="control-label col-lg-4">Submitted On </label>
                                                 <div class="col-lg-8">
-                                                    <span id="submittedAt"></span>
+                                                    <input type="text" class="form-control" readonly value="<%=dFomatter.format(date)%>">
                                                 </div>
                                             </div> 
 
                                         </fieldset>
 
-                                        <div class="float-right  m-t-50 m-b-20">
-                                            <button type="reset" class="btn btn-lg btn-secondary" id="reset"><i class="icon-reload-alt position-left"></i>Reset</button>&nbsp;
-                                            <button type="submit" name="nMFrom" class="btn btn-lg btn-success"><i class="icon-arrow-right14"></i>Submit</button>
-                                        </div>
+                                        <div class="float-right  m-t-40 m-b-20">
+                                                <button type="reset" class="btn btn-md btn-secondary" id="reset"><i class="icon-reload-alt position-left"></i>Reset</button>&nbsp;&nbsp;
+                                                <button type="submit" name="nMFrom" class="btn btn-md btn-primary"><i class="icon-envelop  position-left"></i> register</button>
+                                            </div>
                                     </div>
                                 </form>
                             </div>
@@ -234,18 +245,15 @@
         <script src="../../layouts/lib/js/plugins/tables/datatables/datatables.min.js"></script>
         <script src="../../layouts/lib/js/pages/tables/datatable_basic.js"></script>
         <script>
-            var currentDate = new Date();
-            $('#submittedAt').text(currentDate.getDate() + "-" + (currentDate.getMonth() + 1) + "-" + currentDate.getFullYear() + " | " + currentDate.getHours() + ":" + currentDate.getMinutes() + ":" + currentDate.getSeconds())
-
-            $("#addCategory").click(function () {
-                $("#newCategoryDiv").toggle();
-                var className = $("#newCategoryIcon").attr('class');
-                if (className === 'icon-plus-circle2') {
-                    $("#newCategoryIcon").attr('class', 'icon-minus-circle2')
-                } else {
-                    $("#newCategoryIcon").attr('class', 'icon-plus-circle2')
-                }
-            });
+        $("#addCategory").click(function () {
+            $("#newCategoryDiv").toggle();
+            var className = $("#newCategoryIcon").attr('class');
+            if (className === 'icon-plus-circle2') {
+                $("#newCategoryIcon").attr('class', 'icon-minus-circle2')
+            } else {
+                $("#newCategoryIcon").attr('class', 'icon-plus-circle2')
+            }
+        });
         </script>
     </body>
 </html>

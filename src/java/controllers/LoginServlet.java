@@ -5,14 +5,22 @@
  */
 package controllers;
 
+import configurations.MessageConfig;
+import configurations.Route;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.SQLException;
+import java.time.Instant;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
+import models.ActivityInfo;
 import models.UserInfo;
+import services.ActivityService;
 import services.UserService;
 
 /**
@@ -34,38 +42,52 @@ public class LoginServlet extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
 
-            switch (request.getServletPath()) {
-                case "/Login":
-                    request.getRequestDispatcher("/login/index.jsp").forward(request, response);
-                    break;
-                case "/Login/Authenticate":
+            request.setCharacterEncoding("UTF-8");
+            if (request.getSession().getAttribute("authUser") == null) {
 
-                    try {
+                switch (request.getServletPath()) {
+                    case "/Login":
+                        request.getRequestDispatcher("/login/index.jsp").forward(request, response);
+                        break;
+                    case "/Login/Authenticate":
+                        try {
+                            if (request.getParameter("username") != null && request.getParameter("password") != null) {
+                                UserService userService = new UserService();
+                                UserInfo user = new UserInfo();
+                                user.setNic(request.getParameter("username"));
+                                user.setPassword(request.getParameter("password"));
 
-                        if (request.getParameter("username") != null && request.getParameter("password") != null) {
-                            UserService userService = new UserService();
-                            UserInfo user = new UserInfo();
-                            user.setNic(request.getParameter("username"));
-                            user.setPassword(request.getParameter("password"));
-
-                            UserInfo authUser = userService.getUserAuthenticated(user);
-                            if (authUser != null) {
-                                request.getSession().setAttribute("authUser", authUser);
-                                response.sendRedirect(request.getContextPath() + "/Mails/Inbox/100");
+                                UserInfo authUser = userService.getUserAuthenticated(user);
+                                if (authUser != null) {
+                                    request.getSession().setAttribute("authUser", authUser);
+                                    Instant nowUtc = Instant.now();
+                                    ZoneId sriLankanStandardTime = ZoneId.of("Asia/Kolkata");
+                                    ZonedDateTime sriLankantp = ZonedDateTime.ofInstant(nowUtc, sriLankanStandardTime);
+                                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy | HH:mm:ss");
+                                    recordActivity(MessageConfig.LOGIN_OPERATION_SUCCESSFUL, authUser.getDisplayName() + " logged into the system at " + formatter.format(sriLankantp), authUser, new ActivityService(), new ActivityInfo());
+                                    response.sendRedirect(request.getContextPath() + Route.DISPLAY_DASHBOARD_ROUTE);
+                                } else {
+                                    response.sendRedirect(request.getContextPath() + Route.LOGIN_ROUTE);
+                                }
                             } else {
-                                response.sendRedirect(request.getContextPath() + "/Login");
+                                response.sendRedirect(request.getContextPath() + Route.LOGIN_ROUTE);
                             }
-                        } else {
-                            response.sendRedirect(request.getContextPath() + "/Login");
+                        } catch (Exception e) {
+                            response.sendRedirect(request.getContextPath() + Route.LOGIN_ROUTE);
                         }
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                        response.sendRedirect(request.getContextPath() + "/Login");
-                    }
-
-                    break;
+                        break;
+                }
+            } else {
+                response.sendRedirect(request.getContextPath() + Route.DISPLAY_DASHBOARD_ROUTE);
             }
         }
+    }
+
+    private void recordActivity(String type, String operation, UserInfo user, ActivityService activityService, ActivityInfo activity) throws ClassNotFoundException, SQLException {
+        activity.setUserId(user.getId());
+        activity.setType(type);
+        activity.setAction(operation);
+        activityService.add(activity);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

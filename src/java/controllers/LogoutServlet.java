@@ -5,14 +5,22 @@
  */
 package controllers;
 
+import configurations.MessageConfig;
+import configurations.Route;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.SQLException;
+import java.time.Instant;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import models.ActivityInfo;
 import models.UserInfo;
-import services.UserService;
+import services.ActivityService;
 
 /**
  *
@@ -32,14 +40,40 @@ public class LogoutServlet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            
-            switch (request.getServletPath()) {
-                case "/Logout":
-                    request.getSession().invalidate();
-                    response.sendRedirect(request.getContextPath()+"/Login");
-                    break;
+
+            request.setCharacterEncoding("UTF-8");
+            if (request.getSession().getAttribute("authUser") != null) {
+
+                switch (request.getServletPath()) {
+                    case "/Logout":
+                        try {
+                            UserInfo authUser = (UserInfo) request.getSession().getAttribute("authUser");
+                            Instant nowUtc = Instant.now();
+                            ZoneId sriLankanStandardTime = ZoneId.of("Asia/Kolkata");
+                            ZonedDateTime sriLankantp = ZonedDateTime.ofInstant(nowUtc, sriLankanStandardTime);
+                            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy | HH:mm:ss");
+                            recordActivity(MessageConfig.LOGOUT_OPERATION_SUCCESSFUL, authUser.getDisplayName() + " logged out of the system at " + formatter.format(sriLankantp), authUser, new ActivityService(), new ActivityInfo());
+                            response.sendRedirect(request.getContextPath() + Route.DISPLAY_DASHBOARD_ROUTE);
+                            request.getSession().invalidate();
+                            response.sendRedirect(request.getContextPath() + Route.LOGIN_ROUTE);
+                        } catch (Exception e) {
+                            request.getSession().invalidate();
+                             response.sendRedirect(request.getContextPath() + Route.LOGIN_ROUTE);
+                        }
+                        break;
+                }
+            } else {
+                response.sendRedirect(request.getContextPath() + Route.LOGIN_ROUTE);
             }
+
         }
+    }
+
+    private void recordActivity(String type, String operation, UserInfo user, ActivityService activityService, ActivityInfo activity) throws ClassNotFoundException, SQLException {
+        activity.setUserId(user.getId());
+        activity.setType(type);
+        activity.setAction(operation);
+        activityService.add(activity);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

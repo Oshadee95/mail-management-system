@@ -151,4 +151,11 @@ public class MessageConfig {
     public static final String OUTBOX_ERROR_2033_LOCAL = OUTBOX_UPDATE_ERROR_LOCAL + "Contact system administrator. ECODE - 2023";
     public static final String OUTBOX_ERROR_2034 = "ECODE : 2034 | Updated reply mail but failed to update inbox reply status due to sql error";
     public static final String OUTBOX_ERROR_2034_LOCAL = OUTBOX_UPDATE_ERROR_LOCAL + "Contact system administrator. ECODE - 2034";
+    
+    
+    // Login and logout messages
+    public static final String LOGIN_OPERATION_SUCCESSFUL = "LI-OP | SUCCESS";
+    public static final String LOGIN_OPERATION_FAILED = "LI-OP | FAILED";
+    public static final String LOGOUT_OPERATION_SUCCESSFUL = "LO-OP | SUCCESS";
+    public static final String LOGOUT_OPERATION_FAILED = "LO-OP | FAILED";
 }

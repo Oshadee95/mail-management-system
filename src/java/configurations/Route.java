@@ -37,5 +37,11 @@ public class Route {
     public static final String REGISTER_CATEGORY_ROUTE = "/Mails/Category/103";
     public static final String DISPLAY_CATEGORY_UPDATE_FORM_ROUTE = "/Mails/Category/104";
     public static final String UPDATE_CATEGORY_ROUTE = "/Mails/Category/105";
+    
+    // Occupation route
+    public static final String DISPLAY_OCCUPATIONS_ROUTE = "/Office/Occupation/100";
+    
+    // Users route
+    public static final String DISPLAY_USERS_ROUTE = "/Auth/Users/100";
 
 }

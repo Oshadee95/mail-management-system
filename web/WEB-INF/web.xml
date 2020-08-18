@@ -33,10 +33,6 @@
         <servlet-class>controllers.ActivityServlet</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>RoleServlet</servlet-name>
-        <servlet-class>controllers.RoleServlet</servlet-class>
-    </servlet>
-    <servlet>
         <servlet-name>MyMailServlet</servlet-name>
         <servlet-class>controllers.MyMailServlet</servlet-class>
     </servlet>
@@ -97,15 +93,6 @@
         <url-pattern>/Auth/Activities/100</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>RoleServlet</servlet-name>
-        <url-pattern>/Auth/Roles/100</url-pattern>
-        <url-pattern>/Auth/Roles/101</url-pattern>
-        <url-pattern>/Auth/Roles/102</url-pattern>
-        <url-pattern>/Auth/Roles/103</url-pattern>
-        <url-pattern>/Auth/Roles/104</url-pattern>
-        <url-pattern>/Auth/Roles/105</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
         <servlet-name>MyMailServlet</servlet-name>
         <url-pattern>/Mails/MyMail/100</url-pattern>
     </servlet-mapping>
@@ -115,7 +102,7 @@
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>DashboardServlet</servlet-name>
-        <url-pattern>/Dashboard/Home</url-pattern>
+        <url-pattern>/Dashboard/Home/100</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>120</session-timeout>

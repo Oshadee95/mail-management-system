@@ -37,9 +37,7 @@
                             if(request.getAttribute("selectedOutbox") != null){
                                 outbox = (OutboxInfo) request.getAttribute("selectedOutbox");
                             }
-                            Date date = new Date();
                             SimpleDateFormat dFomatter = new SimpleDateFormat("MM/dd/yyyy");
-                            SimpleDateFormat tFomatter = new SimpleDateFormat("HH:mm:ss");
                         %>
                         <div class="col-md-5 col-sm-5">
                             <div class="card card-inverse">
@@ -186,17 +184,17 @@
                         <div class="col-md-2 col-sm-2">
                             <div class="row">
                                 <div class="col-lg-12">
-                                    <a class="example-image-link" href="../../resources/mails/<%=inbox.getImageURL()%>" data-lightbox="example-2" data-title="MAIL ID <%=inbox.getId()%>">
-                                        <img class="img-fluid example-image" src="../../resources/mails/<%=inbox.getImageURL()%>" alt="<%=inbox.getImageURL()%>">
+                                    <a class="example-image-link" href="../../resources/mails/inbox/<%=inbox.getImageURL()%>" data-lightbox="example-2" data-title="MAIL ID <%=inbox.getId()%>">
+                                        <img class="img-fluid example-image" src="../../resources/mails/inbox/<%=inbox.getImageURL()%>" alt="<%=inbox.getImageURL()%>">
                                     </a>
-                                    <a href="../../resources/mails/<%=inbox.getImageURL()%>" download="<%=inbox.getId()%>-I" class="btn btn-sm float-right p-t-5" style="color : #fff; border-color: #0275d8; border-radius: 0; margin-top: -34px; background-color: #0275d8; font-size: 14px">INBOX &nbsp;&nbsp;<i style="color : #fff" class="icon-download4"></i></a>
+                                    <a href="../../resources/mails/inbox/<%=inbox.getImageURL()%>" download="<%=inbox.getId()%>-I" class="btn btn-sm float-right p-t-5" style="color : #fff; border-color: #0275d8; border-radius: 0; margin-top: -34px; background-color: #0275d8; font-size: 14px">INBOX &nbsp;&nbsp;<i style="color : #fff" class="icon-download4"></i></a>
                                 </div>
                                 <% if ((inbox.getReplied().equals("true")) && (request.getAttribute("selectedOutbox") != null)){ %>
                                 <div class="col-lg-12 m-t-10">
-                                    <a class="example-image-link" href="../../resources/mails/<%=outbox.getReplyImageURL()%>" data-lightbox="example-2" data-title="REPLY - MAIL ID <%=inbox.getId()%>">
-                                        <img class="img-fluid example-image" src="../../resources/mails/<%=outbox.getReplyImageURL()%>" alt="<%=outbox.getReplyImageURL()%>">
+                                    <a class="example-image-link" href="../../resources/mails/outbox/<%=outbox.getReplyImageURL()%>" data-lightbox="example-2" data-title="REPLY - MAIL ID <%=inbox.getId()%>">
+                                        <img class="img-fluid example-image" src="../../resources/mails/outbox/<%=outbox.getReplyImageURL()%>" alt="<%=outbox.getReplyImageURL()%>">
                                     </a>
-                                    <a href="../../resources/mails/<%=outbox.getReplyImageURL()%>" download="<%=inbox.getId()%>-O" class="btn btn-sm float-right p-t-5" style="color : #fff; border-color: #0275d8; border-radius: 0; margin-top: -34px; background-color: #0275d8; font-size: 14px">SENT &nbsp;&nbsp;<i style="color : #fff" class="icon-download4"></i></a>
+                                    <a href="../../resources/mails/outbox/<%=outbox.getReplyImageURL()%>" download="<%=inbox.getId()%>-O" class="btn btn-sm float-right p-t-5" style="color : #fff; border-color: #0275d8; border-radius: 0; margin-top: -34px; background-color: #0275d8; font-size: 14px">SENT &nbsp;&nbsp;<i style="color : #fff" class="icon-download4"></i></a>
                                 </div>
                                 <% } %>
                             </div>

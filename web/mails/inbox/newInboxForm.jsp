@@ -83,7 +83,9 @@
                                                                 for (User u : uPFormList) {
                                                                     if (u.getOffice().equals("Private")) {
                                                             %>
-                                                            <option <%=((inbox != null) && (inbox.getRecipientId() == u.getId())) ? "selected" : ""%> value="<%=u.getId()%>"><%=u.getDisplayName()%></option>
+                                                                <% if(!(u.getId().equals(user.getId()))) { %>
+                                                                    <option <%=((inbox != null) && (inbox.getRecipientId() == u.getId())) ? "selected" : ""%> value="<%=u.getId()%>"><%=u.getDisplayName()%></option>
+                                                                <% } %>
                                                             <% } } %>
                                                         </optgroup>
                                                         <optgroup label="Government">
@@ -92,7 +94,9 @@
                                                                 for (User u : uGFormList) {
                                                                      if(u.getOffice().equals("Government")){
                                                             %>
-                                                            <option <%=((inbox != null) && (inbox.getRecipientId() == u.getId())) ? "selected" : ""%> value="<%=u.getId()%>"><%=u.getDisplayName()%></option>
+                                                                <% if(!(u.getId().equals(user.getId()))) { %>
+                                                                    <option <%=((inbox != null) && (inbox.getRecipientId() == u.getId())) ? "selected" : ""%> value="<%=u.getId()%>"><%=u.getDisplayName()%></option>
+                                                                <% } %>
                                                             <% } } %>
                                                         </optgroup>
                                                     </select>

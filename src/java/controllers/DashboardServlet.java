@@ -41,6 +41,7 @@ public class DashboardServlet extends HttpServlet {
 
             if (request.getSession().getAttribute("authUser") != null) {
                 UserInfo authUser = (UserInfo) request.getSession().getAttribute("authUser");
+                request.setCharacterEncoding("UTF-8"); // to read sinhala characters
 
                 switch (request.getServletPath()) {
                     case Route.DISPLAY_DASHBOARD_ROUTE:
@@ -60,7 +61,7 @@ public class DashboardServlet extends HttpServlet {
         if (!((user.getRoleId().equals("P_OPERATOR")) || (user.getRoleId().equals("G_OPERATOR")) || (user.getRoleId().equals("SYS_ADMIN")))) {
             response.sendRedirect(request.getContextPath() + Route.DISPLAY_MYMAIL_ROUTE);
         } else {
-            response.sendRedirect(request.getContextPath() + Route.DISPLAY_INBOX_FORM_ROUTE);
+            response.sendRedirect(request.getContextPath() + Route.DISPLAY_DASHBOARD_ROUTE);
         }
     }
 

@@ -37,6 +37,7 @@
                         <div class="col-md-6 col-sm-6">
                             <div class="card card-inverse">
                                 <%
+                                    UserInfo user = (UserInfo) request.getSession().getAttribute("authUser"); 
                                     InboxInfo inbox = (InboxInfo) request.getSession().getAttribute("selectedInbox");
                                     Date date = new Date();
                                     SimpleDateFormat dFomatter = new SimpleDateFormat("MM/dd/yyyy");
@@ -85,9 +86,10 @@
                                                                for (User u : uPFormList) {
                                                                    if (u.getOffice().equals("Private")) {
                                                            %>
-                                                           <option <%=(inbox.getRecipientId().equals(u.getId())) ? "selected" : ""%> value="<%=u.getId()%>"><%=u.getDisplayName()%></option>
-                                                           <% }
-                                                           } %>
+                                                                <% if(!(u.getId().equals(user.getId()))) { %>
+                                                                    <option <%=(inbox.getRecipientId().equals(u.getId())) ? "selected" : ""%> value="<%=u.getId()%>"><%=u.getDisplayName()%></option>
+                                                                <% } %>
+                                                           <% } } %>
                                                        </optgroup>
                                                        <optgroup label="Government">
                                                            <%
@@ -95,9 +97,10 @@
                                                                for (User u : uGFormList) {
                                                                    if (u.getOffice().equals("Government")) {
                                                            %>
-                                                           <option <%=(inbox.getRecipientId().equals(u.getId())) ? "selected" : ""%> value="<%=u.getId()%>"><%=u.getDisplayName()%></option>
-                                                           <% }
-                                                           }%>
+                                                                <% if(!(u.getId().equals(user.getId()))) { %>
+                                                                    <option <%=(inbox.getRecipientId().equals(u.getId())) ? "selected" : ""%> value="<%=u.getId()%>"><%=u.getDisplayName()%></option>
+                                                                <% } %>
+                                                           <% } } %>
                                                        </optgroup>
                                                    </select>
                                                </div>

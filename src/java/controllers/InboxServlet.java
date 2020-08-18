@@ -5,6 +5,9 @@
  */
 package controllers;
 
+import configurations.MessageConfig;
+import configurations.PathConfig;
+import configurations.Route;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -53,116 +56,66 @@ public class InboxServlet extends HttpServlet {
                 ActivityService activityService = new ActivityService();
                 ActivityInfo activity = new ActivityInfo();
                 String previousRoute = (String) request.getSession().getAttribute("previousRoute");
+                request.setCharacterEncoding("UTF-8"); // to read sinhala characters
 
                 switch (request.getServletPath()) {
-                    case "/Mails/Inbox/100":
+                    case Route.DISPLAY_INBOX_ROUTE:
                         try {
                             if (authUser.getRoleId().equals("G_SECRETARIAT") || authUser.getRoleId().equals("G_OPERATOR")) {
                                 request.setAttribute("inboxList", new InboxService().getAllByOffice(authUser));
                             } else {
                                 request.setAttribute("inboxList", new InboxService().getAll());
                             }
+                            request.getSession().setAttribute("previousRoute", request.getContextPath() + Route.DISPLAY_INBOX_ROUTE);
                             request.getRequestDispatcher("/mails/inbox/displayInbox.jsp").forward(request, response);
                         } catch (Exception e) {
                             try {
-                                activity.setUserId(authUser.getId());
-                                activity.setType("IS-ERROR");
-                                activity.setAction("Location : InboxServlet.java | Line : 70 | Code : 1070 | Error : " + e.getMessage());
-                                activityService.add(activity);
-                                request.getSession().setAttribute("notification", new Notification("Error Notification", "Failed to inbox. ECODE - 1070.<br>Contact system administrator", "danger"));
-                                response.sendRedirect(request.getContextPath());
+                                recordActivity(MessageConfig.INBOX_OPERATION_FAILED, "Location : InboxServlet.java | Line : 73 " + MessageConfig.INBOX_ERROR_2020 + " | Error : " + e.getMessage(), authUser, activityService, activity, request);
+                                setNotification(MessageConfig.INBOX_OPERATION_NOTIFICATION_TITLE, MessageConfig.INBOX_ERROR_2020_LOCAL, "danger", request);
+                                response.sendRedirect(request.getContextPath() + Route.DISPLAY_DASHBOARD_ROUTE);
                             } catch (Exception ex) {
 //                                    ex.printStackTrace();
                             }
                         }
                         break;
-//                    case "/Mails/Inbox/101":
-//                        if ((request.getParameter("mid") != null)) {
-//                            try {
-//                                InboxInfo displayInboxInfo = new InboxInfo();
-//                                displayInboxInfo.setId(request.getParameter("mid"));
-//                                request.setAttribute("selectedInbox", new InboxService().get(displayInboxInfo));
-//                                request.getRequestDispatcher("/mails/inbox/displayInboxForm.jsp").forward(request, response);
-//                            } catch (Exception e) {
-//                                try {
-//                                    activity.setUserId(authUser.getId());
-//                                    activity.setType("IS-ERROR");
-//                                    activity.setAction("Location : InboxServlet.java | Line : 91 | Code : 1071 | Error : " + e.getMessage());
-//                                    activityService.add(activity);
-//                                    request.getSession().setAttribute("notification", new Notification("Error Notification", "Failed to open mail. ECODE - 1071.<br>Contact system administrator", "danger"));
-//                                    response.sendRedirect(request.getContextPath() + "/Mails/Inbox/100");
-//                                } catch (Exception ex) {
-////                                    ex.printStackTrace();
-//                                }
-//                            }
-//                        } else {
-//                            try {
-//                                activity.setUserId(authUser.getId());
-//                                activity.setType("UNAUTHORIZED-REQ");
-//                                activity.setAction(authUser.getId() + " made a direct request to route : /Mails/Inbox/101");
-//                                activityService.add(activity);
-//                                request.getSession().setAttribute("notification", new Notification("Unauthorized Request", authUser.getDisplayName() + " has no permission to access route", "warning"));
-//                                response.sendRedirect(request.getContextPath());
-//                            } catch (Exception e) {
-////                                ex.printStackTrace();
-//                            }
-//                        }
-//                        break;
-                    case "/Mails/Inbox/102":
+                    case Route.DISPLAY_REGISTER_INBOX_FORM_ROUTE:
                         try {
                             request.setAttribute("categoryList", new CategoryService().getAll());
                             request.setAttribute("userList", new UserService().getAllOnLowLevel());
-                            request.getSession().setAttribute("previousRoute", request.getContextPath() + "/Mails/Inbox/102");
                             request.getRequestDispatcher("/mails/inbox/newInboxForm.jsp").forward(request, response);
                         } catch (Exception e) {
                             try {
-                                activity.setUserId(authUser.getId());
-                                activity.setType("IS-ERROR");
-                                activity.setAction("Location : InboxServlet.java | Line : 120 | Code : 1072 | Error : " + e.getMessage());
-                                activityService.add(activity);
-                                request.getSession().setAttribute("notification", new Notification("Error Notification", "Failed to open mail form. ECODE - 1072.<br>Contact system administrator", "danger"));
-                                response.sendRedirect(request.getContextPath() + "/Mails/Inbox/100");
+                                recordActivity(MessageConfig.INBOX_OPERATION_FAILED, "Location : InboxServlet.java | Line : 88 " + MessageConfig.INBOX_ERROR_2023 + " | Error : " + e.getMessage(), authUser, activityService, activity, request);
+                                setNotification(MessageConfig.INBOX_OPERATION_NOTIFICATION_TITLE, MessageConfig.INBOX_ERROR_2023_LOCAL, "danger", request);
+                                redirectToRoot(request, response);
                             } catch (Exception ex) {
 //                                    ex.printStackTrace();
                             }
                         }
                         break;
-                    case "/Mails/Inbox/103":
-                        if (request.getParameter("nMFrom") != null) {
+                    case Route.REGISTER_INBOX_ROUTE:
+                        if ((request.getParameter("nMFrom") != null || (request.getSession().getAttribute("submittedMail") != null))) {
                             try {
-                                request.setCharacterEncoding("UTF-8"); // to read sinhala characters
                                 if (registerMail(request, authUser, activityService, activity)) {
                                     request.getSession().removeAttribute("submittedMail");
-                                    response.sendRedirect(request.getContextPath() + "/Mails/Inbox/100");
+                                    response.sendRedirect(request.getContextPath() + Route.DISPLAY_INBOX_ROUTE);
                                 } else {
-                                    response.sendRedirect(previousRoute);
+                                    response.sendRedirect(request.getContextPath() + Route.DISPLAY_REGISTER_INBOX_FORM_ROUTE);
                                 }
                             } catch (Exception e) {
                                 try {
-                                    activity.setUserId(authUser.getId());
-                                    activity.setType("IS-ERROR");
-                                    activity.setAction("Location : InboxServlet.java | Line : 144 | Code : 1073 | Error : " + e.getMessage());
-                                    activityService.add(activity);
-                                    request.getSession().setAttribute("notification", new Notification("Error Notification", "Failed to register mail. ECODE - 1073.<br>Contact system administrator", "danger"));
-                                    response.sendRedirect(previousRoute);
+                                    recordActivity(MessageConfig.INBOX_OPERATION_FAILED, "Location : InboxServlet.java | Line : 107 " + MessageConfig.INBOX_ERROR_2014 + " | Error : " + e.getMessage(), authUser, activityService, activity, request);
+                                    setNotification(MessageConfig.INBOX_OPERATION_NOTIFICATION_TITLE, MessageConfig.INBOX_ERROR_2014_LOCAL, "danger", request);
+                                    redirectToRoot(request, response);
                                 } catch (Exception ex) {
 //                                    ex.printStackTrace();
                                 }
                             }
                         } else {
-                            try {
-                                activity.setUserId(authUser.getId());
-                                activity.setType("UNAUTHORIZED-REQ");
-                                activity.setAction(authUser.getId() + " made a direct request to route : /Mails/Inbox/103");
-                                activityService.add(activity);
-                                request.getSession().setAttribute("notification", new Notification("Unauthorized Request", authUser.getDisplayName() + " has no permission to access route", "warning"));
-                                response.sendRedirect(request.getContextPath() + "/Mails/Inbox/100");
-                            } catch (Exception e) {
-//                                ex.printStackTrace();
-                            }
+                            redirectUnauthorizedRequest("root", authUser, request, response);
                         }
                         break;
-                    case "/Mails/Inbox/104":
+                    case Route.DISPLAY_INBOX_UPDATE_FORM_ROUTE:
                         if ((request.getParameter("mid") != null) || (request.getSession().getAttribute("selectedInbox") != null)) {
                             try {
                                 InboxInfo inbox = new InboxInfo();
@@ -172,73 +125,49 @@ public class InboxServlet extends HttpServlet {
                                 }
                                 request.setAttribute("categoryList", new CategoryService().getAll());
                                 request.setAttribute("userList", new UserService().getAllOnLowLevel());
-                                request.getSession().setAttribute("previousRoute", request.getContextPath() + "/Mails/Inbox/104");
                                 request.getRequestDispatcher("/mails/inbox/updateInboxForm.jsp").forward(request, response);
                             } catch (Exception e) {
                                 try {
-                                    activity.setUserId(authUser.getId());
-                                    activity.setType("IS-ERROR");
-                                    activity.setAction("Location : InboxServlet.java | Line : 179 | Code : 1074 | Error : " + e.getMessage());
-                                    activityService.add(activity);
-                                    request.getSession().setAttribute("notification", new Notification("Error Notification", "Failed to open update mail form. ECODE - 1074.<br>Contact system administrator", "danger"));
-                                    response.sendRedirect(request.getContextPath() + "/Mails/Inbox/100");
+                                    recordActivity(MessageConfig.INBOX_OPERATION_FAILED, "Location : InboxServlet.java | Line : 131 " + MessageConfig.INBOX_ERROR_2021 + " | Error : " + e.getMessage(), authUser, activityService, activity, request);
+                                    setNotification(MessageConfig.INBOX_OPERATION_NOTIFICATION_TITLE, MessageConfig.INBOX_ERROR_2021_LOCAL, "danger", request);
+                                    redirectToRoot(request, response);
                                 } catch (Exception ex) {
 //                                    ex.printStackTrace();
                                 }
                             }
                         } else {
-                            try {
-                                activity.setUserId(authUser.getId());
-                                activity.setType("UNAUTHORIZED-REQ");
-                                activity.setAction(authUser.getId() + " made a direct request to route : /Mails/Inbox/104");
-                                activityService.add(activity);
-                                request.getSession().setAttribute("notification", new Notification("Unauthorized Request", authUser.getDisplayName() + " has no permission to access route", "warning"));
-                                response.sendRedirect(request.getContextPath() + "/Mails/Inbox/100");
-                            } catch (Exception e) {
-//                                ex.printStackTrace();
-                            }
+                            redirectUnauthorizedRequest("root", authUser, request, response);
                         }
                         break;
-                    case "/Mails/Inbox/105":
+                    case Route.UPDATE_INBOX_ROUTE:
                         if (request.getParameter("mid") != null) {
                             try {
                                 request.setCharacterEncoding("UTF-8"); // to read sinhala characters
                                 if (updateMail(request, authUser, activityService, activity)) {
                                     request.getSession().removeAttribute("selectedInbox");
-                                    response.sendRedirect(request.getContextPath() + "/Mails/Inbox/100");
+                                    response.sendRedirect(request.getContextPath() + Route.DISPLAY_INBOX_ROUTE);
                                 } else {
-                                    response.sendRedirect(previousRoute);
+                                    response.sendRedirect(request.getContextPath() + Route.DISPLAY_INBOX_UPDATE_FORM_ROUTE);
                                 }
                             } catch (Exception e) {
                                 try {
-                                    activity.setUserId(authUser.getId());
-                                    activity.setType("IS-ERROR");
-                                    activity.setAction("Location : InboxServlet.java | Line : 214 | Code : 1075 | Error : " + e.getMessage());
-                                    activityService.add(activity);
-                                    request.getSession().setAttribute("notification", new Notification("Error Notification", "Failed to update mail. ECODE - 1075.<br>Contact system administrator", "danger"));
-                                    response.sendRedirect(previousRoute);
+                                    recordActivity(MessageConfig.INBOX_OPERATION_FAILED, "Location : InboxServlet.java | Line : 154 " + MessageConfig.INBOX_ERROR_2017 + " | Error : " + e.getMessage(), authUser, activityService, activity, request);
+                                    setNotification(MessageConfig.INBOX_OPERATION_NOTIFICATION_TITLE, MessageConfig.INBOX_ERROR_2017_LOCAL, "danger", request);
+                                    redirectToRoot(request, response);
                                 } catch (Exception ex) {
 //                                    ex.printStackTrace();
                                 }
                             }
                         } else {
-                            try {
-                                activity.setUserId(authUser.getId());
-                                activity.setType("UNAUTHORIZED-REQ");
-                                activity.setAction(authUser.getId() + " made a direct request to route : /Mails/Inbox/105");
-                                activityService.add(activity);
-                                request.getSession().setAttribute("notification", new Notification("Unauthorized Request", authUser.getDisplayName() + " has no permission to access route", "warning"));
-                                response.sendRedirect(request.getContextPath() + "/Mails/Inbox/100");
-                            } catch (Exception e) {
-//                                ex.printStackTrace();
-                            }
+                            redirectUnauthorizedRequest("root", authUser, request, response);
                         }
                         break;
                     default:
-                        response.sendRedirect(request.getContextPath() + "/Mails/Inbox/100");
+                        redirectUnauthorizedRequest("root", authUser, request, response);
                         break;
-
                 }
+            } else {
+                redirectUnauthorizedRequest("login", null, request, response);
             }
         }
     }
@@ -256,8 +185,8 @@ public class InboxServlet extends HttpServlet {
                 // obtains the upload file part in this multipart request
                 filePart = request.getPart("letter");
                 if (!((filePart.getContentType().equals("image/png")) || (filePart.getContentType().equals("image/jpeg")))) {
-                    request.getSession().setAttribute("notification", new Notification("Error Notification", "Failed to reply mail. ECODE - 1076.<br>Uploaded image type not supported", "danger"));
-                    return false; // If image type is not accecpted
+                    setNotification(MessageConfig.INBOX_OPERATION_NOTIFICATION_TITLE, MessageConfig.INBOX_ERROR_2022_LOCAL, "danger", request);
+                    return false;
                 }
             }
 
@@ -273,56 +202,32 @@ public class InboxServlet extends HttpServlet {
             inbox.setImageURL(mailId + "-I.png"); // letter url
             request.getSession().setAttribute("submittedMail", inbox);
 
-            if (request.getParameter("mailRecipient").equals("unselected")) {
-                request.getSession().setAttribute("notification", new Notification("Error Notification", "Failed to reply mail. ECODE - 1082.<br>Please select a recipient", "danger"));
-                return false; // If user is not selected
+            if (!(validateMailRecipient(request, "add"))) {
+                return false;
             }
-
-            switch (request.getParameter("mailCategory")) {
-                case "00":
-                    request.getSession().setAttribute("notification", new Notification("Error Notification", "Failed to register mail. ECODE - 1078.<br>Please select a category", "danger"));
-                    return false;
-                case "01":
-                    if (createNewCategory(request, authUser, activityService, activity, "register") != null) {
-                        inbox.setCategoryId(createNewCategory(request, authUser, activityService, activity, "register").getCategoryId());
-                    } else {
-                        return false;
-                    }
-                    break;
-                default:
-                    inbox.setCategoryId(Integer.parseInt(request.getParameter("mailCategory")));
-                    break;
+            if (!(validateCategory(request, "add", authUser, inbox, activityService, activity))) {
+                return false;
             }
 
             InboxService inboxService = new InboxService();
             if (inboxService.add(inbox)) {
                 if (uploadFile(mailId, filePart)) {
-                    activity.setUserId(authUser.getId());
-                    activity.setType("IS-SUCCESSFUL");
-                    activity.setAction(authUser.getDisplayName() + " registered mail : " + inbox.getId());
-                    activityService.add(activity);
-                    request.getSession().setAttribute("notification", new Notification("Success Notification", "Mail successfully registered", "success"));
+                    recordActivity(MessageConfig.INBOX_OPERATION_SUCCESSFUL, MessageConfig.INBOX_SUCCESSFUULY_ADDED + " Mail id : " + inbox.getId(), authUser, activityService, activity, request);
+                    setNotification(MessageConfig.INBOX_OPERATION_NOTIFICATION_TITLE, MessageConfig.INBOX_SUCCESSFUULY_ADDED_NOTIFICATION, "success", request);
                     return true;
                 } else {
-                    inboxService.remove(inbox);
-                    activity.setUserId(authUser.getId());
-                    activity.setType("IS-ERROR");
-                    activity.setAction("Location : InboxServlet.java | Line : 302 | Code : 1079 | Error : Failed to save mail image on the server for mail : " + inbox.getId());
-                    activityService.add(activity);
-                    request.getSession().setAttribute("notification", new Notification("Error Notification", "Failed to register reply. ECODE - 1079.<br>Contact system administrator", "danger"));
+                    recordActivity(MessageConfig.INBOX_OPERATION_FAILED, "Location : InboxServlet.java | Line : 219 " + MessageConfig.INBOX_ERROR_2015, authUser, activityService, activity, request);
+                    setNotification(MessageConfig.INBOX_OPERATION_NOTIFICATION_TITLE, MessageConfig.INBOX_ERROR_2015_LOCAL, "danger", request);
                     return false;
                 }
             } else {
                 inboxService.remove(inbox);
-                activity.setUserId(authUser.getId());
-                activity.setType("IS-ERROR");
-                activity.setAction("Location : InboxServlet.java | Line : 311 | Code : 1080 | Error : Failed to register mail");
-                activityService.add(activity);
-                request.getSession().setAttribute("notification", new Notification("Error Notification", "Failed to register mail. ECODE - 1080.<br>Contact system administrator", "danger"));
+                recordActivity(MessageConfig.INBOX_OPERATION_FAILED, "Location : InboxServlet.java | Line : 225 " + MessageConfig.INBOX_ERROR_2014, authUser, activityService, activity, request);
+                setNotification(MessageConfig.INBOX_OPERATION_NOTIFICATION_TITLE, MessageConfig.INBOX_ERROR_2014_LOCAL, "danger", request);
                 return false;
             }
         } else {
-            request.getSession().setAttribute("notification", new Notification("Error Notification", "Failed to register mail. ECODE - 1077.<br>Reqired values are missing, Please make sure all required vales are filled", "danger"));
+            setNotification(MessageConfig.INBOX_OPERATION_NOTIFICATION_TITLE, MessageConfig.INBOX_ERROR_2016_LOCAL, "danger", request);
             return false;
         }
     }
@@ -345,63 +250,37 @@ public class InboxServlet extends HttpServlet {
             inbox.setContent(request.getParameter("mailBrief")); // mail brief
             request.getSession().setAttribute("submittedMail", inbox);
 
-            if (request.getParameter("mailRecipient").equals("unselected")) {
-                request.getSession().setAttribute("notification", new Notification("Error Notification", "Failed to reply mail. ECODE - 1082.<br>Please select a recipient", "danger"));
-                return false; // If user is not selected
+            if (!(validateMailRecipient(request, "update"))) {
+                return false;
             }
-
-            switch (request.getParameter("mailCategory")) {
-                case "00":
-                    request.getSession().setAttribute("notification", new Notification("Error Notification", "Failed to update mail. ECODE - 1078.<br>Please select a category", "danger"));
-                    return false;
-                case "01":
-                    if (createNewCategory(request, authUser, activityService, activity, "update") != null) {
-                        inbox.setCategoryId(createNewCategory(request, authUser, activityService, activity, "update").getCategoryId());
-                    } else {
-                        return false;
-                    }
-                    break;
-                default:
-                    inbox.setCategoryId(Integer.parseInt(request.getParameter("mailCategory")));
-                    break;
+            if (!(validateCategory(request, "update", authUser, inbox, activityService, activity))) {
+                return false;
             }
 
             InboxService inboxService = new InboxService();
             if (inboxService.update(inbox)) {
                 if ((request.getPart("letter") != null) && ((request.getPart("letter").getContentType().equals("image/png")) || (request.getPart("letter").getContentType().equals("image/jpeg")))) {
                     if (uploadFile(mailId, request.getPart("letter"))) {
-                        activity.setUserId(authUser.getId());
-                        activity.setType("IS-SUCCESSFUL");
-                        activity.setAction(authUser.getDisplayName() + " updated mail : " + inbox.getId());
-                        activityService.add(activity);
-                        request.getSession().setAttribute("notification", new Notification("Success Notification", "Mail successfully updated", "success"));
+                        recordActivity(MessageConfig.INBOX_OPERATION_SUCCESSFUL, MessageConfig.INBOX_SUCCESSFUULY_UPDATED + " Mail id : " + inbox.getId(), authUser, activityService, activity, request);
+                        setNotification(MessageConfig.INBOX_OPERATION_NOTIFICATION_TITLE, MessageConfig.INBOX_SUCCESSFUULY_UPDATED_NOTIFICATION, "success", request);
                         return true;
                     } else {
-                        activity.setUserId(authUser.getId());
-                        activity.setType("IS-ERROR");
-                        activity.setAction("Location : InboxServlet.java | Line : 378 | Code : 1079 | Error : Failed to save updated mail image on the server for mail : " + inbox.getId());
-                        activityService.add(activity);
-                        request.getSession().setAttribute("notification", new Notification("Error Notification", "Failed to update mail. ECODE - 1079.<br>Contact system administrator", "danger"));
+                        recordActivity(MessageConfig.INBOX_OPERATION_FAILED, "Location : InboxServlet.java | Line : 268 " + MessageConfig.INBOX_ERROR_2018, authUser, activityService, activity, request);
+                        setNotification(MessageConfig.INBOX_OPERATION_NOTIFICATION_TITLE, MessageConfig.INBOX_ERROR_2018_LOCAL, "danger", request);
                         return false;
                     }
                 } else {
-                    activity.setUserId(authUser.getId());
-                    activity.setType("IS-SUCCESSFUL");
-                    activity.setAction(authUser.getDisplayName() + " updated mail : " + inbox.getId());
-                    activityService.add(activity);
-                    request.getSession().setAttribute("notification", new Notification("Success Notification", "Mail successfully updated", "success"));
+                    recordActivity(MessageConfig.INBOX_OPERATION_SUCCESSFUL, MessageConfig.INBOX_SUCCESSFUULY_UPDATED + " Mail id : " + inbox.getId(), authUser, activityService, activity, request);
+                    setNotification(MessageConfig.INBOX_OPERATION_NOTIFICATION_TITLE, MessageConfig.INBOX_SUCCESSFUULY_UPDATED_NOTIFICATION, "success", request);
                     return true;
                 }
             } else {
-                activity.setUserId(authUser.getId());
-                activity.setType("IS-ERROR");
-                activity.setAction("Location : InboxServlet.java | Line : 367 | Code : 394 | Error : Failed to update mail");
-                activityService.add(activity);
-                request.getSession().setAttribute("notification", new Notification("Error Notification", "Failed to update mail. ECODE - 1080.<br>Contact system administrator", "danger"));
+                recordActivity(MessageConfig.INBOX_OPERATION_FAILED, "Location : InboxServlet.java | Line : 278 " + MessageConfig.INBOX_ERROR_2017, authUser, activityService, activity, request);
+                setNotification(MessageConfig.INBOX_OPERATION_NOTIFICATION_TITLE, MessageConfig.INBOX_ERROR_2017_LOCAL, "danger", request);
                 return false;
             }
         } else {
-            request.getSession().setAttribute("notification", new Notification("Error Notification", "Failed to update mail. ECODE - 1077.<br>Reqired values are missing, Please make sure all required vales are filled", "danger"));
+            setNotification(MessageConfig.INBOX_OPERATION_NOTIFICATION_TITLE, MessageConfig.INBOX_ERROR_2019_LOCAL, "danger", request);
             return false;
         }
     }
@@ -410,7 +289,7 @@ public class InboxServlet extends HttpServlet {
         // obtains input stream of the upload file
         InputStream inputStream = filePart.getInputStream();
         // Change the output path accordingly
-        OutputStream output = new FileOutputStream("C:\\Users\\RED-HAWK\\Documents\\GitHub Projects\\mail-management-system\\web\\resources\\mails\\" + imageName);
+        OutputStream output = new FileOutputStream(PathConfig.INBOX_LETTER_UPLOAD_PATH + imageName + "-I.png");
         byte[] buffer = new byte[1024];
         while (inputStream.read(buffer) > 0) {
             output.write(buffer);
@@ -418,40 +297,95 @@ public class InboxServlet extends HttpServlet {
         return true;
     }
 
-    private InboxInfo createNewCategory(HttpServletRequest request, UserInfo authUser, ActivityService activityService, ActivityInfo activity, String action) throws ClassNotFoundException, SQLException {
+    private boolean validateCategory(HttpServletRequest request, String action, UserInfo user, InboxInfo inbox, ActivityService activityService, ActivityInfo activity) throws ClassNotFoundException, SQLException {
+        switch (request.getParameter("mailCategory")) {
+            case "0":
+                setNotification(MessageConfig.INBOX_OPERATION_NOTIFICATION_TITLE, MessageConfig.INBOX_ERROR_2016_LOCAL, "danger", request);
+                return false;
+            case "01":
+                return createNewCategory(request, user, inbox, activityService, activity, action);
+            default:
+                inbox.setCategoryId(Integer.parseInt(request.getParameter("mailCategory")));
+                return true;
+        }
+    }
+
+    private boolean createNewCategory(HttpServletRequest request, UserInfo authUser, InboxInfo inbox, ActivityService activityService, ActivityInfo activity, String action) throws ClassNotFoundException, SQLException {
         if ((request.getParameter("newCategoryName") != null)
                 && (request.getParameter("newCategoryDescription") != null)
                 && (request.getParameter("newCategoryName").length() > 2)
                 && (request.getParameter("newCategoryDescription").length() > 2)) {
 
-            CategoryService cs = new CategoryService();
-            Category c = new Category();
-            c.setName(request.getParameter("newCategoryName"));
-            c.setDescription(request.getParameter("newCategoryDescription"));
+            CategoryService categoryService = new CategoryService();
+            Category category = new Category();
+            category.setName(request.getParameter("newCategoryName"));
+            category.setDescription(request.getParameter("newCategoryDescription"));
 
-            InboxInfo inbox = new InboxInfo();
-            if (cs.add(c)) {
-                inbox.setCategoryId(cs.getLastCategory().getId()); // mail category id
-                activity.setUserId(authUser.getId());
-                activity.setType("IS-SUCCESSFUL");
-                activity.setAction(authUser.getDisplayName() + " added a new category : " + inbox.getCategoryId());
+            if (categoryService.add(category)) {
+                inbox.setCategoryId(categoryService.getLastCategory().getId()); // mail category id
+                recordActivity(MessageConfig.CATEGORY_OPERATION_SUCCESSFUL, MessageConfig.CATEGORY_SUCCESSFUULY_ADDED + " Category name : " + category.getName(), authUser, activityService, activity, request);
                 activityService.add(activity);
-                return inbox;
+                return true;
             } else {
-                activity.setUserId(authUser.getId());
-                activity.setType("IS-ERROR");
-                activity.setAction("Location : InboxServlet.java | Line : 439 | Code : 1081 | Error : Failed to add category");
-                activityService.add(activity);
-                request.getSession().setAttribute("notification", new Notification("Error Notification", "Failed to " + action + " mail. ECODE - 1081.<br>Contact system administrator", "danger"));
-                return null; // if query execution failed while adding new category
+                recordActivity(MessageConfig.CATEGORY_OPERATION_FAILED, "Location : InboxServlet.java | Line : 330 " + MessageConfig.CATEGORY_ERROR_2000, authUser, activityService, activity, request);
+                setFieldsMissingNotification(action, request);
+                return false;
             }
         } else {
-            request.getSession().setAttribute("notification", new Notification("Error Notification", "Failed to " + action + " mail. ECODE - 1002.<br>New category name or description is missing", "danger"));
-            return null;
+            setFieldsMissingNotification(action, request);
+            return false;
         }
     }
 
+    private boolean validateMailRecipient(HttpServletRequest request, String action) {
+        if (request.getParameter("mailRecipient").equals("unselected")) {
+            setFieldsMissingNotification(action, request);
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    private void recordActivity(String type, String operation, UserInfo user, ActivityService activityService, ActivityInfo activity, HttpServletRequest request) throws ClassNotFoundException, SQLException {
+        activity.setUserId(user.getId());
+        activity.setType(type);
+        activity.setAction(operation);
+        activityService.add(activity);
+    }
+
+    private void setNotification(String title, String body, String className, HttpServletRequest request) {
+        request.getSession().setAttribute("notification", new Notification(title, body, className));
+    }
+
+    private void redirectToRoot(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        if (request.getSession().getAttribute("previousRoute") != null) {
+            response.sendRedirect(request.getContextPath() + request.getSession().getAttribute("previousRoute"));
+        } else {
+            response.sendRedirect(request.getContextPath() + Route.DISPLAY_INBOX_ROUTE);
+        }
+    }
+
+    private void redirectUnauthorizedRequest(String route, UserInfo user, HttpServletRequest request, HttpServletResponse response) throws IOException {
+        setNotification(MessageConfig.UNAUTHORIZED_REQUEST_NOTIFICATION_TITLE, user.getDisplayName() + MessageConfig.UNAUTHORIZED_REQUEST_NOTIFICATION, "warning", request);
+        switch (route) {
+            case "login":
+                response.sendRedirect(request.getContextPath() + Route.LOGIN_ROUTE);
+                break;
+            case "root":
+                redirectToRoot(request, response);
+                break;
+        }
+    }
+
+    private void setFieldsMissingNotification(String action, HttpServletRequest request) {
+        if (action.equals("add")) {
+            setNotification(MessageConfig.INBOX_OPERATION_NOTIFICATION_TITLE, MessageConfig.INBOX_ERROR_2016_LOCAL, "danger", request);
+        } else {
+            setNotification(MessageConfig.INBOX_OPERATION_NOTIFICATION_TITLE, MessageConfig.INBOX_ERROR_2019_LOCAL, "danger", request);
+        }
+    }
 // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+
     /**
      * Handles the HTTP <code>GET</code> method.
      *

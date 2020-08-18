@@ -50,6 +50,7 @@ public class OutboxServlet extends HttpServlet {
                 UserInfo authUser = (UserInfo) request.getSession().getAttribute("authUser");
                 ActivityService activityService = new ActivityService();
                 ActivityInfo activity = new ActivityInfo();
+                request.setCharacterEncoding("UTF-8"); // to read sinhala characters
                 String previousRoute = (String) request.getSession().getAttribute("previousRoute");
 
                 switch (request.getServletPath()) {

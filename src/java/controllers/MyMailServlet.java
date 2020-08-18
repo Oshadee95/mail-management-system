@@ -43,6 +43,7 @@ public class MyMailServlet extends HttpServlet {
                 UserInfo authUser = (UserInfo) request.getSession().getAttribute("authUser");
                 ActivityService activityService = new ActivityService();
                 ActivityInfo activity = new ActivityInfo();
+                request.setCharacterEncoding("UTF-8"); // to read sinhala characters
 
                 switch (request.getServletPath()) {
                     case Route.DISPLAY_MYMAIL_ROUTE:

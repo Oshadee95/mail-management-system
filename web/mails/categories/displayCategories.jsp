@@ -58,7 +58,7 @@
                                             </div>
 
                                             <div class="form-group row">
-                                                <label class="control-label col-lg-4">Category name </label>
+                                                <label class="control-label col-lg-4">Category description </label>
                                                 <div class="col-lg-8">
                                                     <input type="text" name="cDesc" class="form-control" value="<%=(category != null) ? category.getDescription() : ""%>">
                                                 </div>
@@ -66,7 +66,7 @@
                                         </fieldset>
                                         <div class="float-right  m-t-40 m-b-20">
                                             <button type="reset" class="btn btn-md btn-secondary" id="reset"><i class="icon-reload-alt position-left"></i>Reset</button>&nbsp;&nbsp;
-                                            <button type="submit" name="cid" value="<%=category.getId()%>" class="btn btn-md btn-warning"><i class="icon-envelop  position-left"></i> Update</button>
+                                            <button type="submit" name="cid" value="<%=category.getId()%>" class="btn btn-md btn-warning"><i class="icon-save  position-left"></i> Update</button>
                                         </div>
                                     </div>
                                 </form>
@@ -104,7 +104,7 @@
                                         </fieldset>
                                         <div class="float-right  m-t-40 m-b-20">
                                             <button type="reset" class="btn btn-md btn-secondary" id="reset"><i class="icon-reload-alt position-left"></i>Reset</button>&nbsp;&nbsp;
-                                            <button type="submit" name="cNForm" class="btn btn-md btn-primary"><i class="icon-envelop  position-left"></i> register</button>
+                                            <button type="submit" name="cNForm" class="btn btn-md btn-primary"><i class="icon-save  position-left"></i> register</button>
                                         </div>
                                     </div>
                                 </form>
@@ -115,7 +115,7 @@
                         <div class="col-md-8 col-sm-">
                             <div class="card card-inverse">
                                 <div class="card-block">
-                                    <table class="table datatable table-striped table-responsive">
+                                    <table id="datatable" class="table datatable table-striped table-responsive">
                                         <thead>
                                             <tr>
                                                 <th style="width: 30vw">Name</th>

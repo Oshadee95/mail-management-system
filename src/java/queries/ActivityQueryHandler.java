@@ -13,7 +13,7 @@ public class ActivityQueryHandler implements QueryHandlerInterface {
 
     private final String TABLE_NAME = "activities";
     private final String VIEW_NAME = "activityinfoview";
-    private final String INSERT_DATA_QUERY = "INSERT INTO `" + TABLE_NAME + "`(`userId`, `action`) VALUES (?, ?)";
+    private final String INSERT_DATA_QUERY = "INSERT INTO `" + TABLE_NAME + "`(`userId`, `type`,`action`) VALUES (?, ?, ?)";
     private final String DELETE_DATA_QUERY = "DELETE FROM `" + TABLE_NAME + "` WHERE `id`= ?";
     private final String FETCH_DATA_QUERY = "SELECT * FROM `" + VIEW_NAME + "` WHERE userId = ?";
     private final String FETCH_ALL_DATA_QUERY = "SELECT * FROM `" + VIEW_NAME + "`";

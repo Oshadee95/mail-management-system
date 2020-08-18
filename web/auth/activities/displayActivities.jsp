@@ -3,6 +3,7 @@
     Created on : Aug 12, 2020, 4:34:15 PM
     Author     : RED-HAWK
 --%>
+<%@page import="java.text.SimpleDateFormat"%>
 <%@page import="models.ActivityInfo"%>
 <%@page import="java.util.List"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -35,21 +36,24 @@
                                         <thead>
                                             <tr>
                                                 <th style="width: 6vw !important">Activity ID</th>
+                                                <th style="width: 10vw !important">Activity ID</th>
                                                 <th style="width: 10vw !important">User Name</th>
-                                                <th style="width: 74vw !important">Activity</th>
+                                                <th style="width: 64vw !important">Activity</th>
                                                 <th style="width: 10vw !important">Occurred At</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             <%
                                                 List<ActivityInfo> activityList = (List<ActivityInfo>) request.getAttribute("activityList");
+                                                SimpleDateFormat dFomatter = new SimpleDateFormat("MM/dd/yyyy | HH:mm");
                                                 for (ActivityInfo i : activityList) {
                                             %>
                                             <tr>
                                                 <td style="width: 6vw !important"><%=i.getId()%></td>
+                                                <td style="width: 10vw !important"><%=i.getType()%></td>
                                                 <td style="width: 10vw !important"><%=i.getUserName()%></td>
-                                                <td style="width: 74vw !important"><%=i.getAction()%></td>
-                                                <td style="width: 10vw !important"><%=i.getOccuredAt()%></td>
+                                                <td style="width: 64vw !important"><%=i.getAction()%></td>
+                                                <td style="width: 10vw !important"><%=dFomatter.format(i.getOccuredAt())%></td>
                                             </tr>
                                             <% }%>
                                         </tbody>

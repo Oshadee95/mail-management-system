@@ -43,7 +43,7 @@
                                     </div>
                                 </div>
                                 <div class="card-block m-t-40">
-                                    <table id="datatable" class="table datatable table-striped table-responsive">
+                                    <table class="table datatable table-striped table-responsive">
                                         <thead>
                                             <tr>
                                                 <th style="width: 4vw">Mail ID</th>

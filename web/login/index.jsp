@@ -119,7 +119,6 @@
         <script src="lib/js/core/app/core.js"></script>
 
 
-        <script src="lib/js/pages/auth/authentication.js"></script>
 
     </body>
 </html>

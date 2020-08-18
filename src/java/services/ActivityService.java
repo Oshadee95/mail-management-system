@@ -33,7 +33,8 @@ public class ActivityService implements ServiceInterface<ActivityInfo> {
             Connection con = DB.getConnction();
             ps = con.prepareStatement(activityQueryHandler.getAddDataQuery());
             ps.setString(1, activityInfo.getUserId());
-            ps.setString(2, activityInfo.getAction());
+            ps.setString(2, activityInfo.getType());
+            ps.setString(3, activityInfo.getAction());
             eResult = ps.executeUpdate();
             return (eResult == 1); //This will return true if eResult is 1 and false if 0
         }
@@ -62,10 +63,11 @@ public class ActivityService implements ServiceInterface<ActivityInfo> {
             while (rs.next()) {
                 dbActivityInfo.setId(rs.getInt(1));
                 dbActivityInfo.setUserId(rs.getString(2));
-                dbActivityInfo.setUserName(rs.getString(3));
-                dbActivityInfo.setUserPhotoURL(rs.getString(4));
-                dbActivityInfo.setAction(rs.getString(5));
-                dbActivityInfo.setOccuredAt(rs.getTimestamp(6));
+                dbActivityInfo.setType(rs.getString(3));
+                dbActivityInfo.setUserName(rs.getString(4));
+                dbActivityInfo.setUserPhotoURL(rs.getString(5));
+                dbActivityInfo.setAction(rs.getString(6));
+                dbActivityInfo.setOccuredAt(rs.getTimestamp(7));
             }
             return activityInfo;
         }
@@ -84,10 +86,11 @@ public class ActivityService implements ServiceInterface<ActivityInfo> {
                 ActivityInfo dbActivityInfo = new ActivityInfo();
                 dbActivityInfo.setId(rs.getInt(1));
                 dbActivityInfo.setUserId(rs.getString(2));
-                dbActivityInfo.setUserName(rs.getString(3));
-                dbActivityInfo.setUserPhotoURL(rs.getString(4));
-                dbActivityInfo.setAction(rs.getString(5));
-                dbActivityInfo.setOccuredAt(rs.getTimestamp(6));
+                dbActivityInfo.setType(rs.getString(3));
+                dbActivityInfo.setUserName(rs.getString(4));
+                dbActivityInfo.setUserPhotoURL(rs.getString(5));
+                dbActivityInfo.setAction(rs.getString(6));
+                dbActivityInfo.setOccuredAt(rs.getTimestamp(7));
                 activityInfoList.add(dbActivityInfo);
             }
             return activityInfoList;

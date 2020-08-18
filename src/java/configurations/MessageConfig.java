@@ -47,4 +47,12 @@ public class MessageConfig {
     public static final String MYMAIL_ROUTE_LOCAL = "Failed to open mails route.<br>";
     public static final String MYMAIL_ERROR_2006 = "ECODE : 2006 | Failed to open route " + Route.DISPLAY_MYMAIL_ROUTE;
     public static final String MYMAIL_ERROR_2006_LOCAL = MYMAIL_ROUTE_LOCAL + "Contact system administrator. ECODE - 2006";
+    
+    
+    // Acivities messages
+    public static final String ACTIVITY_OPERATION_NOTIFICATION_TITLE = "MAIL OPERATION";
+    public static final String ACTIVITY_OPERATION_FAILED = "AC-OP | FAILED";
+    public static final String ACTIVITY_ROUTE_LOCAL = "Failed to open activity route.<br>";
+    public static final String ACTIVITY_ERROR_2007 = "ECODE : 2007 | Failed to open route " + Route.DISPLAY_ACTIVITIES_ROUTES;
+    public static final String ACTIVITY_ERROR_2007_LOCAL = MYMAIL_ROUTE_LOCAL + "Contact system administrator. ECODE - 2007";
 }

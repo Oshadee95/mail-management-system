@@ -55,7 +55,7 @@ public class MyMailServlet extends HttpServlet {
                                 try {
                                     recordActivity(MessageConfig.MYMAIL_OPERATION_FAILED, "Location : MyMailServlet.java | Line : 56 " + MessageConfig.MYMAIL_ERROR_2006 + " | Error : " + e.getMessage(), authUser, activityService, activity, request);
                                     setNotification(MessageConfig.MYMAIL_OPERATION_NOTIFICATION_TITLE, MessageConfig.MYMAIL_ERROR_2006_LOCAL, "danger", request);
-                                    response.sendRedirect(request.getContextPath() + Route.DISPLAY_INBOX_ROUTE);
+                                    response.sendRedirect(request.getContextPath() + Route.DISPLAY_DASHBOARD_ROUTE);
                                 } catch (Exception ex) {
 //                                    ex.printStackTrace();
                                 }
@@ -92,7 +92,7 @@ public class MyMailServlet extends HttpServlet {
                 break;
             case "root":
                 setNotification(MessageConfig.UNAUTHORIZED_REQUEST_NOTIFICATION_TITLE, user.getDisplayName() + MessageConfig.UNAUTHORIZED_REQUEST_NOTIFICATION, "warning", request);
-                response.sendRedirect(request.getContextPath() + Route.DISPLAY_DASHBOARD_ROUTE);
+                response.sendRedirect(request.getContextPath() + Route.DISPLAY_MYMAIL_ROUTE);
                 break;
         }
     }

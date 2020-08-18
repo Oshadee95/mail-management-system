@@ -56,7 +56,7 @@ public class CategoryServlet extends HttpServlet {
                             try {
                                 recordActivity(MessageConfig.CATEGORY_OPERATION_FAILED, "Location : CategoryServlet.java | Line : 57 " + MessageConfig.CATEGORY_ERROR_2004 + " | Error : " + e.getMessage(), authUser, activityService, activity, request);
                                 setNotification(MessageConfig.CATEGORY_OPERATION_NOTIFICATION_TITLE, MessageConfig.CATEGORY_ERROR_2004_LOCAL, "danger", request);
-                                response.sendRedirect(request.getContextPath() + Route.DISPLAY_INBOX_ROUTE);
+                                response.sendRedirect(request.getContextPath() + Route.DISPLAY_DASHBOARD_ROUTE);
                             } catch (Exception ex) {
 //                                    ex.printStackTrace();
                             }

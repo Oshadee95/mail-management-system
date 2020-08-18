@@ -44,6 +44,10 @@
         <servlet-name>LogoutServlet</servlet-name>
         <servlet-class>controllers.LogoutServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>DashboardServlet</servlet-name>
+        <servlet-class>controllers.DashboardServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>InboxServlet</servlet-name>
         <url-pattern>/Mails/Inbox/100</url-pattern>
@@ -108,6 +112,10 @@
     <servlet-mapping>
         <servlet-name>LogoutServlet</servlet-name>
         <url-pattern>/Logout</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>DashboardServlet</servlet-name>
+        <url-pattern>/Dashboard/Home</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>120</session-timeout>

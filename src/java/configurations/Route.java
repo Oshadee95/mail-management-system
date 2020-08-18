@@ -22,12 +22,15 @@ public class Route {
     public static final String NEW_INBOX_ROUTE = "";
     public static final String DISPLAY_UPDATE_INBOX_FORM_ROUTE = "";
     public static final String UPDATE_INBOX_ROUTE = "";
-    
+
     // MyMail routes
     public static final String DISPLAY_MYMAIL_ROUTE = "/Mails/MyMail/100";
 
     // Dashboard routes
-     public static final String DISPLAY_DASHBOARD_ROUTE = "";
+    public static final String DISPLAY_DASHBOARD_ROUTE = "/Dashboard/Home/100";
+
+    // Activity routes
+    public static final String DISPLAY_ACTIVITIES_ROUTES = "/Auth/Activities/100";
     
     // Category routes
     public static final String DISPLAY_CATEGORIES_ROUTE = "/Mails/Category/100";

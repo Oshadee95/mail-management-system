@@ -5,8 +5,11 @@
  */
 package controllers;
 
+import configurations.MessageConfig;
+import configurations.Route;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.SQLException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -42,53 +45,55 @@ public class MyMailServlet extends HttpServlet {
                 ActivityInfo activity = new ActivityInfo();
 
                 switch (request.getServletPath()) {
-                    case "/Mails/MyMail/100":
+                    case Route.DISPLAY_MYMAIL_ROUTE:
                         if (!((authUser.getRoleId().equals("P_OPERATOR")) || (authUser.getRoleId().equals("G_OPERATOR")) || (authUser.getRoleId().equals("SYS_ADMIN")))) {
                             try {
-                                request.getSession().removeAttribute("selectedOutbox");
-                                request.getSession().removeAttribute("selectedInbox");
-                                request.getSession().setAttribute("previousRoute", request.getContextPath()+"/Mails/MyMail/100");
+                                request.getSession().setAttribute("previousRoute", request.getContextPath() + Route.DISPLAY_MYMAIL_ROUTE);
                                 request.setAttribute("inboxList", new InboxService().getAllByUser(authUser));
                                 request.getRequestDispatcher("/mails/myMail/displayMyMail.jsp").forward(request, response);
                             } catch (Exception e) {
                                 try {
-                                    activity.setUserId(authUser.getId());
-                                    activity.setType("ERROR");
-                                    activity.setAction("Location : MyMailServlet.java | Line : 55 | Error : "+e.getMessage());
-                                    activityService.add(activity);
-                                    request.getSession().setAttribute("notification", new Notification("Error Notification", "Failed to retrieve mails. ECODE - 1040.<br>Contact system administrator", "danger"));
-                                    response.sendRedirect(request.getContextPath() + "/Mails/Inbox/100");
+                                    recordActivity(MessageConfig.MYMAIL_OPERATION_FAILED, "Location : MyMailServlet.java | Line : 56 " + MessageConfig.MYMAIL_ERROR_2006 + " | Error : " + e.getMessage(), authUser, activityService, activity, request);
+                                    setNotification(MessageConfig.MYMAIL_OPERATION_NOTIFICATION_TITLE, MessageConfig.MYMAIL_ERROR_2006_LOCAL, "danger", request);
+                                    response.sendRedirect(request.getContextPath() + Route.DISPLAY_INBOX_ROUTE);
                                 } catch (Exception ex) {
 //                                    ex.printStackTrace();
                                 }
                             }
                         } else {
-                            try {
-                                activity.setUserId(authUser.getId());
-                                activity.setType("UNAUTHORIZED-REQ");
-                                activity.setAction(authUser.getId() + " made a direct request to route : /Mails/MyMail/100");
-                                activityService.add(activity);
-                                request.getSession().setAttribute("notification", new Notification("Unauthorized Request", authUser.getDisplayName()+" has no permission to access route", "warning"));
-                                response.sendRedirect(request.getContextPath());
-                            } catch (Exception e) {
-//                                ex.printStackTrace();
-                            }
+                            redirectUnauthorizedRequest("root", authUser, request, response);
                         }
                         break;
                     default:
-                        try {
-                            activity.setUserId(authUser.getId());
-                            activity.setType("UNAUTHORIZED-REQ");
-                            activity.setAction(authUser.getId() + " made a request to route : /Mails/MyMail/100");
-                            activityService.add(activity);
-                            request.getSession().setAttribute("notification", new Notification("Unauthorized Request", authUser.getDisplayName()+" has no permission to access route", "warning"));
-                            response.sendRedirect(request.getContextPath());
-                        } catch (Exception e) {
-//                                ex.printStackTrace();
-                        }
+                        redirectUnauthorizedRequest("login", authUser, request, response);
                         break;
                 }
+            } else {
+                redirectUnauthorizedRequest("login", null, request, response);
             }
+        }
+    }
+
+    private void recordActivity(String type, String operation, UserInfo user, ActivityService activityService, ActivityInfo activity, HttpServletRequest request) throws ClassNotFoundException, SQLException {
+        activity.setUserId(user.getId());
+        activity.setType(type);
+        activity.setAction(operation);
+        activityService.add(activity);
+    }
+
+    private void setNotification(String title, String body, String className, HttpServletRequest request) {
+        request.getSession().setAttribute("notification", new Notification(title, body, className));
+    }
+
+    private void redirectUnauthorizedRequest(String route, UserInfo user, HttpServletRequest request, HttpServletResponse response) throws IOException {
+        switch (route) {
+            case "login":
+                response.sendRedirect(request.getContextPath() + Route.LOGIN_ROUTE);
+                break;
+            case "root":
+                setNotification(MessageConfig.UNAUTHORIZED_REQUEST_NOTIFICATION_TITLE, user.getDisplayName() + MessageConfig.UNAUTHORIZED_REQUEST_NOTIFICATION, "warning", request);
+                response.sendRedirect(request.getContextPath() + Route.DISPLAY_DASHBOARD_ROUTE);
+                break;
         }
     }
 

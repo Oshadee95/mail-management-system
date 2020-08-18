@@ -22,7 +22,13 @@ public class Route {
     public static final String NEW_INBOX_ROUTE = "";
     public static final String DISPLAY_UPDATE_INBOX_FORM_ROUTE = "";
     public static final String UPDATE_INBOX_ROUTE = "";
+    
+    // MyMail routes
+    public static final String DISPLAY_MYMAIL_ROUTE = "/Mails/MyMail/100";
 
+    // Dashboard routes
+     public static final String DISPLAY_DASHBOARD_ROUTE = "";
+    
     // Category routes
     public static final String DISPLAY_CATEGORIES_ROUTE = "/Mails/Category/100";
     public static final String REGISTER_CATEGORY_ROUTE = "/Mails/Category/103";

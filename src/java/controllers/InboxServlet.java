@@ -55,9 +55,8 @@ public class InboxServlet extends HttpServlet {
                 UserInfo authUser = (UserInfo) request.getSession().getAttribute("authUser");
                 ActivityService activityService = new ActivityService();
                 ActivityInfo activity = new ActivityInfo();
-                String previousRoute = (String) request.getSession().getAttribute("previousRoute");
-                request.setCharacterEncoding("UTF-8"); // to read sinhala characters
-
+                request.setCharacterEncoding("UTF-8");
+                
                 switch (request.getServletPath()) {
                     case Route.DISPLAY_INBOX_ROUTE:
                         try {
@@ -66,7 +65,7 @@ public class InboxServlet extends HttpServlet {
                             } else {
                                 request.setAttribute("inboxList", new InboxService().getAll());
                             }
-                            request.getSession().setAttribute("previousRoute", request.getContextPath() + Route.DISPLAY_INBOX_ROUTE);
+                            request.getSession().setAttribute("previousRoute", Route.DISPLAY_INBOX_ROUTE);
                             request.getRequestDispatcher("/mails/inbox/displayInbox.jsp").forward(request, response);
                         } catch (Exception e) {
                             try {
@@ -87,7 +86,7 @@ public class InboxServlet extends HttpServlet {
                             try {
                                 recordActivity(MessageConfig.INBOX_OPERATION_FAILED, "Location : InboxServlet.java | Line : 88 " + MessageConfig.INBOX_ERROR_2023 + " | Error : " + e.getMessage(), authUser, activityService, activity, request);
                                 setNotification(MessageConfig.INBOX_OPERATION_NOTIFICATION_TITLE, MessageConfig.INBOX_ERROR_2023_LOCAL, "danger", request);
-                                redirectToRoot(request, response);
+                                response.sendRedirect(request.getContextPath() + Route.DISPLAY_INBOX_ROUTE);
                             } catch (Exception ex) {
 //                                    ex.printStackTrace();
                             }
@@ -106,7 +105,7 @@ public class InboxServlet extends HttpServlet {
                                 try {
                                     recordActivity(MessageConfig.INBOX_OPERATION_FAILED, "Location : InboxServlet.java | Line : 107 " + MessageConfig.INBOX_ERROR_2014 + " | Error : " + e.getMessage(), authUser, activityService, activity, request);
                                     setNotification(MessageConfig.INBOX_OPERATION_NOTIFICATION_TITLE, MessageConfig.INBOX_ERROR_2014_LOCAL, "danger", request);
-                                    redirectToRoot(request, response);
+                                    response.sendRedirect(request.getContextPath() + Route.DISPLAY_INBOX_ROUTE);
                                 } catch (Exception ex) {
 //                                    ex.printStackTrace();
                                 }
@@ -130,7 +129,7 @@ public class InboxServlet extends HttpServlet {
                                 try {
                                     recordActivity(MessageConfig.INBOX_OPERATION_FAILED, "Location : InboxServlet.java | Line : 131 " + MessageConfig.INBOX_ERROR_2021 + " | Error : " + e.getMessage(), authUser, activityService, activity, request);
                                     setNotification(MessageConfig.INBOX_OPERATION_NOTIFICATION_TITLE, MessageConfig.INBOX_ERROR_2021_LOCAL, "danger", request);
-                                    redirectToRoot(request, response);
+                                    response.sendRedirect(request.getContextPath() + Route.DISPLAY_INBOX_ROUTE);
                                 } catch (Exception ex) {
 //                                    ex.printStackTrace();
                                 }
@@ -142,7 +141,6 @@ public class InboxServlet extends HttpServlet {
                     case Route.UPDATE_INBOX_ROUTE:
                         if (request.getParameter("mid") != null) {
                             try {
-                                request.setCharacterEncoding("UTF-8"); // to read sinhala characters
                                 if (updateMail(request, authUser, activityService, activity)) {
                                     request.getSession().removeAttribute("selectedInbox");
                                     response.sendRedirect(request.getContextPath() + Route.DISPLAY_INBOX_ROUTE);
@@ -153,7 +151,7 @@ public class InboxServlet extends HttpServlet {
                                 try {
                                     recordActivity(MessageConfig.INBOX_OPERATION_FAILED, "Location : InboxServlet.java | Line : 154 " + MessageConfig.INBOX_ERROR_2017 + " | Error : " + e.getMessage(), authUser, activityService, activity, request);
                                     setNotification(MessageConfig.INBOX_OPERATION_NOTIFICATION_TITLE, MessageConfig.INBOX_ERROR_2017_LOCAL, "danger", request);
-                                    redirectToRoot(request, response);
+                                    response.sendRedirect(request.getContextPath() + Route.DISPLAY_INBOX_ROUTE);
                                 } catch (Exception ex) {
 //                                    ex.printStackTrace();
                                 }
@@ -357,14 +355,6 @@ public class InboxServlet extends HttpServlet {
         request.getSession().setAttribute("notification", new Notification(title, body, className));
     }
 
-    private void redirectToRoot(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        if (request.getSession().getAttribute("previousRoute") != null) {
-            response.sendRedirect(request.getContextPath() + request.getSession().getAttribute("previousRoute"));
-        } else {
-            response.sendRedirect(request.getContextPath() + Route.DISPLAY_INBOX_ROUTE);
-        }
-    }
-
     private void redirectUnauthorizedRequest(String route, UserInfo user, HttpServletRequest request, HttpServletResponse response) throws IOException {
         setNotification(MessageConfig.UNAUTHORIZED_REQUEST_NOTIFICATION_TITLE, user.getDisplayName() + MessageConfig.UNAUTHORIZED_REQUEST_NOTIFICATION, "warning", request);
         switch (route) {
@@ -372,7 +362,7 @@ public class InboxServlet extends HttpServlet {
                 response.sendRedirect(request.getContextPath() + Route.LOGIN_ROUTE);
                 break;
             case "root":
-                redirectToRoot(request, response);
+                response.sendRedirect(request.getContextPath() + Route.DISPLAY_INBOX_ROUTE);
                 break;
         }
     }

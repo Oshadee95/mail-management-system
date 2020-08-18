@@ -41,7 +41,7 @@ public class DashboardServlet extends HttpServlet {
 
             if (request.getSession().getAttribute("authUser") != null) {
                 UserInfo authUser = (UserInfo) request.getSession().getAttribute("authUser");
-                request.setCharacterEncoding("UTF-8"); // to read sinhala characters
+                request.setCharacterEncoding("UTF-8");
 
                 switch (request.getServletPath()) {
                     case Route.DISPLAY_DASHBOARD_ROUTE:

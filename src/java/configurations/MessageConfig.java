@@ -47,16 +47,14 @@ public class MessageConfig {
     public static final String MYMAIL_ROUTE_LOCAL = "Failed to open mails route.<br>";
     public static final String MYMAIL_ERROR_2006 = "ECODE : 2006 | Failed to open route " + Route.DISPLAY_MYMAIL_ROUTE;
     public static final String MYMAIL_ERROR_2006_LOCAL = MYMAIL_ROUTE_LOCAL + "Contact system administrator. ECODE - 2006";
-    
-    
+
     // Acivities messages
     public static final String ACTIVITY_OPERATION_NOTIFICATION_TITLE = "MAIL OPERATION";
     public static final String ACTIVITY_OPERATION_FAILED = "AC-OP | FAILED";
     public static final String ACTIVITY_ROUTE_LOCAL = "Failed to open activity route.<br>";
     public static final String ACTIVITY_ERROR_2007 = "ECODE : 2007 | Failed to open route " + Route.DISPLAY_ACTIVITIES_ROUTES;
     public static final String ACTIVITY_ERROR_2007_LOCAL = MYMAIL_ROUTE_LOCAL + "Contact system administrator. ECODE - 2007";
-    
-    
+
     // Occupation messages
     public static final String OCCUPATION_OPERATION_NOTIFICATION_TITLE = "OCCUPATION OPERATION";
     public static final String OCCUPATION_OPERATION_SUCCESSFUL = "OC-OP | SUCCESS";
@@ -83,8 +81,7 @@ public class MessageConfig {
     public static final String OCCUPATION_ERROR_2012_LOCAL = CATEGORY_UPDATE_ERROR_LOCAL + "Contact system administrator. ECODE - 2012";
     public static final String OCCUPATION_ERROR_2013 = "ECODE : 2013 |  Failed to open route " + Route.DISPLAY_OCCUPATIONS_UPDATE_FORM_ROUTE;
     public static final String OCCUPATION_ERROR_2013_LOCAL = CATEGORY_UPDATE_ERROR_LOCAL + "Contact system administrator. ECODE - 2013";
-    
-    
+
     // Inbox messages
     public static final String INBOX_OPERATION_NOTIFICATION_TITLE = "MAIL OPERATION";
     public static final String INBOX_OPERATION_SUCCESSFUL = "IN-OP | SUCCESS";
@@ -118,4 +115,40 @@ public class MessageConfig {
     public static final String INBOX_ERROR_2022_LOCAL = INBOX_UPDATE_ERROR_LOCAL + "Uploaded image type is not supported";
     public static final String INBOX_ERROR_2023 = "ECODE : 2023 |  Failed to open route " + Route.DISPLAY_REGISTER_INBOX_FORM_ROUTE;
     public static final String INBOX_ERROR_2023_LOCAL = INBOX_UPDATE_ERROR_LOCAL + "Contact system administrator. ECODE - 2023";
+
+    // Outbox messages
+    public static final String OUTBOX_OPERATION_NOTIFICATION_TITLE = "MAIL OPERATION";
+    public static final String OUTBOX_OPERATION_SUCCESSFUL = "OU-OP | SUCCESS";
+    public static final String OUTBOX_OPERATION_FAILED = "OU-OP | FAILED";
+    public static final String OUTBOX_SUCCESSFUULY_ADDED = "New mail reply was added.";
+    public static final String OUTBOX_SUCCESSFUULY_ADDED_NOTIFICATION = "Replied to mail successfully";
+    public static final String OUTBOX_SUCCESSFUULY_UPDATED = "Mail reply was updated.";
+    public static final String OUTBOX_SUCCESSFUULY_UPDATED_NOTIFICATION = "Mail reply successfully updated";
+
+    public static final String OUTBOX_ADD_ERROR_LOCAL = "Failed to reply mail.<br>";
+    public static final String OUTBOX_ERROR_2024 = "ECODE : 2024 | Failed to reply mail due to sql error";
+    public static final String OUTBOX_ERROR_2024_LOCAL = OUTBOX_ADD_ERROR_LOCAL + "Contact system administrator. ECODE - 2024";
+    public static final String OUTBOX_ERROR_2025 = "ECODE : 2025 | Failed to reply mail due to image upload error";
+    public static final String OUTBOX_ERROR_2025_LOCAL = OUTBOX_ADD_ERROR_LOCAL + "Contact system administrator. ECODE - 2025";
+    public static final String OUTBOX_ERROR_2026 = "ECODE : 2026 | Failed to reply mail due to missing values";
+    public static final String OUTBOX_ERROR_2026_LOCAL = OUTBOX_ADD_ERROR_LOCAL + "Reqired values are missing, Please make sure all required feilds are filled";
+
+    public static final String OUTBOX_UPDATE_ERROR_LOCAL = "Failed to update mail reply.<br>";
+    public static final String OUTBOX_ERROR_2027 = "ECODE : 2027 | Failed to update mail  reply due to sql error";
+    public static final String OUTBOX_ERROR_2027_LOCAL = OUTBOX_UPDATE_ERROR_LOCAL + "Contact system administrator. ECODE - 2027";
+    public static final String OUTBOX_ERROR_2028 = "ECODE : 2028 | Failed to update mail reply due to image upload error";
+    public static final String OUTBOX_ERROR_2028_LOCAL = OUTBOX_UPDATE_ERROR_LOCAL + "Contact system administrator. ECODE - 2028";
+    public static final String OUTBOX_ERROR_2029 = "ECODE : 2029 | Failed to update mail reply due to missing values";
+    public static final String OUTBOX_ERROR_2029_LOCAL = OUTBOX_UPDATE_ERROR_LOCAL + "Reqired values are missing, Please make sure all required feilds are filled";
+    public static final String OUTBOX_ERROR_2030_LOCAL = OUTBOX_UPDATE_ERROR_LOCAL + "Uploaded image type is not supported";
+
+    public static final String OUTBOX_ROUTE_LOCAL = "Failed to open mail route.<br>";
+    public static final String OUTBOX_ERROR_2031 = "ECODE : 2032 | Failed to open route " + Route.DISPLAY_OUTBOX_FORM_ROUTE;
+    public static final String OUTBOX_ERROR_2031_LOCAL = OUTBOX_UPDATE_ERROR_LOCAL + "Contact system administrator. ECODE - 2020";
+    public static final String OUTBOX_ERROR_2032 = "ECODE : 2032 |  Failed to open route " + Route.DISPLAY_OUTBOX_UPDATE_FORM_ROUTE;
+    public static final String OUTBOX_ERROR_2032_LOCAL = OUTBOX_UPDATE_ERROR_LOCAL + "Contact system administrator. ECODE - 2021";
+    public static final String OUTBOX_ERROR_2033 = "ECODE : 2033 |  Failed to open route " + Route.DISPLAY_REGISTER_OUTBOX_FORM_ROUTE;
+    public static final String OUTBOX_ERROR_2033_LOCAL = OUTBOX_UPDATE_ERROR_LOCAL + "Contact system administrator. ECODE - 2023";
+    public static final String OUTBOX_ERROR_2034 = "ECODE : 2034 | Updated reply mail but failed to update inbox reply status due to sql error";
+    public static final String OUTBOX_ERROR_2034_LOCAL = OUTBOX_UPDATE_ERROR_LOCAL + "Contact system administrator. ECODE - 2034";
 }

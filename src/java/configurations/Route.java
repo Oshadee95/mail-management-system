@@ -25,7 +25,7 @@ public class Route {
     public static final String UPDATE_INBOX_ROUTE = "/Mails/Inbox/105";
     
     // Outbox Routes
-    public static final String DISPLAY_OUTBOX_ROUTE = "/Mails/Outbox/101";
+    public static final String DISPLAY_OUTBOX_FORM_ROUTE = "/Mails/Outbox/101";
     public static final String DISPLAY_REGISTER_OUTBOX_FORM_ROUTE = "/Mails/Outbox/102";
     public static final String REGISTER_OUTBOX_ROUTE = "/Mails/Outbox/103";
     public static final String DISPLAY_OUTBOX_UPDATE_FORM_ROUTE = "/Mails/Outbox/104";
@@ -54,5 +54,10 @@ public class Route {
 
     // Users route
     public static final String DISPLAY_USERS_ROUTE = "/Auth/Users/100";
+    public static final String DISPLAY_USERS_FORM_ROUTE = "/Auth/Users/101";
+    public static final String DISPLAY_REGISTER_USER_FORM_ROUTE = "/Auth/Users/102";
+    public static final String REGISTER_USER_ROUTE = "/Auth/Users/103";
+    public static final String DISPLAY_USER_UPDATE_FORM_ROUTE = "/Auth/Users/104";
+    public static final String UPDATE_USER_ROUTE = "/Auth/Users/105";
 
 }

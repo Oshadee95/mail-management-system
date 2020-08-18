@@ -43,13 +43,13 @@ public class MyMailServlet extends HttpServlet {
                 UserInfo authUser = (UserInfo) request.getSession().getAttribute("authUser");
                 ActivityService activityService = new ActivityService();
                 ActivityInfo activity = new ActivityInfo();
-                request.setCharacterEncoding("UTF-8"); // to read sinhala characters
+                request.setCharacterEncoding("UTF-8");
 
                 switch (request.getServletPath()) {
                     case Route.DISPLAY_MYMAIL_ROUTE:
                         if (!((authUser.getRoleId().equals("P_OPERATOR")) || (authUser.getRoleId().equals("G_OPERATOR")) || (authUser.getRoleId().equals("SYS_ADMIN")))) {
                             try {
-                                request.getSession().setAttribute("previousRoute", request.getContextPath() + Route.DISPLAY_MYMAIL_ROUTE);
+                                request.getSession().setAttribute("previousRoute", Route.DISPLAY_MYMAIL_ROUTE);
                                 request.setAttribute("inboxList", new InboxService().getAllByUser(authUser));
                                 request.getRequestDispatcher("/mails/myMail/displayMyMail.jsp").forward(request, response);
                             } catch (Exception e) {

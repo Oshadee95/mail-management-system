@@ -17,8 +17,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
+import models.ActivityInfo;
 import models.Notification;
 import models.UserInfo;
+import services.ActivityService;
 import services.OccupationService;
 import services.RoleService;
 import services.UserService;
@@ -44,95 +46,100 @@ public class UserServlet extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
 
-            switch (request.getServletPath()) {
-                case "/Auth/Users/100":
-                    try {
-                        request.setAttribute("userList", new UserService().getAll());
-                        request.getRequestDispatcher("/auth/users/displayUsers.jsp").forward(request, response);
-                    } catch (IOException | ClassNotFoundException | SQLException | ServletException e) {
-                        request.getSession().setAttribute("notification", new Notification("Error Notification", "Failed to retrieve users. ECODE - 1025.<br>Contact system administrator", "danger"));
-                        response.sendRedirect(request.getContextPath() + "/Mails/Inbox/100");
-                    }
-                    break;
-                case "/Auth/Users/101":
-                    if ((request.getParameter("uid") != null)) {
+            if (request.getSession().getAttribute("authUser") != null) {
+                UserInfo authUser = (UserInfo) request.getSession().getAttribute("authUser");
+                ActivityService activityService = new ActivityService();
+                ActivityInfo activity = new ActivityInfo();
+                request.setCharacterEncoding("UTF-8");
+
+                switch (request.getServletPath()) {
+                    case "/Auth/Users/100":
                         try {
-                            UserInfo uInfo = new UserInfo();
-                            uInfo.setId(request.getParameter("uid"));
-                            request.setAttribute("userTemp", new UserService().get(uInfo));
                             request.setAttribute("userList", new UserService().getAll());
-                            request.getRequestDispatcher("/auth/users/displayUserForm.jsp").forward(request, response);
+                            request.getRequestDispatcher("/auth/users/displayUsers.jsp").forward(request, response);
                         } catch (IOException | ClassNotFoundException | SQLException | ServletException e) {
-                            request.getSession().setAttribute("notification", new Notification("Error Notification", "Failed to retrieve user. ECODE - 1026.<br>Contact system administrator", "danger"));
+                            request.getSession().setAttribute("notification", new Notification("Error Notification", "Failed to retrieve users. ECODE - 1025.<br>Contact system administrator", "danger"));
+                            response.sendRedirect(request.getContextPath() + "/Mails/Inbox/100");
+                        }
+                        break;
+                    case "/Auth/Users/101":
+                        if ((request.getParameter("uid") != null)) {
+                            try {
+                                UserInfo uInfo = new UserInfo();
+                                uInfo.setId(request.getParameter("uid"));
+                                request.setAttribute("userTemp", new UserService().get(uInfo));
+                                request.setAttribute("userList", new UserService().getAll());
+                                request.getRequestDispatcher("/auth/users/displayUserForm.jsp").forward(request, response);
+                            } catch (IOException | ClassNotFoundException | SQLException | ServletException e) {
+                                request.getSession().setAttribute("notification", new Notification("Error Notification", "Failed to retrieve user. ECODE - 1026.<br>Contact system administrator", "danger"));
+                                response.sendRedirect(request.getContextPath() + "/Auth/Users/100");
+                            }
+                        } else {
+                            request.getSession().setAttribute("notification", new Notification("Error Notification", "Unauthorized request. User is not permitted to perform action", "danger"));
                             response.sendRedirect(request.getContextPath() + "/Auth/Users/100");
                         }
-                    } else {
-                        request.getSession().setAttribute("notification", new Notification("Error Notification", "Unauthorized request. User is not permitted to perform action", "danger"));
-                        response.sendRedirect(request.getContextPath() + "/Auth/Users/100");
-                    }
-                    break;
-                case "/Auth/Users/102":
-                    try {
-                        request.setAttribute("userList", new UserService().getAll());
-                        request.setAttribute("roleList", new RoleService().getAll());
-                        request.setAttribute("occupationList", new OccupationService().getAll());
-                        request.getRequestDispatcher("/auth/users/newUserForm.jsp").forward(request, response);
-                    } catch (IOException | ClassNotFoundException | SQLException | ServletException e) {
-                        request.getSession().setAttribute("notification", new Notification("Error Notification", "Failed to retrieve user form. ECODE - 1027.<br>Contact system administrator", "danger"));
-                        response.sendRedirect(request.getContextPath() + "/Auth/Users/100");
-                    }
-                    break;
-                case "/Auth/Users/103":
-                    try {
-                        request.setCharacterEncoding("UTF-8"); // to read sinhala characters
-                        if (registerUser(request)) {
-                            request.getSession().removeAttribute("userTemp");
-                            response.sendRedirect(request.getContextPath() + "/Auth/Users/102");
-                        } else { // TODO : add session to store the form values to sent it back when a error is occured
-                            response.sendRedirect(request.getContextPath() + "/Auth/Users/102");
-                        }
-                    } catch (Exception e) {
-                        request.getSession().setAttribute("notification", new Notification("Error Notification", "Failed to register user. ECODE - 1028.<br>Contact system administrator", "danger"));
-                        response.sendRedirect(request.getContextPath() + "/Auth/Users/100");
-                    }
-                    break;
-                case "/Auth/Users/104":
-                    if ((request.getParameter("uid") != null)) {
+                        break;
+                    case "/Auth/Users/102":
                         try {
-                            UserInfo uInfo = new UserInfo();
-                            uInfo.setId(request.getParameter("uid"));
-                            request.getSession().setAttribute("userTemp", new UserService().get(uInfo));
                             request.setAttribute("userList", new UserService().getAll());
                             request.setAttribute("roleList", new RoleService().getAll());
                             request.setAttribute("occupationList", new OccupationService().getAll());
-                            request.getRequestDispatcher("/auth/users/updateUserForm.jsp").forward(request, response);
+                            request.getRequestDispatcher("/auth/users/newUserForm.jsp").forward(request, response);
                         } catch (IOException | ClassNotFoundException | SQLException | ServletException e) {
-                            request.getSession().setAttribute("notification", new Notification("Error Notification", "Failed to retrieve user. ECODE - 1029.<br>Contact system administrator", "danger"));
+                            request.getSession().setAttribute("notification", new Notification("Error Notification", "Failed to retrieve user form. ECODE - 1027.<br>Contact system administrator", "danger"));
                             response.sendRedirect(request.getContextPath() + "/Auth/Users/100");
                         }
-                    } else {
-                        request.getSession().setAttribute("notification", new Notification("Error Notification", "Unauthorized request. User is not permitted to perform action", "danger"));
-                        response.sendRedirect(request.getContextPath() + "/Auth/Users/100");
-                    }
-                    break;
-                case "/Auth/Users/105":
-                    try {
-                        request.setCharacterEncoding("UTF-8"); // to read sinhala characters
-                        if (updateUser(request)) {
-                            request.getSession().removeAttribute("userTemp");
-                            response.sendRedirect(request.getContextPath() + "/Auth/Users/100");
-                        } else { // TODO : add session to store the form values to sent it back when a error is occured
+                        break;
+                    case "/Auth/Users/103":
+                        try {
+                            if (registerUser(request)) {
+                                request.getSession().removeAttribute("userTemp");
+                                response.sendRedirect(request.getContextPath() + "/Auth/Users/102");
+                            } else { // TODO : add session to store the form values to sent it back when a error is occured
+                                response.sendRedirect(request.getContextPath() + "/Auth/Users/102");
+                            }
+                        } catch (Exception e) {
+                            request.getSession().setAttribute("notification", new Notification("Error Notification", "Failed to register user. ECODE - 1028.<br>Contact system administrator", "danger"));
                             response.sendRedirect(request.getContextPath() + "/Auth/Users/100");
                         }
-                    } catch (Exception e) {
-                        request.getSession().setAttribute("notification", new Notification("Error Notification", "Failed to update user. ECODE - 1030.<br>Contact system administrator", "danger"));
+                        break;
+                    case "/Auth/Users/104":
+                        if ((request.getParameter("uid") != null)) {
+                            try {
+                                UserInfo uInfo = new UserInfo();
+                                uInfo.setId(request.getParameter("uid"));
+                                request.getSession().setAttribute("userTemp", new UserService().get(uInfo));
+                                request.setAttribute("userList", new UserService().getAll());
+                                request.setAttribute("roleList", new RoleService().getAll());
+                                request.setAttribute("occupationList", new OccupationService().getAll());
+                                request.getRequestDispatcher("/auth/users/updateUserForm.jsp").forward(request, response);
+                            } catch (IOException | ClassNotFoundException | SQLException | ServletException e) {
+                                request.getSession().setAttribute("notification", new Notification("Error Notification", "Failed to retrieve user. ECODE - 1029.<br>Contact system administrator", "danger"));
+                                response.sendRedirect(request.getContextPath() + "/Auth/Users/100");
+                            }
+                        } else {
+                            request.getSession().setAttribute("notification", new Notification("Error Notification", "Unauthorized request. User is not permitted to perform action", "danger"));
+                            response.sendRedirect(request.getContextPath() + "/Auth/Users/100");
+                        }
+                        break;
+                    case "/Auth/Users/105":
+                        try {
+                            if (updateUser(request)) {
+                                request.getSession().removeAttribute("userTemp");
+                                response.sendRedirect(request.getContextPath() + "/Auth/Users/100");
+                            } else { // TODO : add session to store the form values to sent it back when a error is occured
+                                response.sendRedirect(request.getContextPath() + "/Auth/Users/100");
+                            }
+                        } catch (Exception e) {
+                            request.getSession().setAttribute("notification", new Notification("Error Notification", "Failed to update user. ECODE - 1030.<br>Contact system administrator", "danger"));
+                            response.sendRedirect(request.getContextPath() + "/Auth/Users/100");
+                        }
+                        break;
+                    default:
                         response.sendRedirect(request.getContextPath() + "/Auth/Users/100");
-                    }
-                    break;
-                default:
-                    response.sendRedirect(request.getContextPath() + "/Auth/Users/100");
-                    break;
+                        break;
 
+                }
             }
         }
     }

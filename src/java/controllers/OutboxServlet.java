@@ -5,6 +5,9 @@
  */
 package controllers;
 
+import configurations.MessageConfig;
+import configurations.PathConfig;
+import configurations.Route;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -50,11 +53,10 @@ public class OutboxServlet extends HttpServlet {
                 UserInfo authUser = (UserInfo) request.getSession().getAttribute("authUser");
                 ActivityService activityService = new ActivityService();
                 ActivityInfo activity = new ActivityInfo();
-                request.setCharacterEncoding("UTF-8"); // to read sinhala characters
-                String previousRoute = (String) request.getSession().getAttribute("previousRoute");
+                request.setCharacterEncoding("UTF-8");
 
                 switch (request.getServletPath()) {
-                    case "/Mails/Outbox/101":
+                    case Route.DISPLAY_OUTBOX_FORM_ROUTE:
                         if ((request.getParameter("mid") != null)) {
                             try {
                                 InboxInfo inbox = new InboxInfo();
@@ -63,35 +65,21 @@ public class OutboxServlet extends HttpServlet {
                                 OutboxInfo outbox = new OutboxInfo();
                                 outbox.setMailId(inbox.getId());
                                 request.setAttribute("selectedOutbox", new OutboxService().get(outbox));
-//                                request.getSession().setAttribute("previousRoute", request.getContextPath() + "/Mails/Outbox/101");
                                 request.getRequestDispatcher("/mails/outbox/displayOutboxForm.jsp").forward(request, response);
                             } catch (Exception e) {
-                                e.printStackTrace();
                                 try {
-                                    activity.setUserId(authUser.getId());
-                                    activity.setType("OS-ERROR");
-                                    activity.setAction("Location : OutboxServlet.java | Line : 71 | Code : 1050 | Error : " + e.getMessage());
-                                    activityService.add(activity);
-                                    request.getSession().setAttribute("notification", new Notification("Error Notification", "Failed to open mail. ECODE - 1050.<br>Contact system administrator", "danger"));
-                                    response.sendRedirect(getInboxRoute(request, authUser));
+                                    recordActivity(MessageConfig.INBOX_OPERATION_FAILED, "Location : OutboxServlet.java | Line : 154 " + MessageConfig.OUTBOX_ERROR_2031 + " | Error : " + e.getMessage(), authUser, activityService, activity, request);
+                                    setNotification(MessageConfig.INBOX_OPERATION_NOTIFICATION_TITLE, MessageConfig.OUTBOX_ERROR_2031_LOCAL, "danger", request);
+                                    redirectToRoot(request, response);
                                 } catch (Exception ex) {
 //                                    ex.printStackTrace();
                                 }
                             }
                         } else {
-                            try {
-                                activity.setUserId(authUser.getId());
-                                activity.setType("UNAUTHORIZED-REQ");
-                                activity.setAction(authUser.getId() + " made a direct request to route : /Mails/Outbox/101");
-                                activityService.add(activity);
-                                request.getSession().setAttribute("notification", new Notification("Unauthorized Request", authUser.getDisplayName() + " has no permission to access route", "warning"));
-                                response.sendRedirect(getInboxRoute(request, authUser));
-                            } catch (Exception e) {
-//                                ex.printStackTrace();
-                            }
+                            redirectUnauthorizedRequest("root", authUser, request, response);
                         }
                         break;
-                    case "/Mails/Outbox/102":
+                    case Route.DISPLAY_REGISTER_OUTBOX_FORM_ROUTE:
                         if ((request.getParameter("mid") != null) || (request.getSession().getAttribute("selectedInbox") != null)) {
                             try {
                                 InboxInfo inbox = new InboxInfo();
@@ -99,65 +87,43 @@ public class OutboxServlet extends HttpServlet {
                                     inbox.setId(request.getParameter("mid"));
                                     request.getSession().setAttribute("selectedInbox", new InboxService().get(inbox));
                                 }
-                                request.getSession().setAttribute("previousRoute", request.getContextPath() + "/Mails/Outbox/102");
                                 request.getRequestDispatcher("/mails/outbox/newOutboxForm.jsp").forward(request, response);
                             } catch (Exception e) {
                                 try {
-                                    activity.setUserId(authUser.getId());
-                                    activity.setType("OS-ERROR");
-                                    activity.setAction("Location : OutboxServlet.java | Line : 106 | Code : 1051 | Error : " + e.getMessage());
-                                    activityService.add(activity);
-                                    request.getSession().setAttribute("notification", new Notification("Error Notification", "Failed to open reply form. ECODE - 1051.<br>Contact system administrator", "danger"));
-                                    response.sendRedirect(getInboxRoute(request, authUser));
+                                    recordActivity(MessageConfig.INBOX_OPERATION_FAILED, "Location : OutboxServlet.java | Line : 154 " + MessageConfig.OUTBOX_ERROR_2033 + " | Error : " + e.getMessage(), authUser, activityService, activity, request);
+                                    setNotification(MessageConfig.INBOX_OPERATION_NOTIFICATION_TITLE, MessageConfig.OUTBOX_ERROR_2033_LOCAL, "danger", request);
+                                    redirectToRoot(request, response);
                                 } catch (Exception ex) {
 //                                    ex.printStackTrace();
                                 }
                             }
                         } else {
-                            try {
-                                activity.setUserId(authUser.getId());
-                                activity.setType("UNAUTHORIZED-REQ");
-                                activity.setAction(authUser.getDisplayName() + " made a direct request to route : /Mails/Outbox/102");
-                                activityService.add(activity);
-                                request.getSession().setAttribute("notification", new Notification("Unauthorized Request", authUser.getDisplayName() + " has no permission to access route", "warning"));
-                                response.sendRedirect(getInboxRoute(request, authUser));
-                            } catch (Exception e) {
-//                                ex.printStackTrace();
-                            }
+                            redirectUnauthorizedRequest("root", authUser, request, response);
                         }
                         break;
-                    case "/Mails/Outbox/103":
+                    case Route.REGISTER_OUTBOX_ROUTE:
                         if (request.getParameter("rForm") != null) {
                             try {
-                                request.setCharacterEncoding("UTF-8"); // to read sinhala characters
-                                replyMail(request, authUser, activityService, activity);
-                                response.sendRedirect(getInboxRoute(request, authUser));
+                                if (replyMail(request, authUser, activityService, activity)) {
+                                    request.getSession().removeAttribute("selectedInbox");
+                                    redirectToRoot(request, response);
+                                } else {
+                                    response.sendRedirect(request.getContextPath() + Route.REGISTER_OUTBOX_ROUTE);
+                                }
                             } catch (Exception e) {
                                 try {
-                                    activity.setUserId(authUser.getId());
-                                    activity.setType("OS-ERROR");
-                                    activity.setAction("Location : OutboxServlet.java | Line : 137 | Code : 1052 | Error : " + e.getMessage());
-                                    activityService.add(activity);
-                                    request.getSession().setAttribute("notification", new Notification("Error Notification", "Failed to reply mail. ECODE - 1052.<br>Contact system administrator", "danger"));
-                                    response.sendRedirect(previousRoute);
+                                    recordActivity(MessageConfig.INBOX_OPERATION_FAILED, "Location : OutboxServlet.java | Line : 154 " + MessageConfig.OUTBOX_ERROR_2027 + " | Error : " + e.getMessage(), authUser, activityService, activity, request);
+                                    setNotification(MessageConfig.INBOX_OPERATION_NOTIFICATION_TITLE, MessageConfig.OUTBOX_ERROR_2027_LOCAL, "danger", request);
+                                    redirectToRoot(request, response);
                                 } catch (Exception ex) {
 //                                    ex.printStackTrace();
                                 }
                             }
                         } else {
-                            try {
-                                activity.setUserId(authUser.getId());
-                                activity.setType("UNAUTHORIZED-REQ");
-                                activity.setAction(authUser.getDisplayName() + " made a direct request to route : /Mails/Outbox/103");
-                                activityService.add(activity);
-                                request.getSession().setAttribute("notification", new Notification("Unauthorized Request", authUser.getDisplayName() + " has no permission to access route", "warning"));
-                                response.sendRedirect(getInboxRoute(request, authUser));
-                            } catch (Exception e) {
-//                                e.printStackTrace();
-                            }
+                            redirectUnauthorizedRequest("root", authUser, request, response);
                         }
                         break;
-                    case "/Mails/Outbox/104":
+                    case Route.DISPLAY_OUTBOX_UPDATE_FORM_ROUTE:
                         if ((request.getParameter("mid") != null) || (request.getSession().getAttribute("selectedInbox") != null)) {
                             try {
                                 InboxInfo inbox = new InboxInfo();
@@ -173,70 +139,48 @@ public class OutboxServlet extends HttpServlet {
                                     outbox.setMailId(inbox.getId());
                                     request.getSession().setAttribute("selectedOutbox", new OutboxService().get(outbox));
                                 }
-                                request.getSession().setAttribute("previousRoute", request.getContextPath() + "/Mails/Outbox/104");
                                 request.getRequestDispatcher("/mails/outbox/updateOutboxForm.jsp").forward(request, response);
                             } catch (Exception e) {
-                                e.printStackTrace();
                                 try {
-                                    activity.setUserId(authUser.getId());
-                                    activity.setType("OS-ERROR");
-                                    activity.setAction("Location : OutboxServlet.java | Line : 180 | Code : 1053 | Error : " + e.getMessage());
-                                    activityService.add(activity);
-                                    request.getSession().setAttribute("notification", new Notification("Error Notification", "Failed to open update reply form. ECODE - 1053.<br>Contact system administrator", "danger"));
-                                    response.sendRedirect(getInboxRoute(request, authUser));
+                                    recordActivity(MessageConfig.INBOX_OPERATION_FAILED, "Location : OutboxServlet.java | Line : 154 " + MessageConfig.OUTBOX_ERROR_2032 + " | Error : " + e.getMessage(), authUser, activityService, activity, request);
+                                    setNotification(MessageConfig.INBOX_OPERATION_NOTIFICATION_TITLE, MessageConfig.OUTBOX_ERROR_2032_LOCAL, "danger", request);
+                                    redirectToRoot(request, response);
                                 } catch (Exception ex) {
 //                                    ex.printStackTrace();
                                 }
                             }
                         } else {
-                            try {
-                                activity.setUserId(authUser.getId());
-                                activity.setType("UNAUTHORIZED-REQ");
-                                activity.setAction(authUser.getDisplayName() + " made a direct request to route : /Mails/Outbox/104");
-                                activityService.add(activity);
-                                request.getSession().setAttribute("notification", new Notification("Unauthorized Request", authUser.getDisplayName() + " has no permission to access route", "warning"));
-                                response.sendRedirect(getInboxRoute(request, authUser));
-                            } catch (Exception e) {
-//                                e.printStackTrace();
-                            }
+                            redirectUnauthorizedRequest("root", authUser, request, response);
                         }
                         break;
-                    case "/Mails/Outbox/105":
+                    case Route.UPDATE_OUTBOX_ROUTE:
                         if (request.getParameter("rUFrom") != null) {
                             try {
-                                request.setCharacterEncoding("UTF-8"); // to read sinhala characters
-                                updateReplyMail(request, authUser, activityService, activity);
-                                response.sendRedirect(getInboxRoute(request, authUser));
+                                if (updateReplyMail(request, authUser, activityService, activity)) {
+                                    request.getSession().removeAttribute("selectedInbox");
+                                    redirectToRoot(request, response);
+                                } else {
+                                    response.sendRedirect(request.getContextPath() + Route.DISPLAY_OUTBOX_UPDATE_FORM_ROUTE);
+                                }
                             } catch (Exception e) {
                                 try {
-                                    activity.setUserId(authUser.getId());
-                                    activity.setType("OS-ERROR");
-                                    activity.setAction("Location : OutboxServlet.java | Line : 211 | Code : 1054 | Error : " + e.getMessage());
-                                    activityService.add(activity);
-                                    request.getSession().setAttribute("notification", new Notification("Error Notification", "Failed to update reply. ECODE - 1054.<br>Contact system administrator", "danger"));
-                                    response.sendRedirect(previousRoute);
+                                    recordActivity(MessageConfig.INBOX_OPERATION_FAILED, "Location : OutboxServlet.java | Line : 154 " + MessageConfig.OUTBOX_ERROR_2027 + " | Error : " + e.getMessage(), authUser, activityService, activity, request);
+                                    setNotification(MessageConfig.INBOX_OPERATION_NOTIFICATION_TITLE, MessageConfig.OUTBOX_ERROR_2027_LOCAL, "danger", request);
+                                    redirectToRoot(request, response);
                                 } catch (Exception ex) {
 //                                    ex.printStackTrace();
                                 }
                             }
                         } else {
-                            try {
-                                activity.setUserId(authUser.getId());
-                                activity.setType("UNAUTHORIZED-REQ");
-                                activity.setAction(authUser.getDisplayName() + " made a direct request to route : /Mails/Outbox/105");
-                                activityService.add(activity);
-                                request.getSession().setAttribute("notification", new Notification("Unauthorized Request", authUser.getDisplayName() + " has no permission to access route", "warning"));
-                                response.sendRedirect(getInboxRoute(request, authUser));
-                            } catch (Exception e) {
-//                                e.printStackTrace();
-                            }
+                            redirectUnauthorizedRequest("root", authUser, request, response);
                         }
                         break;
                     default:
-                        response.sendRedirect(getInboxRoute(request, authUser));
+                        redirectUnauthorizedRequest("root", authUser, request, response);
                         break;
-
                 }
+            } else {
+                redirectUnauthorizedRequest("login", null, request, response);
             }
         }
 
@@ -250,50 +194,31 @@ public class OutboxServlet extends HttpServlet {
                 if (outboxService.add(outbox)) {
                     if (updateMailReplyStatus(outbox, "true")) {
                         if (uploadFile(request, outbox.getReplyImageURL())) {
-                            activity.setUserId(authUser.getId());
-                            activity.setType("OS-SUCCESSFUL");
-                            activity.setAction(authUser.getDisplayName() + " replied to mail : " + outbox.getMailId());
-                            activityService.add(activity);
-                            request.getSession().setAttribute("notification", new Notification("Success Notification", "Replied to mail successfully", "success"));
+                            recordActivity(MessageConfig.OUTBOX_OPERATION_SUCCESSFUL, MessageConfig.OUTBOX_SUCCESSFUULY_ADDED + " Reply mail id : " + outbox.getMailId(), authUser, activityService, activity, request);
+                            setNotification(MessageConfig.OUTBOX_OPERATION_NOTIFICATION_TITLE, MessageConfig.OUTBOX_SUCCESSFUULY_ADDED_NOTIFICATION, "success", request);
                             return true;
                         } else {
-                            updateMailReplyStatus(outbox, "false");
-                            outboxService.remove(outbox);
-                            activity.setUserId(authUser.getId());
-                            activity.setType("OS-ERROR");
-                            activity.setAction("Location : OutboxServlet.java | Line : 261 | Code : 1055 | Error : Failed to save reply image on the server for mail : " + outbox.getMailId());
-                            activityService.add(activity);
-                            request.getSession().setAttribute("notification", new Notification("Error Notification", "Failed to reply mail. ECODE - 1055.<br>Contact system administrator", "danger"));
+                            recordActivity(MessageConfig.OUTBOX_OPERATION_FAILED, "Location : OutboxServlet.java | Line : 219 " + MessageConfig.OUTBOX_ERROR_2028, authUser, activityService, activity, request);
+                            setNotification(MessageConfig.OUTBOX_OPERATION_NOTIFICATION_TITLE, MessageConfig.OUTBOX_ERROR_2028_LOCAL, "danger", request);
                             return false;
                         }
                     } else {
                         outboxService.remove(outbox);
-                        activity.setUserId(authUser.getId());
-                        activity.setType("OS-ERROR");
-                        activity.setAction("Location : OutboxServlet.java | Line : 270 | Code : 1056 | Error : Failed to update reply status on inbox mail : " + outbox.getMailId());
-                        activityService.add(activity);
-                        request.getSession().setAttribute("notification", new Notification("Error Notification", "Failed to reply mail. ECODE - 1056.<br>Contact system administrator", "danger"));
+                        recordActivity(MessageConfig.OUTBOX_OPERATION_FAILED, "Location : OutboxServlet.java | Line : 219 " + MessageConfig.OUTBOX_ERROR_2034, authUser, activityService, activity, request);
+                        setNotification(MessageConfig.OUTBOX_OPERATION_NOTIFICATION_TITLE, MessageConfig.OUTBOX_ERROR_2034_LOCAL, "danger", request);
                         return false;
                     }
                 } else {
-                    activity.setUserId(authUser.getId());
-                    activity.setType("OS-ERROR");
-                    activity.setAction("Location : OutboxServlet.java | Line : 278 | Code : 1057 | Error : Failed to add reply for mail : " + outbox.getMailId());
-                    activityService.add(activity);
-                    request.getSession().setAttribute("notification", new Notification("Error Notification", "Failed to reply mail. ECODE - 1057.<br>Contact system administrator", "danger"));
+                    recordActivity(MessageConfig.OUTBOX_OPERATION_FAILED, "Location : OutboxServlet.java | Line : 219 " + MessageConfig.OUTBOX_ERROR_2024, authUser, activityService, activity, request);
+                    setNotification(MessageConfig.OUTBOX_OPERATION_NOTIFICATION_TITLE, MessageConfig.OUTBOX_ERROR_2024_LOCAL, "danger", request);
                     return false;
                 }
             } else {
-                activity.setUserId(authUser.getId());
-                activity.setType("OS-ERROR");
-                activity.setAction("Location : OutboxServlet.java | Line : 286 | Code : 1058 | Error : Failed to locate outbox object to reply mail");
-                activityService.add(activity);
-                request.getSession().setAttribute("notification", new Notification("Error Notification", "Failed to reply mail. ECODE - 1058.<br>Contact system administrator", "danger"));
+                setNotification(MessageConfig.OUTBOX_OPERATION_NOTIFICATION_TITLE, MessageConfig.OUTBOX_ERROR_2026_LOCAL, "danger", request);
                 return false;
             }
         } else {
-            activity.setUserId(authUser.getId());
-            request.getSession().setAttribute("notification", new Notification("Error Notification", "Failed to reply mail. ECODE - 1059.<br>Reqired values are missing, Please make sure all required vales are filled", "danger"));
+            setNotification(MessageConfig.OUTBOX_OPERATION_NOTIFICATION_TITLE, MessageConfig.OUTBOX_ERROR_2026_LOCAL, "danger", request);
             return false;
         }
     }
@@ -305,40 +230,25 @@ public class OutboxServlet extends HttpServlet {
                 OutboxInfo outbox = getUpdatedReplyValues(request);
                 if (outboxService.update(outbox)) {
                     if (uploadFile(request, outbox.getReplyImageURL())) {
-                        activity.setUserId(authUser.getId());
-                        activity.setType("OS-SUCCESSFUL");
-                        activity.setAction(authUser.getDisplayName() + " replied to mail : " + outbox.getMailId());
-                        activityService.add(activity);
-                        request.getSession().setAttribute("notification", new Notification("Success Notification", "Replied to mail successfully", "success"));
+                        recordActivity(MessageConfig.OUTBOX_OPERATION_SUCCESSFUL, MessageConfig.OUTBOX_SUCCESSFUULY_UPDATED + " Reply mail id : " + outbox.getMailId(), authUser, activityService, activity, request);
+                        setNotification(MessageConfig.OUTBOX_OPERATION_NOTIFICATION_TITLE, MessageConfig.OUTBOX_SUCCESSFUULY_UPDATED_NOTIFICATION, "success", request);
                         return true;
                     } else {
-                        updateMailReplyStatus(outbox, "false");
-                        outboxService.remove(outbox);
-                        activity.setUserId(authUser.getId());
-                        activity.setType("OS-ERROR");
-                        activity.setAction("Location : OutboxServlet.java | Line : 311 | Code : 316 | Error : Failed to save reply image on the server for mail : " + outbox.getMailId());
-                        activityService.add(activity);
-                        request.getSession().setAttribute("notification", new Notification("Error Notification", "Failed to update reply. ECODE - 1055.<br>Contact system administrator", "danger"));
+                        recordActivity(MessageConfig.OUTBOX_OPERATION_FAILED, "Location : OutboxServlet.java | Line : 219 " + MessageConfig.OUTBOX_ERROR_2028, authUser, activityService, activity, request);
+                        setNotification(MessageConfig.OUTBOX_OPERATION_NOTIFICATION_TITLE, MessageConfig.OUTBOX_ERROR_2028_LOCAL, "danger", request);
                         return false;
                     }
                 } else {
-                    activity.setUserId(authUser.getId());
-                    activity.setType("OS-ERROR");
-                    activity.setAction("Location : OutboxServlet.java | Line : 278 | Code : 324 | Error : Failed to update reply for mail : " + outbox.getMailId());
-                    activityService.add(activity);
-                    request.getSession().setAttribute("notification", new Notification("Error Notification", "Failed to reply mail. ECODE - 1057.<br>Contact system administrator", "danger"));
+                    recordActivity(MessageConfig.OUTBOX_OPERATION_FAILED, "Location : OutboxServlet.java | Line : 219 " + MessageConfig.OUTBOX_ERROR_2027, authUser, activityService, activity, request);
+                    setNotification(MessageConfig.OUTBOX_OPERATION_NOTIFICATION_TITLE, MessageConfig.OUTBOX_ERROR_2027_LOCAL, "danger", request);
                     return false;
                 }
             } else {
-                activity.setUserId(authUser.getId());
-                activity.setType("OS-ERROR");
-                activity.setAction("Location : OutboxServlet.java | Line : 322 | Code : 1058 | Error : Failed to locate outbox object to reply mail");
-                activityService.add(activity);
-                request.getSession().setAttribute("notification", new Notification("Error Notification", "Failed to reply mail. ECODE - 1058.<br>Contact system administrator", "danger"));
+                setNotification(MessageConfig.OUTBOX_OPERATION_NOTIFICATION_TITLE, MessageConfig.OUTBOX_ERROR_2029_LOCAL, "danger", request);
                 return false;
             }
         } else {
-            request.getSession().setAttribute("notification", new Notification("Error Notification", "Failed to reply mail. ECODE - 1059.<br>Reqired values are missing, Please make sure all required vales are filled", "danger"));
+            setNotification(MessageConfig.OUTBOX_OPERATION_NOTIFICATION_TITLE, MessageConfig.OUTBOX_ERROR_2029_LOCAL, "danger", request);
             return false;
         }
     }
@@ -365,13 +275,13 @@ public class OutboxServlet extends HttpServlet {
         // obtains the upload file part in this multipart request
         Part filePart = request.getPart("reply");
         if (!((filePart.getContentType().equals("image/png")) || (filePart.getContentType().equals("image/jpeg")))) {
-            request.getSession().setAttribute("notification", new Notification("Error Notification", "Failed to reply mail. ECODE - 1060.<br>Uploaded image type is not supported", "danger"));
-            return false; // If image type is not accecpted
+            setNotification(MessageConfig.INBOX_OPERATION_NOTIFICATION_TITLE, MessageConfig.OUTBOX_ERROR_2030_LOCAL, "danger", request);
+            return false;
         }
         // obtains input stream of the upload file
         InputStream inputStream = filePart.getInputStream();
         // Change the output path accordingly
-        OutputStream output = new FileOutputStream("C:\\Users\\RED-HAWK\\Documents\\GitHub Projects\\mail-management-system\\web\\resources\\mails\\" + imageName);
+        OutputStream output = new FileOutputStream(PathConfig.OUTBOX_LETTER_UPLOAD_PATH + imageName);
         byte[] buffer = new byte[1024];
         while (inputStream.read(buffer) > 0) {
             output.write(buffer);
@@ -379,11 +289,34 @@ public class OutboxServlet extends HttpServlet {
         return true;
     }
 
-    private String getInboxRoute(HttpServletRequest request, UserInfo authUser) {
-        if (!((authUser.getRoleId().equals("P_OPERATOR")) || (authUser.getRoleId().equals("G_OPERATOR")) || (authUser.getRoleId().equals("SYS_ADMIN")))) {
-            return request.getContextPath() + "/Mails/MyMail/100";
+    private void recordActivity(String type, String operation, UserInfo user, ActivityService activityService, ActivityInfo activity, HttpServletRequest request) throws ClassNotFoundException, SQLException {
+        activity.setUserId(user.getId());
+        activity.setType(type);
+        activity.setAction(operation);
+        activityService.add(activity);
+    }
+
+    private void setNotification(String title, String body, String className, HttpServletRequest request) {
+        request.getSession().setAttribute("notification", new Notification(title, body, className));
+    }
+
+    private void redirectToRoot(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        if (request.getSession().getAttribute("previousRoute") != null) {
+            response.sendRedirect(request.getContextPath() + request.getSession().getAttribute("previousRoute"));
         } else {
-            return request.getContextPath() + "/Mails/Inbox/100";
+            response.sendRedirect(request.getContextPath() + Route.DISPLAY_INBOX_ROUTE);
+        }
+    }
+
+    private void redirectUnauthorizedRequest(String route, UserInfo user, HttpServletRequest request, HttpServletResponse response) throws IOException {
+        setNotification(MessageConfig.UNAUTHORIZED_REQUEST_NOTIFICATION_TITLE, user.getDisplayName() + MessageConfig.UNAUTHORIZED_REQUEST_NOTIFICATION, "warning", request);
+        switch (route) {
+            case "login":
+                response.sendRedirect(request.getContextPath() + Route.LOGIN_ROUTE);
+                break;
+            case "root":
+                redirectToRoot(request, response);
+                break;
         }
     }
 

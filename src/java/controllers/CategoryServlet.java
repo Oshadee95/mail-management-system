@@ -126,7 +126,7 @@ public class CategoryServlet extends HttpServlet {
                         }
                         break;
                     default:
-                        redirectUnauthorizedRequest("login", null, request, response);
+                        redirectUnauthorizedRequest("root", authUser, request, response);
                         break;
                 }
             } else {

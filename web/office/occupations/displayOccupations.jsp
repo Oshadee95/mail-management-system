@@ -60,7 +60,7 @@
                                         </fieldset>
                                         <div class="float-right  m-t-40 m-b-20">
                                             <button type="reset" class="btn btn-md btn-secondary" id="reset"><i class="icon-reload-alt position-left"></i>Reset</button>&nbsp;&nbsp;
-                                            <button type="submit" name="oid" value="<%=occupation.getId()%>" class="btn btn-md btn-warning"><i class="icon-envelop  position-left"></i> Update</button>
+                                            <button type="submit" name="oid" value="<%=occupation.getId()%>" class="btn btn-md btn-warning"><i class="icon-briefcase  position-left"></i> Update</button>
                                         </div>
                                     </div>
                                 </form>
@@ -92,7 +92,7 @@
                                         </fieldset>
                                         <div class="float-right  m-t-40 m-b-20">
                                             <button type="reset" class="btn btn-md btn-secondary" id="reset"><i class="icon-reload-alt position-left"></i>Reset</button>&nbsp;&nbsp;
-                                            <button type="submit" name="oNForm" class="btn btn-md btn-primary"><i class="icon-envelop  position-left"></i> register</button>
+                                            <button type="submit" name="oNForm" class="btn btn-md btn-primary"><i class="icon-briefcase  position-left"></i> register</button>
                                         </div>
                                     </div>
                                 </form>

@@ -5,6 +5,8 @@
  */
 package controllers;
 
+import configurations.MessageConfig;
+import configurations.Route;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
@@ -13,12 +15,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import models.ActivityInfo;
-import models.Category;
 import models.Notification;
 import models.Occupation;
 import models.UserInfo;
 import services.ActivityService;
-import services.CategoryService;
 import services.OccupationService;
 
 /**
@@ -44,26 +44,24 @@ public class OccupationServlet extends HttpServlet {
                 UserInfo authUser = (UserInfo) request.getSession().getAttribute("authUser");
                 ActivityService activityService = new ActivityService();
                 ActivityInfo activity = new ActivityInfo();
-
+                request.setCharacterEncoding("UTF-8"); // to read sinhala characters
+                
                 switch (request.getServletPath()) {
-                    case "/Office/Occupation/100":
+                    case Route.DISPLAY_OCCUPATIONS_ROUTE:
                         try {
                             request.setAttribute("occupationList", new OccupationService().getAll());
                             request.getRequestDispatcher("/office/occupations/displayOccupations.jsp").forward(request, response);
                         } catch (Exception e) {
                             try {
-                                activity.setUserId(authUser.getId());
-                                activity.setType("ERROR");
-                                activity.setAction("Location : OccupationServlet.java | Line : 55 | Code : 1090 | Error : " + e.getMessage());
-                                activityService.add(activity);
-                                request.getSession().setAttribute("notification", new Notification("Error Notification", "Failed to retrieve occupations. ECODE - 1090.<br>Contact system administrator", "danger"));
-                                response.sendRedirect(request.getContextPath() + "/Mails/Inbox/100");
+                                recordActivity(MessageConfig.OCCUPATION_OPERATION_FAILED, "Location : OccupationServlet.java | Line : 56 " + MessageConfig.OCCUPATION_ERROR_2012 + " | Error : " + e.getMessage(), authUser, activityService, activity, request);
+                                setNotification(MessageConfig.OCCUPATION_OPERATION_NOTIFICATION_TITLE, MessageConfig.OCCUPATION_ERROR_2012_LOCAL, "danger", request);
+                                response.sendRedirect(request.getContextPath() + Route.DISPLAY_DASHBOARD_ROUTE);
                             } catch (Exception ex) {
 //                                    ex.printStackTrace();
                             }
                         }
                         break;
-                    case "/Office/Occupation/103":
+                    case Route.REGISTER_OCCUPATIONS_ROUTE:
                         if (request.getParameter("oNForm") != null) {
                             try {
                                 if (addOccupation(request, authUser, activityService, activity)) {
@@ -72,29 +70,17 @@ public class OccupationServlet extends HttpServlet {
                                 response.sendRedirect(request.getContextPath() + "/Office/Occupation/100");
                             } catch (Exception e) {
                                 try {
-                                    activity.setUserId(authUser.getId());
-                                    activity.setType("ERROR");
-                                    activity.setAction("Location : OccupationServlet.java | Line : 91 | Code : 1092 | Error : " + e.getMessage());
-                                    activityService.add(activity);
-                                    request.getSession().setAttribute("notification", new Notification("Error Notification", "Failed to add occupation. ECODE - 1092.<br>Contact system administrator", "danger"));
-                                    response.sendRedirect(request.getContextPath() + "/Office/Occupation/100");
+                                    recordActivity(MessageConfig.OCCUPATION_OPERATION_FAILED, "Location : OccupationServlet.java | Line : 73 " + MessageConfig.OCCUPATION_ERROR_2008 + " | Error : " + e.getMessage(), authUser, activityService, activity, request);
+                                    setNotification(MessageConfig.OCCUPATION_OPERATION_NOTIFICATION_TITLE, MessageConfig.OCCUPATION_ERROR_2008_LOCAL, "danger", request);
+                                    response.sendRedirect(request.getContextPath() + Route.DISPLAY_OCCUPATIONS_ROUTE);
                                 } catch (Exception ex) {
 //                                    ex.printStackTrace();
                                 }
                             }
                         } else {
-                            try {
-                                activity.setUserId(authUser.getId());
-                                activity.setType("UNAUTHORIZED-REQ");
-                                activity.setAction(authUser.getId() + " made a request to route : /Office/Occupation/103");
-                                activityService.add(activity);
-                                request.getSession().setAttribute("notification", new Notification("Unauthorized Request", authUser.getDisplayName() + " has no permission to access route", "warning"));
-                                response.sendRedirect(request.getContextPath());
-                            } catch (Exception e) {
-//                                ex.printStackTrace();
-                            }
+                            redirectUnauthorizedRequest("root", authUser, request, response);
                         }
-                    case "/Office/Occupation/104":
+                    case Route.DISPLAY_OCCUPATIONS_UPDATE_FORM_ROUTE:
                         if (request.getParameter("oid") != null) {
                             try {
                                 Occupation occupation = new Occupation();
@@ -104,32 +90,20 @@ public class OccupationServlet extends HttpServlet {
                                 response.sendRedirect(request.getContextPath() + "/Office/Occupation/100");
                             } catch (Exception e) {
                                 try {
-                                    activity.setUserId(authUser.getId());
-                                    activity.setType("ERROR");
-                                    activity.setAction("Location : OccupationServlet.java | Line : 123 | Code : 1097 | Error : " + e.getMessage());
-                                    activityService.add(activity);
-                                    request.getSession().setAttribute("notification", new Notification("Error Notification", "Failed to open update occupation form. ECODE - 1097.<br>Contact system administrator", "danger"));
-                                    response.sendRedirect(request.getContextPath() + "/Office/Occupation/100");
+                                    recordActivity(MessageConfig.OCCUPATION_OPERATION_FAILED, "Location : OccupationServlet.java | Line : 93 " + MessageConfig.OCCUPATION_ERROR_2013 + " | Error : " + e.getMessage(), authUser, activityService, activity, request);
+                                    setNotification(MessageConfig.OCCUPATION_OPERATION_NOTIFICATION_TITLE, MessageConfig.OCCUPATION_ERROR_2013_LOCAL, "danger", request);
+                                    response.sendRedirect(request.getContextPath() + Route.DISPLAY_OCCUPATIONS_ROUTE);
                                 } catch (Exception ex) {
 //                                    ex.printStackTrace();
                                 }
                             }
                         } else {
                             if (!(request.getServletPath().equals("/Office/Occupation/103"))) {
-                                try {
-                                    activity.setUserId(authUser.getId());
-                                    activity.setType("UNAUTHORIZED-REQ");
-                                    activity.setAction(authUser.getId() + " made a request to route : /Office/Occupation/105");
-                                    activityService.add(activity);
-                                    request.getSession().setAttribute("notification", new Notification("Unauthorized Request", authUser.getDisplayName() + " has no permission to access route", "warning"));
-                                    response.sendRedirect(request.getContextPath() + "/Office/Occupation/100");
-                                } catch (Exception e) {
-//                                ex.printStackTrace();
-                                }
+                                redirectUnauthorizedRequest("root", authUser, request, response);
                             }
                         }
                         break;
-                    case "/Office/Occupation/105":
+                    case Route.UPDATE_OCCUPATIONS_ROUTE:
                         if (request.getParameter("oid") != null) {
                             try {
                                 if (updateOccupation(request, authUser, activityService, activity)) {
@@ -139,33 +113,23 @@ public class OccupationServlet extends HttpServlet {
                                 response.sendRedirect(request.getContextPath() + "/Office/Occupation/100");
                             } catch (Exception e) {
                                 try {
-                                    activity.setUserId(authUser.getId());
-                                    activity.setType("ERROR");
-                                    activity.setAction("Location : OccupationServlet.java | Line : 156 | Code : 1093 | Error : " + e.getMessage());
-                                    activityService.add(activity);
-                                    request.getSession().setAttribute("notification", new Notification("Error Notification", "Failed to retrieve occupation. ECODE - 1093.<br>Contact system administrator", "danger"));
-                                    response.sendRedirect(request.getContextPath() + "/Office/Occupation/100");
+                                    recordActivity(MessageConfig.OCCUPATION_OPERATION_FAILED, "Location : OccupationServlet.java | Line : 1116 " + MessageConfig.OCCUPATION_ERROR_2011 + " | Error : " + e.getMessage(), authUser, activityService, activity, request);
+                                    setNotification(MessageConfig.OCCUPATION_OPERATION_NOTIFICATION_TITLE, MessageConfig.OCCUPATION_ERROR_2011_LOCAL, "danger", request);
+                                    response.sendRedirect(request.getContextPath() + Route.DISPLAY_OCCUPATIONS_ROUTE);
                                 } catch (Exception ex) {
 //                                    ex.printStackTrace();
                                 }
                             }
                         } else {
-                            try {
-                                activity.setUserId(authUser.getId());
-                                activity.setType("UNAUTHORIZED-REQ");
-                                activity.setAction(authUser.getId() + " made a request to route : /Office/Occupation/105");
-                                activityService.add(activity);
-                                request.getSession().setAttribute("notification", new Notification("Unauthorized Request", authUser.getDisplayName() + " has no permission to access route", "warning"));
-                                response.sendRedirect(request.getContextPath());
-                            } catch (Exception e) {
-//                                ex.printStackTrace();
-                            }
+                            redirectUnauthorizedRequest("root", authUser, request, response);
                         }
                         break;
                     default:
-                        response.sendRedirect(request.getContextPath() + "/Office/Occupation/100");
+                        redirectUnauthorizedRequest("root", authUser, request, response);
                         break;
                 }
+            } else {
+                redirectUnauthorizedRequest("login", null, request, response);
             }
         }
     }
@@ -178,22 +142,16 @@ public class OccupationServlet extends HttpServlet {
 
             OccupationService occupationService = new OccupationService();
             if (occupationService.add(occupation)) {
-                activity.setUserId(authUser.getId());
-                activity.setType("OS-SUCCESSFUL");
-                activity.setAction(authUser.getDisplayName() + " added new occupation : " + occupation.getTitle());
-                activityService.add(activity);
-                request.getSession().setAttribute("notification", new Notification("Success Notification", "Occupation successfully added", "success"));
+                recordActivity(MessageConfig.OCCUPATION_OPERATION_SUCCESSFUL, MessageConfig.OCCUPATION_SUCCESSFUULY_ADDED + " Occupation title : " + occupation.getTitle(), authUser, activityService, activity, request);
+                setNotification(MessageConfig.OCCUPATION_OPERATION_NOTIFICATION_TITLE, MessageConfig.OCCUPATION_SUCCESSFUULY_ADDED_NOTIFICATION, "success", request);
                 return true;
             } else {
-                activity.setUserId(authUser.getId());
-                activity.setType("OS-ERROR");
-                activity.setAction("Location : OccupationServlet.java | Line : 190 | Code : 1094 | Error : Fail to add occupation");
-                activityService.add(activity);
-                request.getSession().setAttribute("notification", new Notification("Error Notification", "Failed to add occupation. ECODE - 1094.<br>Contact system administrator", "danger"));
+                recordActivity(MessageConfig.OCCUPATION_OPERATION_FAILED, "Location : OccupationServlet.java | Line : 149 " + MessageConfig.OCCUPATION_ERROR_2008, authUser, activityService, activity, request);
+                setNotification(MessageConfig.OCCUPATION_OPERATION_NOTIFICATION_TITLE, MessageConfig.OCCUPATION_ERROR_2008_LOCAL, "danger", request);
                 return false;
             }
         } else {
-            request.getSession().setAttribute("notification", new Notification("Error Notification", "Failed to add occupation. ECODE - 1095.<br>Reqired values are missing, Please make sure all required vales are filled", "danger"));
+            setNotification(MessageConfig.OCCUPATION_OPERATION_NOTIFICATION_TITLE, MessageConfig.OCCUPATION_ERROR_2009_LOCAL, "danger", request);
             return false;
         }
     }
@@ -207,23 +165,40 @@ public class OccupationServlet extends HttpServlet {
 
             OccupationService occupationService = new OccupationService();
             if (occupationService.update(occupation)) {
-                activity.setUserId(authUser.getId());
-                activity.setType("OS-SUCCESSFUL");
-                activity.setAction(authUser.getDisplayName() + " updated occupation : " + occupation.getId());
-                activityService.add(activity);
-                request.getSession().setAttribute("notification", new Notification("Success Notification", "Occupation successfully updated", "success"));
+                recordActivity(MessageConfig.OCCUPATION_OPERATION_SUCCESSFUL, MessageConfig.OCCUPATION_SUCCESSFUULY_UPDATED + " Occupation id : " + occupation.getId(), authUser, activityService, activity, request);
+                setNotification(MessageConfig.OCCUPATION_OPERATION_NOTIFICATION_TITLE, MessageConfig.OCCUPATION_SUCCESSFUULY_UPDATED_NOTIFICATION, "success", request);
                 return true;
             } else {
-                activity.setUserId(authUser.getId());
-                activity.setType("OS-ERROR");
-                activity.setAction("Location : OccupationServlet.java | Line : 190 | Code : 1094 | Error : Fail to update category");
-                activityService.add(activity);
-                request.getSession().setAttribute("notification", new Notification("Error Notification", "Failed to update occupation. ECODE - 1094.<br>Contact system administrator", "danger"));
+                recordActivity(MessageConfig.OCCUPATION_OPERATION_FAILED, "Location : OccupationServlet.java | Line : 172 " + MessageConfig.OCCUPATION_ERROR_2010, authUser, activityService, activity, request);
+                setNotification(MessageConfig.OCCUPATION_OPERATION_NOTIFICATION_TITLE, MessageConfig.OCCUPATION_ERROR_2010_LOCAL, "danger", request);
                 return false;
             }
         } else {
-            request.getSession().setAttribute("notification", new Notification("Error Notification", "Failed to update occupation. ECODE - 1095.<br>Reqired values are missing, Please make sure all required vales are filled", "danger"));
+            setNotification(MessageConfig.OCCUPATION_OPERATION_NOTIFICATION_TITLE, MessageConfig.OCCUPATION_ERROR_2011_LOCAL, "danger", request);
             return false;
+        }
+    }
+
+    private void recordActivity(String type, String operation, UserInfo user, ActivityService activityService, ActivityInfo activity, HttpServletRequest request) throws ClassNotFoundException, SQLException {
+        activity.setUserId(user.getId());
+        activity.setType(type);
+        activity.setAction(operation);
+        activityService.add(activity);
+    }
+
+    private void setNotification(String title, String body, String className, HttpServletRequest request) {
+        request.getSession().setAttribute("notification", new Notification(title, body, className));
+    }
+
+    private void redirectUnauthorizedRequest(String route, UserInfo user, HttpServletRequest request, HttpServletResponse response) throws IOException {
+        switch (route) {
+            case "login":
+                response.sendRedirect(request.getContextPath() + Route.LOGIN_ROUTE);
+                break;
+            case "root":
+                setNotification(MessageConfig.UNAUTHORIZED_REQUEST_NOTIFICATION_TITLE, user.getDisplayName() + MessageConfig.UNAUTHORIZED_REQUEST_NOTIFICATION, "warning", request);
+                response.sendRedirect(request.getContextPath() + Route.DISPLAY_OCCUPATIONS_ROUTE);
+                break;
         }
     }
 

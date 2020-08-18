@@ -30,9 +30,9 @@ public class MessageConfig {
     public static final String CATEGORY_ERROR_2001_LOCAL = CATEGORY_ADD_ERROR_LOCAL + "Reqired values are missing, Please make sure all required feilds are filled";
 
     public static final String CATEGORY_UPDATE_ERROR_LOCAL = "Failed to update category.<br>";
-    public static final String CATEGORY_ERROR_2002 = "ECODE : 2002 | Failed to register category due to sql error";
+    public static final String CATEGORY_ERROR_2002 = "ECODE : 2002 | Failed to update category due to sql error";
     public static final String CATEGORY_ERROR_2002_LOCAL = CATEGORY_UPDATE_ERROR_LOCAL + "Contact system administrator. ECODE - 2002";
-    public static final String CATEGORY_ERROR_2003 = "ECODE : 2003 | Failed to register category due to missing values";
+    public static final String CATEGORY_ERROR_2003 = "ECODE : 2003 | Failed to update category due to missing values";
     public static final String CATEGORY_ERROR_2003_LOCAL = CATEGORY_UPDATE_ERROR_LOCAL + "Reqired values are missing, Please make sure all required feilds are filled";
 
     public static final String CATEGORY_ROUTE_LOCAL = "Failed to open category route.<br>";
@@ -55,4 +55,32 @@ public class MessageConfig {
     public static final String ACTIVITY_ROUTE_LOCAL = "Failed to open activity route.<br>";
     public static final String ACTIVITY_ERROR_2007 = "ECODE : 2007 | Failed to open route " + Route.DISPLAY_ACTIVITIES_ROUTES;
     public static final String ACTIVITY_ERROR_2007_LOCAL = MYMAIL_ROUTE_LOCAL + "Contact system administrator. ECODE - 2007";
+    
+    
+    // Occupation messages
+    public static final String OCCUPATION_OPERATION_NOTIFICATION_TITLE = "OCCUPATION OPERATION";
+    public static final String OCCUPATION_OPERATION_SUCCESSFUL = "OC-OP | SUCCESS";
+    public static final String OCCUPATION_OPERATION_FAILED = "OC-OP | FAILED";
+    public static final String OCCUPATION_SUCCESSFUULY_ADDED = "New occupation was added.";
+    public static final String OCCUPATION_SUCCESSFUULY_ADDED_NOTIFICATION = "Occupation was successfully registered";
+    public static final String OCCUPATION_SUCCESSFUULY_UPDATED = "Existing occupation was updated.";
+    public static final String OCCUPATION_SUCCESSFUULY_UPDATED_NOTIFICATION = "Occupation was successfully updated";
+
+    public static final String OCCUPATION_ADD_ERROR_LOCAL = "Failed to register occupation.<br>";
+    public static final String OCCUPATION_ERROR_2008 = "ECODE : 2008 | Failed to register occupation due to sql error";
+    public static final String OCCUPATION_ERROR_2008_LOCAL = CATEGORY_ADD_ERROR_LOCAL + "Contact system administrator. ECODE - 2008";
+    public static final String OCCUPATION_ERROR_2009 = "ECODE : 2009 | Failed to register occupation due to missing values";
+    public static final String OCCUPATION_ERROR_2009_LOCAL = CATEGORY_ADD_ERROR_LOCAL + "Reqired values are missing, Please make sure all required feilds are filled";
+
+    public static final String OCCUPATION_UPDATE_ERROR_LOCAL = "Failed to update category.<br>";
+    public static final String OCCUPATION_ERROR_2010 = "ECODE : 2010 | Failed to update occupation due to sql error";
+    public static final String OCCUPATION_ERROR_2010_LOCAL = CATEGORY_UPDATE_ERROR_LOCAL + "Contact system administrator. ECODE - 2010";
+    public static final String OCCUPATION_ERROR_2011 = "ECODE : 2011 | Failed to update occupation due to missing values";
+    public static final String OCCUPATION_ERROR_2011_LOCAL = CATEGORY_UPDATE_ERROR_LOCAL + "Reqired values are missing, Please make sure all required feilds are filled";
+
+    public static final String OCCUPATION_ROUTE_LOCAL = "Failed to open occupation route.<br>";
+    public static final String OCCUPATION_ERROR_2012 = "ECODE : 2012 | Failed to open route " + Route.DISPLAY_CATEGORIES_ROUTE;
+    public static final String OCCUPATION_ERROR_2012_LOCAL = CATEGORY_UPDATE_ERROR_LOCAL + "Contact system administrator. ECODE - 2012";
+    public static final String OCCUPATION_ERROR_2013 = "ECODE : 2013 |  Failed to open route " + Route.DISPLAY_CATEGORY_UPDATE_FORM_ROUTE;
+    public static final String OCCUPATION_ERROR_2013_LOCAL = CATEGORY_UPDATE_ERROR_LOCAL + "Contact system administrator. ECODE - 2013";
 }

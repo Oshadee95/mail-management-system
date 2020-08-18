@@ -11,9 +11,8 @@ package configurations;
  */
 public class Route {
 
-    public static final String ROOT_ROUTE = "";
     public static final String LOGIN_ROUTE = "/Login";
-    public static final String LOGOUT_ROUTE = "";
+    public static final String LOGOUT_ROUTE = "/Logout";
 
     // Inbox Routes
     public static final String DISPLAY_INBOX_ROUTE = "";
@@ -40,6 +39,9 @@ public class Route {
     
     // Occupation route
     public static final String DISPLAY_OCCUPATIONS_ROUTE = "/Office/Occupation/100";
+    public static final String REGISTER_OCCUPATIONS_ROUTE = "/Office/Occupation/103";
+    public static final String DISPLAY_OCCUPATIONS_UPDATE_FORM_ROUTE = "/Office/Occupation/104";
+    public static final String UPDATE_OCCUPATIONS_ROUTE = "/Office/Occupation/105";
     
     // Users route
     public static final String DISPLAY_USERS_ROUTE = "/Auth/Users/100";

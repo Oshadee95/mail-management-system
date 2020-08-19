@@ -126,6 +126,17 @@
     font-style: normal
 }
 
+.d-font{
+    font-size: 15px !important;
+}
+
+.d-nav-font {
+    font-size: 14px !important;
+}
+
+.d-btn-font {
+    font-size: 12px !important;
+}
 [class^=icon-], [class*=" icon-"] {
     font-family: icomoon;
     speak: none;
@@ -10838,7 +10849,7 @@ body {
         text-transform: capitalize
     }
     .sidebar .sidebar-accordion>li>a.active, .sidebar .sidebar-accordion>li>a:hover, .sidebar .sidebar-accordion>li>a:focus {
-        background-color: #24ab8f;
+        background-color: #f44455;
         color: #fff
     }
     .sidebar .sidebar-accordion>li>a.active i, .sidebar .sidebar-accordion>li>a:hover i, .sidebar .sidebar-accordion>li>a:focus i {

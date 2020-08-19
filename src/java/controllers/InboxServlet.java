@@ -57,6 +57,7 @@ public class InboxServlet extends HttpServlet {
                 ActivityService activityService = new ActivityService();
                 ActivityInfo activity = new ActivityInfo();
                 request.setCharacterEncoding("UTF-8");
+                request.getSession().setAttribute("navigatedPath", "inbox");
 
                 switch (request.getServletPath()) {
                     case Route.DISPLAY_INBOX_ROUTE:

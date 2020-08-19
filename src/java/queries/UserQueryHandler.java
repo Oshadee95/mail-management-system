@@ -19,7 +19,7 @@ public class UserQueryHandler implements QueryHandlerInterface {
     private final String FETCH_DATA_QUERY = "SELECT * FROM `" + VIEW_NAME + "` WHERE `uid` = ?";
     private final String FETCH_ALL_DATA_QUERY = "SELECT * FROM `" + VIEW_NAME + "` WHERE `roleId`!= 'SYS_ADMIN'";
     private final String FETCH_ALL_LOW_LEVEL_DATA_QUERY = "SELECT * FROM `" + VIEW_NAME + "` WHERE `roleWeight` < 90";
-    private final String FETCH_USER_AVAILABILITY = "SELECT COUNT(*) AS count, " + VIEW_NAME + ".uid AS uid FROM `" + VIEW_NAME + "` WHERE " + VIEW_NAME + ".nic = ? AND " + VIEW_NAME + ".password = ?";
+    private final String FETCH_USER_AVAILABILITY = "SELECT COUNT(*) AS count, " + VIEW_NAME + ".uid AS uid FROM `" + VIEW_NAME + "` WHERE " + VIEW_NAME + ".nic = ? AND " + VIEW_NAME + ".password = ? AND `active` = 'true'";
 
     @Override
     public String getAddDataQuery() {

@@ -64,6 +64,7 @@ public class LoginServlet extends HttpServlet {
                                     ZoneId sriLankanStandardTime = ZoneId.of("Asia/Kolkata");
                                     ZonedDateTime sriLankantp = ZonedDateTime.ofInstant(nowUtc, sriLankanStandardTime);
                                     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy | HH:mm:ss");
+                                    request.getSession().setAttribute("language", "en");
                                     recordActivity(MessageConfig.LOGIN_OPERATION_SUCCESSFUL, authUser.getDisplayName() + " logged into the system at " + formatter.format(sriLankantp), authUser, new ActivityService(), new ActivityInfo());
                                     response.sendRedirect(request.getContextPath() + Route.DISPLAY_DASHBOARD_ROUTE);
                                 } else {

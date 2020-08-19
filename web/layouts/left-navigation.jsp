@@ -19,22 +19,22 @@
                 </div>
             </div>
 
-
+            <% String navigatedPath = (String)request.getSession().getAttribute("navigatedPath"); %>
             <div class="menu-container active">
                 <ul class="sidebar-accordion" style="display: block;">
-                    <li><a href="<%=request.getContextPath()+Route.DISPLAY_DASHBOARD_ROUTE%>"><i class="icon-display4"></i><span class="list-label"> Dashboard</span></a></li>
+                    <li><a href="<%=request.getContextPath()+Route.DISPLAY_DASHBOARD_ROUTE%>" class="d-nav-font"><i class="icon-display4"></i><span class="list-label"> Dashboard</span></a></li>
                     <li class="list-title">Apps</li>
                     <% if (!((authUser.getRoleId().equals("P_OPERATOR")) || (authUser.getRoleId().equals("G_OPERATOR")) || (authUser.getRoleId().equals("SYS_ADMIN")))) { %>
-                        <li><a href="<%=request.getContextPath()+Route.DISPLAY_MYMAIL_ROUTE%>"><i class="icon-envelop"></i> <span>My Mail</span></a></li>    
+                    <li><a class="<%=(navigatedPath.equals("mymail")) ? "active" : "" %> d-nav-font" href="<%=request.getContextPath()+Route.DISPLAY_MYMAIL_ROUTE%>"><i class="icon-envelop"></i> <span>My Mail</span></a></li>    
                     <% } %>
-                    <li><a href="<%=request.getContextPath()+Route.DISPLAY_CATEGORIES_ROUTE%>"><i class="icon-three-bars"></i> <span>Categories</span></a></li>     
-                    <li><a href="<%=request.getContextPath()+Route.DISPLAY_INBOX_ROUTE %>"><i class="icon-envelop"></i> <span>Mails</span></a></li>          
+                    <li><a class="<%=(navigatedPath.equals("categories")) ? "active" : "" %> d-nav-font" href="<%=request.getContextPath()+Route.DISPLAY_CATEGORIES_ROUTE%>"><i class="icon-three-bars"></i> <span>Categories</span></a></li>     
+                    <li><a class="<%=(navigatedPath.equals("inbox")) ? "active" : "" %> d-nav-font" href="<%=request.getContextPath()+Route.DISPLAY_INBOX_ROUTE %>"><i class="icon-envelop"></i> <span>Mails</span></a></li>          
                     <% if ((authUser.getRoleId().equals("GOVERNOR")) || (authUser.getRoleId().equals("P_SECRETARIAT")) || (authUser.getRoleId().equals("SYS_ADMIN"))) { %>
-                        <li><a href="<%=request.getContextPath()+Route.DISPLAY_OCCUPATIONS_ROUTE%>"><i class="icon-briefcase"></i> <span>Occupations</span></a></li>
-                       <li><a href="<%=request.getContextPath()+Route.DISPLAY_USERS_ROUTE%>"><i class="icon-users2"></i> <span>Users</span></a></li>      
+                        <li><a class="<%=(navigatedPath.equals("occupations")) ? "active" : "" %> d-nav-font" href="<%=request.getContextPath()+Route.DISPLAY_OCCUPATIONS_ROUTE%>"><i class="icon-briefcase"></i> <span>Occupations</span></a></li>
+                        <li><a class="<%=(navigatedPath.equals("users")) ? "active" : "" %> d-nav-font" href="<%=request.getContextPath()+Route.DISPLAY_USERS_ROUTE%>"><i class="icon-users2"></i> <span>Users</span></a></li>      
                     <% } %>
                     <% if (authUser.getRoleId().equals("SYS_ADMIN")) { %>
-                       <li><a href="<%=request.getContextPath()+Route.DISPLAY_ACTIVITIES_ROUTES%>"><i class="icon-computer-user"></i> <span>Activities</span></a></li>      
+                       <li><a class="<%=(navigatedPath.equals("activities")) ? "active" : "" %> d-nav-font" href="<%=request.getContextPath()+Route.DISPLAY_ACTIVITIES_ROUTES%>"><i class="icon-computer-user"></i> <span>Activities</span></a></li>      
                     <% } %>
                 </ul>
             </div>

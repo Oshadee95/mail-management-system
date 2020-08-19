@@ -4,6 +4,7 @@
     Author     : RED-HAWK
 --%>
 
+<%@page import="configurations.Language"%>
 <%@page import="java.util.Date"%>
 <%@page import="java.text.SimpleDateFormat"%>
 <%@page import="models.User"%>
@@ -45,53 +46,53 @@
                                 %>
                                 <div class="card-header m-b-20">
                                     <div class="card-title p-t-10">
-                                        mail registration form
+                                        <%=(language.equals("si"))? Language.si_mailUpdateForm :  Language.en_mailUpdateForm%>
                                         <img alt="" src="../../resources/avatars/<%=inbox.getCollectorPhotoURL()%>" class="rounded-circle float-right" style="margin-top: 18px; max-height: 50px; height: 50px; width: 50px;">
                                     </div>
                                     <hr>
                                 </div>   
-                                <form class="form-validate" method="POST" action="<%=request.getContextPath()%>/Mails/Inbox/105" enctype="multipart/form-data">
+                                <form class="form-validate" method="POST" action="<%=request.getContextPath()+Route.UPDATE_INBOX_ROUTE%>" enctype="multipart/form-data">
                                     <div class="card-block">
                                         <fieldset>
                                             <div class="form-group row">
-                                                <label class="control-label col-lg-4">Collector's ID </label>
+                                                <label class="control-label col-lg-4 d-font"><%=(language.equals("si"))? Language.si_collectorId :  Language.en_collectorId%> </label>
                                                 <div class="col-lg-8">
-                                                    <input type="text" class="form-control" readonly value="<%=inbox.getCollectorId()%>">
+                                                    <input type="text" class="form-control d-font" readonly value="<%=inbox.getCollectorId()%>">
                                                 </div>
                                             </div>
 
 
                                             <div class="form-group row">
-                                                <label class="control-label col-lg-4">Collector's name </label>
+                                                <label class="control-label col-lg-4 d-font"><%=(language.equals("si"))? Language.si_collector_name :  Language.en_collectorName%></label>
                                                 <div class="col-lg-8">
-                                                    <input type="text" class="form-control" readonly value="<%=inbox.getCollectorName()%>">
+                                                    <input type="text" class="form-control d-font" readonly value="<%=inbox.getCollectorName()%>">
                                                 </div>
                                             </div>
                                                 
                                             <div class="form-group row">
-                                                <label class="control-label col-lg-4">Submitted On </label>
+                                                <label class="control-label col-lg-4 d-font"><%=(language.equals("si"))? Language.si_submittedOn :  Language.en_submittedOn%> </label>
                                                 <div class="col-lg-8">
-                                                    <input type="text" class="form-control" readonly value="<%=dFomatter.format(inbox.getRecordedAt())%>">
+                                                    <input type="text" class="form-control d-font" readonly value="<%=dFomatter.format(inbox.getRecordedAt())%>">
                                                 </div>
                                             </div>  
                                                 
                                             <div class="form-group row m-b-40">
-                                               <label class="control-label col-lg-4">Assigned to <span class="text-danger">*</span></label>
+                                               <label class="control-label col-lg-4 d-font"><%=(language.equals("si"))? Language.si_assignedTo :  Language.en_assignedTo%> <span class="text-danger">*</span></label>
                                                <div class="col-lg-8">
-                                                   <select style="background-color: white" name="mailRecipient" class="form-control" required aria-required="true">
-                                                       <option value="unselected">Select person</option>
-                                                       <optgroup label="Private">
+                                                   <select style="background-color: white" name="mailRecipient" class="form-control d-font" required aria-required="true">
+                                                       <option value="unselected"><%=(language.equals("si"))? Language.si_selectPerson :  Language.en_selectPerson%></option>
+                                                        <optgroup label="<%=(language.equals("si"))? Language.si_private :  Language.en_private%>">
                                                            <%
                                                                List<UserInfo> uPFormList = (List<UserInfo>) request.getAttribute("userList");
                                                                for (User u : uPFormList) {
                                                                    if (u.getOffice().equals("Private")) {
                                                            %>
                                                                 <% if(!(u.getId().equals(user.getId()))) { %>
-                                                                    <option <%=(inbox.getRecipientId().equals(u.getId())) ? "selected" : ""%> value="<%=u.getId()%>"><%=u.getDisplayName()%></option>
+                                                                    <option <%=(inbox.getRecipientId().equals(u.getId())) ? "selected" : ""%> value="<%=u.getId()%>"><%=u.getFullName()%></option>
                                                                 <% } %>
                                                            <% } } %>
                                                        </optgroup>
-                                                       <optgroup label="Government">
+                                                       <optgroup label="<%=(language.equals("si"))? Language.si_government :  Language.en_government%>">
                                                            <%
                                                                List<UserInfo> uGFormList = (List<UserInfo>) request.getAttribute("userList");
                                                                for (User u : uGFormList) {
@@ -109,32 +110,32 @@
                                             <hr>
 
                                             <div class="form-group row m-t-40">
-                                                <label class="control-label col-lg-4">Sender's name <span class="text-danger">*</span></label>
+                                                <label class="control-label col-lg-4 d-font"><%=(language.equals("si"))? Language.si_senderName :  Language.en_senderName%> <span class="text-danger">*</span></label>
                                                 <div class="col-lg-8">
-                                                    <input style="background-color: white" type="text" name="senderName" class="form-control" required value="<%=inbox.getSender()%>" aria-required="true">
+                                                    <input style="background-color: white" type="text" name="senderName" class="form-control d-font" placeholder="<%=(language.equals("si"))? Language.si_enterSenderName :  Language.en_enterSenderName%>" required value="<%=inbox.getSender()%>" aria-required="true">
                                                 </div>
                                             </div>
 
                                             <div class="form-group row">
-                                                <label class="control-label col-lg-4">Letter type <span class="text-danger">*</span></label>
+                                                <label class="control-label col-lg-4 d-font"><%=(language.equals("si"))? Language.si_letterType :  Language.en_letterType%> <span class="text-danger">*</span></label>
                                                 <div class="col-lg-8">
-                                                    <label class="radio-inline">
+                                                    <label class="radio-inline d-font">
                                                         <input type="radio" value="registered" name="mailType" required <%=(inbox.getType().equals("registered")) ? "checked" : ""%>>
-                                                        Registered
+                                                        <%=(language.equals("si"))? Language.si_registered :  Language.en_registered%>
                                                     </label>
-                                                    <label class="radio-inline">
+                                                    <label class="radio-inline d-font">
                                                         <input type="radio" value="non-registered" name="mailType" required <%=(inbox.getType().equals("non-registered")) ? "checked" : ""%>>
-                                                        Non-registered
+                                                        <%=(language.equals("si"))? Language.si_nonRegistered :  Language.en_nonRegistered%>
                                                     </label>
                                                 </div>
                                             </div>
 
                                             <div class="form-group row">
-                                                <label class="control-label col-lg-4">Category type <span class="text-danger">*</span></label>
+                                                <label class="control-label col-lg-4 d-font"><%=(language.equals("si"))? Language.si_categoryType :  Language.en_collectorId%>  <span class="text-danger">*</span></label>
                                                 <div class="col-lg-7 col-11">
-                                                    <select style="background-color: white" name="mailCategory" class="form-control" aria-required="true" required>
-                                                        <option value="0">Select category</option>
-                                                        <option value="01">New Category</option>
+                                                    <select style="background-color: white" name="mailCategory" class="form-control d-font" aria-required="true" required>
+                                                        <option value="0"><%=(language.equals("si"))? Language.si_selectCategory :  Language.en_selectCategory%></option>
+                                                        <option value="01"><%=(language.equals("si"))? Language.si_newCategory :  Language.en_newCategory%></option>
                                                         <%
                                                             List<Category> catFormList = (List<Category>) request.getAttribute("categoryList");
                                                             for (Category c : catFormList) {
@@ -148,50 +149,49 @@
 
                                             <div class="form-group row" id="newCategoryDiv" style="display: none">
                                                 <div class="col-lg-8 offset-4">
-                                                    <input type="text" style="background-color: white" name="newCategoryName" placeholder="Enter category name" class="form-control" value="">
+                                                    <input type="text" style="background-color: white" name="newCategoryName" placeholder="<%=(language.equals("si"))? Language.si_enterNewCategoryName :  Language.en_enterNewCategoryName%>" class="form-control d-font" value="">
                                                 </div>
                                                 <div class="col-lg-8 offset-4 m-t-20">
-                                                    <textarea style="background-color: white" rows="2" cols="5" name="newCategoryDescription" class="form-control" placeholder="Enter category description" aria-required="true"></textarea>
+                                                    <textarea style="background-color: white" rows="2" cols="5" name="newCategoryDescription" class="form-control d-font" placeholder="<%=(language.equals("si"))? Language.si_enterNewCategoryDescription :  Language.en_enterNewCategoryDescription%>" aria-required="true"></textarea>
                                                 </div>
                                             </div>
-
-                                                    
+                                            
                                             <div class="form-group row">
-                                                <label class="control-label col-lg-4">Letter image</label>
+                                                <label class="control-label col-lg-4 d-font"><%=(language.equals("si"))? Language.si_letterImage :  Language.en_letterImage%><span class="text-danger">*</span></label>
                                                 <div class="col-lg-8">
-                                                    <input style="background-color: white" type="file" name="letter" class="form-control" accept="image/x-png,image/jpeg">
+                                                    <input style="background-color: white" type="file" name="letter" class="form-control d-font" required aria-required="true" accept="image/x-png,image/jpeg">
                                                 </div>
                                             </div>
 
 
                                             <div class="form-group row m-b-40">
-                                                <label class="control-label col-lg-4">Letter brief <span class="text-danger">*</span></label>
+                                                <label class="control-label col-lg-4 d-font"><%=(language.equals("si"))? Language.si_letterBrief :  Language.en_letterBrief%> <span class="text-danger">*</span></label>
                                                 <div class="col-lg-8">
-                                                    <textarea style="background-color: white" rows="4" cols="5" name="mailBrief" class="form-control" required="required" aria-required="true"><%=inbox.getContent()%></textarea>
+                                                    <textarea style="background-color: white" rows="4" cols="5" name="mailBrief" class="form-control d-font" placeholder="<%=(language.equals("si"))? Language.si_enterBriefOfTheLetter :  Language.en_enterBriefOfTheLetter%>" required="required" aria-required="true"><%=inbox.getContent()%></textarea>
                                                 </div>
                                             </div>
 
                                             <hr>
 
                                             <div class="form-group row m-t-40">
-                                                <label class="control-label col-lg-4">Updated On </label>
+                                                <label class="control-label col-lg-4 d-font"><%=(language.equals("si"))? Language.si_UpdatedOn :  Language.en_UpdatedOn%> </label>
                                                 <div class="col-lg-8">
-                                                    <input type="text" class="form-control" readonly value="<%=dFomatter.format(date)%>">
+                                                    <input type="text" class="form-control d-font" readonly value="<%=dFomatter.format(date)%>">
                                                 </div>
                                             </div> 
                                                 
                                             <div class="form-group row">
-                                                <label class="control-label col-lg-4">Updated At </label>
+                                                <label class="control-label col-lg-4 d-font"><%=(language.equals("si"))? Language.si_UpdatedAt :  Language.en_UpdatedAt%>  </label>
                                                 <div class="col-lg-8">
-                                                    <input type="text" class="form-control" readonly value="<%=tFomatter.format(date)%>">
+                                                    <input type="text" class="form-control d-font" readonly value="<%=tFomatter.format(date)%>">
                                                 </div>
                                             </div> 
 
                                         </fieldset>
 
                                         <div class="float-right  m-t-40 m-b-20">
-                                            <button type="reset" class="btn btn-md btn-secondary" id="reset"><i class="icon-reload-alt position-left"></i>Reset</button>&nbsp;&nbsp;
-                                            <button type="submit" name="mid" value="<%=inbox.getId()%>" class="btn btn-md btn-warning"><i class="icon-envelop position-left"></i>update</button>
+                                            <button type="reset" class="btn btn-md btn-secondary d-font" id="reset"><i class="icon-reload-alt position-left"></i><%=(language.equals("si"))? Language.si_reset :  Language.en_reset%></button>&nbsp;&nbsp;
+                                            <button type="submit" name="mid" value="<%=inbox.getId()%>" class="btn btn-md btn-warning d-font"><i class="icon-envelop position-left"></i><%=(language.equals("si"))? Language.si_update :  Language.en_update%></button>
                                         </div>
                                     </div>
                                 </form>
@@ -202,16 +202,16 @@
                             <div class="card card-inverse">
                                 <div class="card-header">
                                     <div class="card-title p-t-10">
-                                        categories
-                                        </div>
+                                       <%=(language.equals("si"))? Language.si_categories :  Language.en_categories%>
+                                    </div>
                                     <hr>
                                 </div>  
                                 <div class="card-block" style="padding-top: 0">
                                     <table class="table datatable table-striped table-responsive">
                                         <thead>
                                             <tr>
-                                                <th style="width: 30vw !important">Name</th>
-                                                <th style="width: 70vw !important">Description</th>
+                                               <th style="width: 30vw" class="d-font"><%=(language.equals("si"))? Language.si_categoryName :  Language.en_collectorId%></th>
+                                               <th style="width: 70vw" class="d-font"><%=(language.equals("si"))? Language.si_categoryDescription :  Language.en_collectorId%></th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -220,38 +220,8 @@
                                                 for (Category c : catList) {
                                             %>
                                             <tr>
-                                                <td style="width:30vw !important"><%=c.getName()%></td>
-                                                <td style="width:70vw !important"><%=c.getDescription()%></td>
-                                            </tr>
-                                            <% } %>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-
-                            <div class="card card-inverse">
-                                <div class="card-header">
-                                    <div class="card-title p-t-10">
-                                        users
-                                    </div>
-                                    <hr>
-                                </div> 
-                                <div class="card-block" style="padding-top: 0">
-                                    <table class="table datatable table-striped table-responsive">
-                                        <thead>
-                                            <tr>
-                                                <th style="width: 70vw !important">Employee</th>
-                                                <th style="width: 30vw !important">Office</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <%
-                                                List<UserInfo> uList = (List<UserInfo>) request.getAttribute("userList");
-                                                for (User u : uList) {
-                                            %>
-                                            <tr>
-                                                <td style="width:70vw !important"><%=u.getDisplayName()%></td>
-                                                <td style="width:30vw !important"><%=u.getOffice()%></td>
+                                                <td style="width:30vw" class="d-font"><%=c.getName()%></td>
+                                                <td style="width:70vw" class="d-font"><%=c.getDescription()%></td>
                                             </tr>
                                             <% } %>
                                         </tbody>

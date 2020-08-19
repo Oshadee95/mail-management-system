@@ -44,62 +44,62 @@
                                 <div class="card-header m-b-20">
                                     <div class="card-title p-t-10">
                                         mail meta information
-                                        <img alt="<%=inbox.getCollectorPhotoURL()%>" src="../../resources/avatars/<%=inbox.getCollectorPhotoURL()%>" class="rounded-circle float-right" style="margin-top: 18px; max-height: 50px; height: 50px; width: 50px;">
+                                        <img alt="" src="../../resources/avatars/<%=inbox.getCollectorPhotoURL()%>" class="rounded-circle float-right" style="margin-top: 18px; max-height: 50px; height: 50px; width: 50px;">
                                     </div>
                                     <hr>
                                 </div>
                                 <div class="card-block">
                                     <fieldset>
                                         <div class="form-group row m-b-40">
-                                            <label class="control-label col-lg-4" style="font-size: 14px !important">Mail identification </label>
+                                            <label class="control-label col-lg-4 d-font">Mail identification </label>
                                             <div class="col-lg-8">
-                                                <input style="color: #848484; font-size: 14px !important" type="text" class="form-control" readonly value="<%=inbox.getId()%>">
+                                                <input style="color: #848484;" type="text" class="form-control d-font" readonly value="<%=inbox.getId()%>">
                                             </div>
                                         </div>
 
                                         <hr>
 
                                         <div class="form-group row m-t-40">
-                                            <label class="control-label col-lg-4" style="font-size: 14px !important">Collector's name </label>
+                                            <label class="control-label col-lg-4 d-font">Collector's name </label>
                                             <div class="col-lg-8">
-                                                <input style="color: #848484; font-size: 14px !important" type="text" class="form-control" readonly value="<%=inbox.getCollectorName()%>">
+                                                <input style="color: #848484;" type="text" class="form-control d-font" readonly value="<%=inbox.getCollectorName()%>">
                                             </div>
                                         </div>
 
                                         <div class="form-group row">
-                                            <label class="control-label col-lg-4" style="font-size: 14px !important">Registered date </label>
+                                            <label class="control-label col-lg-4 d-font">Registered date </label>
                                             <div class="col-lg-8">
-                                                <input style="color: #848484; font-size: 14px !important" type="text" class="form-control" readonly value="<%=dFomatter.format(inbox.getRecordedAt())%>">
+                                                <input style="color: #848484;" type="text" class="form-control d-font" readonly value="<%=dFomatter.format(inbox.getRecordedAt())%>">
                                             </div>
                                         </div>
 
                                         <div class="form-group row m-b-40">
-                                            <label class="control-label col-lg-4" style="font-size: 14px !important">Updated date </label>
+                                            <label class="control-label col-lg-4 d-font">Updated date </label>
                                             <div class="col-lg-8">
-                                                <input style="color: #848484; font-size: 14px !important" type="text" class="form-control" readonly value="<%=dFomatter.format(inbox.getUpdatedAt())%>">
+                                                <input style="color: #848484;" type="text" class="form-control d-font" readonly value="<%=dFomatter.format(inbox.getUpdatedAt())%>">
                                             </div>
                                         </div>
 
                                         <hr>
 
                                         <div class="form-group row m-t-40">
-                                            <label class="control-label col-lg-4" style="font-size: 14px !important">recipient's office</label>
+                                            <label class="control-label col-lg-4 d-font">recipient's office</label>
                                             <div class="col-lg-8">
-                                                <label class="radio-inline">
-                                                    <input style="color: #848484; font-size: 14px !important" type="radio" <%=(inbox.getAllocatedOffice().equals("Government")) ? "checked" : ""%> disabled>
+                                                <label class="radio-inline d-font">
+                                                    <input style="color: #848484;" type="radio" <%=(inbox.getAllocatedOffice().equals("Government")) ? "checked" : ""%> disabled>
                                                     Government
                                                 </label>
-                                                <label class="radio-inline">
-                                                    <input style="color: #848484; font-size: 14px !important" type="radio" <%=(inbox.getAllocatedOffice().equals("Private")) ? "checked" : ""%> disabled>
+                                                <label class="radio-inline d-font">
+                                                    <input style="color: #848484;" type="radio" <%=(inbox.getAllocatedOffice().equals("Private")) ? "checked" : ""%> disabled>
                                                     Private
                                                 </label>
                                             </div>
                                         </div>
 
                                         <div class="form-group row m-b-40">
-                                            <label class="control-label col-lg-4" style="font-size: 14px !important">recipient's name </label>
+                                            <label class="control-label col-lg-4 d-font">recipient's name </label>
                                             <div class="col-lg-8">
-                                                <input style="color: #848484; font-size: 14px !important" type="text" class="form-control" readonly value="<%=inbox.getRecipientName()%>">
+                                                <input style="color: #848484;" type="text" class="form-control d-font" readonly value="<%=inbox.getRecipientName()%>">
                                             </div>
                                         </div>
 
@@ -107,23 +107,23 @@
                                         <hr>
 
                                         <div class="form-group row m-t-40">
-                                            <label class="control-label col-lg-4" style="font-size: 14px !important">Replied date </label>
+                                            <label class="control-label col-lg-4 d-font">Replied date </label>
                                             <div class="col-lg-8">
-                                                <input style="color: #848484; font-size: 14px !important" type="text" class="form-control" value="<%=dFomatter.format(outbox.getRepliedAt())%>" readonly>
+                                                <input style="color: #848484;" type="text" class="form-control d-font" value="<%=dFomatter.format(outbox.getRepliedAt())%>" readonly>
                                             </div>
                                         </div>
 
                                         <div class="form-group row">
-                                            <label class="control-label col-lg-4" style="font-size: 14px !important">Replied updated date </label>
+                                            <label class="control-label col-lg-4 d-font">Replied updated date </label>
                                             <div class="col-lg-8">
-                                                <input style="color: #848484; font-size: 14px !important" type="text" class="form-control" value="<%=dFomatter.format(outbox.getUpdatedAt())%>" readonly>
+                                                <input style="color: #848484;" type="text" class="form-control d-font" value="<%=dFomatter.format(outbox.getUpdatedAt())%>" readonly>
                                             </div>
                                         </div>
 
                                         <div class="form-group row m-b-10">
-                                            <label class="control-label col-lg-4" style="font-size: 14px !important">replied by </label>
+                                            <label class="control-label col-lg-4 d-font">replied by </label>
                                             <div class="col-lg-8">
-                                                <input style="color: #848484; font-size: 14px !important" type="text" class="form-control" readonly value="<%=outbox.getSenderName()%>">
+                                                <input style="color: #848484;" type="text" class="form-control d-font" readonly value="<%=outbox.getSenderName()%>">
                                             </div>
                                         </div>
                                         <% } %>
@@ -144,37 +144,37 @@
                                 <div class="card-block">
                                     <fieldset>
                                         <div class="form-group row">
-                                            <label class="control-label col-lg-4" style="font-size: 14px !important">Letter type </label>
+                                            <label class="control-label col-lg-4 d-font">Letter type </label>
                                             <div class="col-lg-8">
-                                                <label class="radio-inline">
-                                                    <input type="radio" <%=(inbox.getType().equals("registered")) ? "checked" : ""%> disabled style="font-size: 14px !important">
+                                                <label class="radio-inline d-font">
+                                                    <input type="radio" <%=(inbox.getType().equals("registered")) ? "checked" : ""%> disabled>
                                                     Registered
                                                 </label>
-                                                <label class="radio-inline">
-                                                    <input type="radio" <%=(inbox.getType().equals("non-registered")) ? "checked" : ""%> disabled style="font-size: 14px !important">
+                                                <label class="radio-inline d-font">
+                                                    <input type="radio" <%=(inbox.getType().equals("non-registered")) ? "checked" : ""%> disabled>
                                                     Non-registered
                                                 </label>
                                             </div>
                                         </div>
 
                                         <div class="form-group row">
-                                            <label class="control-label col-lg-4" style="font-size: 14px !important">Category </label>
+                                            <label class="control-label col-lg-4 d-font">Category </label>
                                             <div class="col-lg-8">
-                                                <input style="color: #848484; font-size: 14px !important" type="text" class="form-control" value="<%=inbox.getCategoryName()%>" readonly>
+                                                <input style="color: #848484;" type="text" class="form-control d-font" value="<%=inbox.getCategoryName()%>" readonly>
                                             </div>
                                         </div>
 
                                         <div class="form-group row">
-                                            <label class="control-label col-lg-4" style="font-size: 14px !important">Sender's name </label>
+                                            <label class="control-label col-lg-4 d-font">Sender's name </label>
                                             <div class="col-lg-8">
-                                                <input style="color: #848484; font-size: 14px !important" type="text" class="form-control" value="<%=inbox.getSender()%>" readonly>
+                                                <input style="color: #848484;" type="text" class="form-control d-font" value="<%=inbox.getSender()%>" readonly>
                                             </div>
                                         </div>
 
                                         <div class="form-group row m-b-40">
-                                            <label class="control-label col-lg-4" style="font-size: 14px !important">Letter brief</label>
+                                            <label class="control-label col-lg-4 d-font">Letter brief</label>
                                             <div class="col-lg-8">
-                                                <textarea style="color: #848484; font-size: 14px !important" rows="4" cols="5" class="form-control" readonly><%=inbox.getContent()%></textarea>
+                                                <textarea style="color: #848484;" rows="4" cols="5" class="form-control d-font" readonly><%=inbox.getContent()%></textarea>
                                             </div>
                                         </div>
                                     </fieldset>

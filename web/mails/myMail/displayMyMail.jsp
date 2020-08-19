@@ -36,13 +36,12 @@
                                     <table id="mailCategorydt" class="table datatable table-striped table-responsive">
                                         <thead>
                                             <tr>
-                                                <th style="width: 4vw">Mail ID</th>
-                                                <th style="width: 12vw">Type</th>
-                                                <th style="width: 20vw">Category</th>
-                                                <th style="width: 30vw">Brief</th>
-                                                <th style="width: 12vw">Collected By</th>
-                                                <th style="width: 10vw">Collected on</th>
-                                                <th style="width: 15vw"></th>
+                                                <th style="width: 4vw" class="d-font">Mail ID</th>
+                                                <th style="width: 12vw" class="d-font">Type</th>
+                                                <th style="width: 20vw" class="d-font">Category</th>
+                                                <th style="width: 36vw" class="d-font">Brief</th>
+                                                <th style="width: 10vw" class="d-font">Collected on</th>
+                                                <th style="width: 18vw" class="d-font"></th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -52,24 +51,23 @@
                                                 for (InboxInfo i : inboxList) {
                                             %>
                                             <tr>
-                                                <td style="width: 4vw; font-size: 14px"><%=i.getId()%></td>
-                                                <td style="width: 12vw; font-size: 13px;"><%=i.getType().toUpperCase()%></td>
-                                                <td style="width: 20vw; font-size: 14px"><%=i.getCategoryName()%></td>
-                                                <td style="width: 30vw; font-size: 14px"><%=(i.getContent().length() > 65) ? i.getContent().substring(0, 65).concat("...") : i.getContent()%></td>
-                                                <td style="width: 12vw; font-size: 14px"><%=i.getCollectorName()%></td>
-                                                <td style="width: 10vw; font-size: 14px"><%=dFomatter.format(i.getRecordedAt())%></td>
-                                                <td style="width: 18vw; font-size: 14px; padding: 8px 0 !important;" class="text-center">
+                                                <td style="width: 4vw;" class="d-font"><%=i.getId()%></td>
+                                                <td style="width: 12vw;" class="d-font"><%=i.getType().toUpperCase()%></td>
+                                                <td style="width: 20vw;" class="d-font"><%=(i.getCategoryName().length() > 22) ? i.getCategoryName().substring(0, 22).concat("...") : i.getCategoryName()%></td>
+                                                <td style="width: 36vw;" class="d-font"><%=(i.getContent().length() > 65) ? i.getContent().substring(0, 65).concat("...") : i.getContent()%></td>
+                                                <td style="width: 10vw;" class="d-font"><%=dFomatter.format(i.getRecordedAt())%></td>
+                                                <td style="width: 18vw; padding: 8px 0 !important;" class="text-center">
                                                     <% if (i.getReplied().equals("false")) {%>
-                                                    <form method="POST" action="<%=request.getContextPath()%>/Mails/Outbox/102" style="display: inline; 6vw !important">
-                                                        <button type="submit" name="mid" value="<%=i.getId()%>" class="btn btn-outline-primary btn-sm"><i class="icon-reply-all2"></i> &nbsp;&nbsp;Reply &nbsp;</button>
+                                                    <form method="POST" action="<%=request.getContextPath()+Route.DISPLAY_REGISTER_OUTBOX_FORM_ROUTE%>" style="display: inline; 6vw !important">
+                                                        <button type="submit" name="mid" value="<%=i.getId()%>" class="btn btn-outline-primary btn-sm d-btn-font"><i class="icon-reply-all2"></i> &nbsp;&nbsp;Reply &nbsp;</button>
                                                     </form>
                                                     <% } else {%>
-                                                    <form  method="POST" action="<%=request.getContextPath()%>/Mails/Outbox/104"  style="display: inline; 6vw !important">
-                                                        <button type="submit" name="mid" value="<%=i.getId()%>" class="btn btn-outline-warning btn-sm"><i class="icon-reply-all2"></i> &nbsp;Update </button>
+                                                    <form  method="POST" action="<%=request.getContextPath()+Route.DISPLAY_OUTBOX_UPDATE_FORM_ROUTE%>"  style="display: inline; 6vw !important">
+                                                        <button type="submit" name="mid" value="<%=i.getId()%>" class="btn btn-outline-warning btn-sm d-btn-font"><i class="icon-reply-all2"></i> &nbsp;Update </button>
                                                     </form>
                                                     <% }%>
-                                                    <form method="POST" action="<%=request.getContextPath()%>/Mails/Outbox/101" style="display: inline; width: 6vw !important">
-                                                        &nbsp;&nbsp;&nbsp;<button type="submit" name="mid" value="<%=i.getId()%>" class="btn btn-outline-secondary btn-sm p-l-5"><i class="icon-eye2"></i>&nbsp;&nbsp; View</button>
+                                                    <form method="POST" action="<%=request.getContextPath()+Route.DISPLAY_OUTBOX_FORM_ROUTE%>" style="display: inline; width: 6vw !important">
+                                                        &nbsp;&nbsp;&nbsp;<button type="submit" name="mid" value="<%=i.getId()%>" class="btn btn-outline-secondary btn-sm p-x-5 d-btn-font"><i class="icon-eye2"></i>&nbsp;&nbsp; View</button>
                                                     </form>
                                                 </td>
                                             </tr>

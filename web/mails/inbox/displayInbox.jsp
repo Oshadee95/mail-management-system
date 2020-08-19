@@ -4,6 +4,7 @@
     Author     : RED-HAWK
 --%>
 
+<%@page import="configurations.Language"%>
 <%@page import="java.text.SimpleDateFormat"%>
 <%@page import="models.InboxInfo"%>
 <%@page import="java.util.List"%>
@@ -35,9 +36,9 @@
                             <div class="card card-inverse">
                                 <div class="card-header">
                                     <div class="elements p-t-30">
-                                        <% if(!(user.getRoleId().equals("G_SECRETARIAT") || user.getRoleId().equals("G_OPERATOR"))) { %>
+                                        <% if (!(user.getRoleId().equals("G_SECRETARIAT") || user.getRoleId().equals("G_OPERATOR"))) {%>
                                         <ul class="icons-list">
-                                            <li><a href="<%=request.getContextPath()%>/Mails/Inbox/102" class="btn btn-link btn-md"><i class="icon-new-tab x3" style="color :#24ab8f!important"></i></a></li>
+                                            <li><a href="<%=request.getContextPath()+Route.DISPLAY_REGISTER_INBOX_FORM_ROUTE%>" class="btn btn-link btn-md"><i class="icon-new-tab x3" style="color :#24ab8f!important"></i></a></li>
                                         </ul>
                                         <% } %>
                                     </div>
@@ -46,13 +47,13 @@
                                     <table class="table datatable table-striped table-responsive">
                                         <thead>
                                             <tr>
-                                                <th style="width: 4vw">Mail ID</th>
-                                                <th style="width: 12vw">Type</th>
-                                                <th style="width: 15vw">Category</th>
-                                                <th style="width: 20vw">Brief</th>
-                                                <th style="width: 12vw">recipient name</th>
-                                                <th style="width: 10vw">Collected on</th>
-                                                <th style="width: 10vw"></th>
+                                                <th style="width: 4vw" class="d-font"><%=(language.equals("si"))? Language.si_mailid :  Language.en_mailid%></th>
+                                                <th style="width: 12vw" class="d-font"><%=(language.equals("si"))? Language.si_letterType :  Language.en_letterType%></th>
+                                                <th style="width: 15vw" class="d-font"><%=(language.equals("si"))? Language.si_categoryType :  Language.en_categoryType%></th>
+                                                <th style="width: 20vw" class="d-font"><%=(language.equals("si"))? Language.si_brief :  Language.en_brief%></th>
+                                                <th style="width: 12vw" class="d-font"><%=(language.equals("si"))? Language.si_recipientName :  Language.en_recipientName%></th>
+                                                <th style="width: 10vw" class="d-font"><%=(language.equals("si"))? Language.si_submittedOn :  Language.en_submittedOn%></th>
+                                                <th style="width: 10vw" class="d-font"></th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -62,32 +63,32 @@
                                                 for (InboxInfo inbox : inboxList) {
                                             %>
                                             <tr>
-                                                <td style="width: 4vw; font-size: 14px"><%=inbox.getId()%></td>
-                                                <td style="width: 12vw; font-size: 13px;"><%=inbox.getType().toUpperCase()%></td>
-                                                <td style="width: 15vw; font-size: 14px"><%=(inbox.getCategoryName().length() > 15) ? inbox.getCategoryName().substring(0, 15) + "..." : inbox.getCategoryName()%></td>
-                                                <td style="width: 20vw; font-size: 14px"><%=(inbox.getContent().length() > 40) ? inbox.getContent().substring(0, 40) + "..." : inbox.getContent()%></td>
-                                                <td style="width: 12vw !important"><%=inbox.getRecipientName()%></td>
-                                                <td style="width: 10vw; font-size: 14px"><%=dFomatter.format(inbox.getRecordedAt())%></td>
+                                                <td style="width: 4vw;" class="d-font"><%=inbox.getId()%></td>
+                                                <td style="width: 12vw;" class="d-font"><%=inbox.getType().toUpperCase()%></td>
+                                                <td style="width: 15vw;" class="d-font"><%=(inbox.getCategoryName().length() > 15) ? inbox.getCategoryName().substring(0, 15) + "..." : inbox.getCategoryName()%></td>
+                                                <td style="width: 20vw;" class="d-font"><%=(inbox.getContent().length() > 40) ? inbox.getContent().substring(0, 40) + "..." : inbox.getContent()%></td>
+                                                <td style="width: 12vw;" class="d-font"><%=inbox.getRecipientName()%></td>
+                                                <td style="width: 10vw;" class="d-font"><%=dFomatter.format(inbox.getRecordedAt())%></td>
                                                 <td class="text-center">
                                                     <ul class="icons-list">
-                                                        <li><form method="POST" action="<%=request.getContextPath()%>/Mails/Outbox/101" style="display: inline;">
-                                                                <button type="submit" name="mid" value="<%=inbox.getId()%>" class="btn btn-link btn-md"><i class="icon-eye2"></i></button>
+                                                        <li><form method="POST" action="<%=request.getContextPath()+Route.DISPLAY_OUTBOX_FORM_ROUTE%>" style="display: inline;">
+                                                                <button type="submit" name="mid" value="<%=inbox.getId()%>" class="btn btn-link btn-md d-btn-font"><i class="icon-eye2"></i></button>
                                                             </form></li>
                                                         <li class="dropdown">
                                                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false"></a>
                                                             <ul class="dropdown-menu dropdown-menu-right">
                                                                 <% if (inbox.getReplied().equals("false")) {%>
-                                                                <form method="POST" action="<%=request.getContextPath()%>/Mails/Outbox/102">
-                                                                    <button type="submit" name="mid" value="<%=inbox.getId()%>" class="float-left btn btn-link dropdown-item"><i class="icon-reply-all2"></i>&nbsp;&nbsp;&nbsp; Reply &nbsp;</button>
+                                                                <form method="POST" action="<%=request.getContextPath()+Route.DISPLAY_REGISTER_OUTBOX_FORM_ROUTE%>">
+                                                                    <button type="submit" name="mid" value="<%=inbox.getId()%>" class="float-left btn btn-link dropdown-item d-btn-font"><i class="icon-reply-all2"></i>&nbsp;&nbsp;&nbsp; <%=(language.equals("si"))? Language.si_reply :  Language.en_reply%> &nbsp;</button>
                                                                 </form>
                                                                 <% } else {%>
-                                                                <form  method="POST" action="<%=request.getContextPath()%>/Mails/Outbox/104">
-                                                                    <button type="submit" name="mid" value="<%=inbox.getId()%>" class="float-left btn btn-link dropdown-item"><i class="icon-reply-all2"></i>&nbsp;&nbsp;&nbsp; Update </button>
+                                                                <form  method="POST" action="<%=request.getContextPath()+Route.DISPLAY_OUTBOX_UPDATE_FORM_ROUTE%>">
+                                                                    <button type="submit" name="mid" value="<%=inbox.getId()%>" class="float-left btn btn-link dropdown-item d-btn-font"><i class="icon-reply-all2"></i>&nbsp;&nbsp;&nbsp; <%=(language.equals("si"))? Language.si_updateReply :  Language.en_updateReply%></button>
                                                                 </form>
                                                                 <% } %>
                                                                 <% if (inbox.getCollectorId().equals(user.getId())) {%>
-                                                                <form method="POST" action="<%=request.getContextPath()%>/Mails/Inbox/104">
-                                                                    <button type="submit" name="mid" value="<%=inbox.getId()%>" class="float-left btn btn-link dropdown-item"><i class=" icon-editing"></i> &nbsp;Update</button>
+                                                                <form method="POST" action="<%=request.getContextPath()+Route.DISPLAY_INBOX_UPDATE_FORM_ROUTE%>">
+                                                                    <button type="submit" name="mid" value="<%=inbox.getId()%>" class="float-left btn btn-link dropdown-item d-btn-font"><i class=" icon-editing"></i> &nbsp;<%=(language.equals("si"))? Language.si_updateMail :  Language.en_updateMail%></button>
                                                                 </form>
                                                                 <% }%>
                                                             </ul>

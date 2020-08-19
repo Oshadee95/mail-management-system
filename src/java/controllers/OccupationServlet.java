@@ -45,6 +45,7 @@ public class OccupationServlet extends HttpServlet {
                 ActivityService activityService = new ActivityService();
                 ActivityInfo activity = new ActivityInfo();
                 request.setCharacterEncoding("UTF-8");
+                request.getSession().setAttribute("navigatedPath", "occupations");
                 
                 switch (request.getServletPath()) {
                     case Route.DISPLAY_OCCUPATIONS_ROUTE:

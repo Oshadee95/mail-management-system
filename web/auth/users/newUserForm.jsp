@@ -47,40 +47,40 @@
                                     <div class="card-block">
                                         <fieldset>
                                             <div class="form-group row">
-                                                <label class="control-label col-lg-4">National identification <span class="text-danger">*</span></label>
+                                                <label class="control-label col-lg-4 d-font">National identification <span class="text-danger">*</span></label>
                                                 <div class="col-lg-8">
-                                                    <input style="background-color: white" type="text" name="nic" class="form-control" required placeholder="Enter NIC" maxlength="20" aria-required="true" value="<%=(tUser != null)? tUser.getNic() : "" %>">
+                                                    <input style="background-color: white" type="text" name="nic" class="form-control d-font" required placeholder="Enter NIC" maxlength="20" aria-required="true" value="<%=(tUser != null)? tUser.getNic() : "" %>">
                                                 </div>
                                             </div>
 
                                             <div class="form-group row">
-                                                <label class="control-label col-lg-4">Full name<span class="text-danger">*</span></label>
+                                                <label class="control-label col-lg-4 d-font">Full name<span class="text-danger">*</span></label>
                                                 <div class="col-lg-8">
-                                                    <input style="background-color: white" type="text" name="fullname" class="form-control" required placeholder="Enter full name" maxlength="300" aria-required="true" value="<%=(tUser != null)? tUser.getFullName(): "" %>">
+                                                    <input style="background-color: white" type="text" name="fullname" class="form-control d-font" required placeholder="Enter full name" maxlength="300" aria-required="true" value="<%=(tUser != null)? tUser.getFullName(): "" %>">
                                                 </div>
                                             </div>
 
                                             <div class="form-group row">
-                                                <label class="control-label col-lg-4">Display name<span class="text-danger">*</span></label>
+                                                <label class="control-label col-lg-4 d-font">Display name<span class="text-danger">*</span></label>
                                                 <div class="col-lg-8">
-                                                    <input style="background-color: white" type="text" name="displayName" class="form-control" required placeholder="Enter first and last name" maxlength="200" aria-required="true" value="<%=(tUser != null)? tUser.getDisplayName(): "" %>">
+                                                    <input style="background-color: white" type="text" name="displayName" class="form-control d-font" required placeholder="Enter first and last name" maxlength="200" aria-required="true" value="<%=(tUser != null)? tUser.getDisplayName(): "" %>">
                                                 </div>
                                             </div>
 
 
                                             <div class="form-group row">
-                                                <label class="control-label col-lg-4">User image<span class="text-danger">*</span></label>
+                                                <label class="control-label col-lg-4 d-font">User image<span class="text-danger">*</span></label>
                                                 <div class="col-lg-8">
-                                                    <input style="background-color: white" type="file" name="avatar" class="form-control" required aria-required="true" accept="image/x-png,image/jpeg">
+                                                    <input style="background-color: white" type="file" name="avatar" class="form-control d-font" required aria-required="true" accept="image/x-png,image/jpeg">
                                                     <small class="form-text text-muted">Upload an image with 300x300 pixels</small>
                                                 </div>
                                             </div>
 
 
                                             <div class="form-group row m-b-40">
-                                                <label class="control-label col-lg-4">Password</label>
+                                                <label class="control-label col-lg-4 d-font">Password</label>
                                                 <div class="col-lg-8">
-                                                    <input style="background-color: white" type="password" name="password" class="form-control" placeholder="Enter password (minimum 6 characters)">
+                                                    <input style="background-color: white" type="password" name="password" class="form-control d-font" placeholder="Enter password (minimum 6 characters)">
                                                     <small class="form-text text-muted">Leave blank to set nic as the default password</small>
                                                 </div>
                                             </div>
@@ -89,13 +89,13 @@
                                             <hr>
 
                                             <div class="form-group row m-t-40">
-                                                <label class="control-label col-lg-4">Office type <span class="text-danger">*</span></label>
+                                                <label class="control-label col-lg-4 d-font">Office type <span class="text-danger">*</span></label>
                                                 <div class="col-lg-8">
-                                                    <label class="radio-inline">
+                                                    <label class="radio-inline d-font">
                                                         <input type="radio" value="Government" name="officeType" required <%=((tUser != null) && (tUser.getOffice().equals("Government")))? "checked" : "" %>>
                                                         Government
                                                     </label>
-                                                    <label class="radio-inline">
+                                                    <label class="radio-inline d-font">
                                                         <input type="radio" value="Private" name="officeType" required <%=((tUser != null) && (tUser.getOffice().equals("Private")))? "checked" : "" %>>
                                                         Private
                                                     </label>
@@ -104,9 +104,9 @@
 
 
                                             <div class="form-group row">
-                                                <label class="control-label col-lg-4">Occupation <span class="text-danger">*</span></label>
+                                                <label class="control-label col-lg-4 d-font">Occupation <span class="text-danger">*</span></label>
                                                 <div class="col-lg-8">
-                                                    <select style="background-color: white" name="occupation" class="form-control" aria-required="true" required>
+                                                    <select style="background-color: white" name="occupation" class="form-control d-font" aria-required="true" required>
                                                         <option value="0">Select occupation</option>
                                                         <%
                                                             List<Occupation> occupationList = (List<Occupation>) request.getAttribute("occupationList");
@@ -121,9 +121,9 @@
 
                                             <% if(user.getRoleId().equals("SYS_ADMIN")){%>
                                             <div class="form-group row">
-                                                <label class="control-label col-lg-4">Role type <span class="text-danger">*</span></label>
+                                                <label class="control-label col-lg-4 d-font">Role type <span class="text-danger">*</span></label>
                                                 <div class="col-lg-8">
-                                                    <select style="background-color: white" name="role" class="form-control" aria-required="true" required>
+                                                    <select style="background-color: white" name="role" class="form-control d-font" aria-required="true" required>
                                                         <option value="unselected">Select role</option>
                                                         <%
                                                             List<Role> roleList = (List<Role>) request.getAttribute("roleList");
@@ -136,9 +136,9 @@
                                             </div>
                                             <% }  else { %>
                                             <div class="form-group row">
-                                                <label class="control-label col-lg-4">Role type <span class="text-danger">*</span></label>
+                                                <label class="control-label col-lg-4 d-font">Role type <span class="text-danger">*</span></label>
                                                 <div class="col-lg-8">
-                                                    <select style="background-color: white" name="role" class="form-control" aria-required="true" required>
+                                                    <select style="background-color: white" name="role" class="form-control d-font" aria-required="true" required>
                                                         <option value="unselected">Select role</option>
                                                         <%
                                                             List<Role> roleList = (List<Role>) request.getAttribute("roleList");
@@ -153,13 +153,13 @@
                                             <% } %>
 
                                             <div class="form-group row">
-                                                <label class="control-label col-lg-4">Status</label>
+                                                <label class="control-label col-lg-4 d-font">Status</label>
                                                 <div class="col-lg-8">
-                                                    <label class="radio-inline">
+                                                    <label class="radio-inline d-font">
                                                         <input type="radio" value="true" name="userStatus"  <%=((tUser != null) && (tUser.getOffice().equals("true")))? "checked" : "" %>>
                                                         Active
                                                     </label>
-                                                    <label class="radio-inline">
+                                                    <label class="radio-inline d-font">
                                                         <input type="radio" value="false" name="userStatus"  <%=((tUser != null) && (tUser.getOffice().equals("false")))? "checked" : "" %>>
                                                         Disabled
                                                     </label>
@@ -169,8 +169,8 @@
                                         </fieldset>
 
                                         <div class="float-right  m-t-50 m-b-20">
-                                            <button type="reset" class="btn btn-lg btn-secondary" id="reset"><i class="icon-reload-alt position-left"></i>Reset</button>&nbsp;
-                                            <button type="submit" name="uNForm" class="btn btn-lg btn-success"><i class="icon-arrow-right14"></i>Submit</button>
+                                            <button type="reset" class="btn btn-lg btn-secondary d-font" id="reset"><i class="icon-reload-alt position-left"></i>Reset</button>&nbsp;
+                                            <button type="submit" name="uNForm" class="btn btn-lg btn-success d-font"><i class="icon-arrow-right14"></i>Submit</button>
                                         </div>
                                     </div>
                                 </form>
@@ -191,7 +191,7 @@
                                         %>
                                         <div class="col-md-2 col-sm-6" title="<%=u.getDisplayName()%>" style="padding: 5px 5px">
                                             <div class="our-team3">
-                                                <img src="../../resources/avatars/<%=u.getPhotoURL()%>" alt="<%=u.getDisplayName()%>">
+                                                <img src="../../resources/avatars/<%=u.getPhotoURL()%>" alt="">
                                             </div>
                                         </div>
                                         <% } %>

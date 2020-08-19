@@ -41,40 +41,40 @@
                                     <div class="card-block">
                                         <fieldset>
                                             <div class="form-group row">
-                                                <label class="control-label col-lg-4">National identification <span class="text-danger">*</span></label>
+                                                <label class="control-label col-lg-4 d-font">National identification <span class="text-danger">*</span></label>
                                                 <div class="col-lg-8">
-                                                    <input style="background-color: white" type="text" readonly class="form-control" value="<%=user.getNic()%>">
+                                                    <input style="background-color: white" type="text" readonly class="form-control d-font" value="<%=user.getNic()%>">
                                                 </div>
                                             </div>
 
                                             <div class="form-group row">
-                                                <label class="control-label col-lg-4">Full name<span class="text-danger">*</span></label>
+                                                <label class="control-label col-lg-4 d-font">Full name<span class="text-danger">*</span></label>
                                                 <div class="col-lg-8">
-                                                    <input style="background-color: white" type="text" name="fullname" class="form-control" required value="<%=user.getFullName()%>" maxlength="300" aria-required="true">
+                                                    <input style="background-color: white" type="text" name="fullname" class="form-control d-font" required value="<%=user.getFullName()%>" maxlength="300" aria-required="true">
                                                 </div>
                                             </div>
 
                                             <div class="form-group row">
-                                                <label class="control-label col-lg-4">Display name<span class="text-danger">*</span></label>
+                                                <label class="control-label col-lg-4 d-font">Display name<span class="text-danger">*</span></label>
                                                 <div class="col-lg-8">
-                                                    <input style="background-color: white" type="text" name="displayName" class="form-control" required value="<%=user.getDisplayName()%>" maxlength="200" aria-required="true">
+                                                    <input style="background-color: white" type="text" name="displayName" class="form-control d-font" required value="<%=user.getDisplayName()%>" maxlength="200" aria-required="true">
                                                 </div>
                                             </div>
 
 
                                             <div class="form-group row">
-                                                <label class="control-label col-lg-4">User image<span class="text-danger">*</span></label>
+                                                <label class="control-label col-lg-4 d-font">User image<span class="text-danger">*</span></label>
                                                 <div class="col-lg-8">
-                                                    <input style="background-color: white" type="file" name="avatar" class="form-control" accept="image/x-png,image/jpeg">
+                                                    <input style="background-color: white" type="file" name="avatar" class="form-control d-font" accept="image/x-png,image/jpeg">
                                                     <small class="form-text text-muted">Upload an image with 300x300 pixels</small>
                                                 </div>
                                             </div>
 
 
                                             <div class="form-group row m-b-40">
-                                                <label class="control-label col-lg-4">Password</label>
+                                                <label class="control-label col-lg-4 d-font">Password</label>
                                                 <div class="col-lg-8">
-                                                    <input style="background-color: white" type="password" name="password" class="form-control" minlength="6" placeholder="Enter password (minimum 6 characters)">
+                                                    <input style="background-color: white" type="password" name="password" class="form-control d-font" minlength="6" placeholder="Enter password (minimum 6 characters)">
                                                     <small class="form-text text-muted">Leave blank to use old password</small>
                                                 </div>
                                             </div>
@@ -83,13 +83,13 @@
                                             <hr>
 
                                             <div class="form-group row m-t-40">
-                                                <label class="control-label col-lg-4">Office type <span class="text-danger">*</span></label>
+                                                <label class="control-label col-lg-4 d-font">Office type <span class="text-danger">*</span></label>
                                                 <div class="col-lg-8">
-                                                    <label class="radio-inline">
+                                                    <label class="radio-inline d-font">
                                                         <input type="radio" value="Government" name="officeType" <%=user.getOffice().equals("Government") ? "checked" : ""%> required>
                                                         Government
                                                     </label>
-                                                    <label class="radio-inline">
+                                                    <label class="radio-inline d-font">
                                                         <input type="radio" value="Private" name="officeType" <%=user.getOffice().equals("Private") ? "checked" : ""%> required>
                                                         Private
                                                     </label>
@@ -98,9 +98,9 @@
 
 
                                             <div class="form-group row">
-                                                <label class="control-label col-lg-4">Occupation <span class="text-danger">*</span></label>
+                                                <label class="control-label col-lg-4 d-font">Occupation <span class="text-danger">*</span></label>
                                                 <div class="col-lg-8">
-                                                    <select style="background-color: white" name="occupation" class="form-control" aria-required="true" required>
+                                                    <select style="background-color: white" name="occupation" class="form-control d-font" aria-required="true" required>
                                                         <option value="0">Select occupation</option>
                                                         <%
                                                             List<Occupation> occupationList = (List<Occupation>) request.getAttribute("occupationList");
@@ -114,9 +114,9 @@
 
 
                                             <div class="form-group row">
-                                                <label class="control-label col-lg-4">Role type <span class="text-danger">*</span></label>
+                                                <label class="control-label col-lg-4 d-font">Role type <span class="text-danger">*</span></label>
                                                 <div class="col-lg-8">
-                                                    <select style="background-color: white" name="role" class="form-control" aria-required="true" required>
+                                                    <select style="background-color: white" name="role" class="form-control d-font" aria-required="true" required>
                                                         <option value="0">Select role</option>
                                                         <%
                                                             List<Role> roleList = (List<Role>) request.getAttribute("roleList");
@@ -130,13 +130,13 @@
 
 
                                             <div class="form-group row">
-                                                <label class="control-label col-lg-4">Status</label>
+                                                <label class="control-label col-lg-4 d-font">Status</label>
                                                 <div class="col-lg-8">
-                                                    <label class="radio-inline">
+                                                    <label class="radio-inline d-font">
                                                         <input type="radio" value="true" name="userStatus" <%=user.getActive().equals("true") ? "checked" : ""%>>
                                                         Active
                                                     </label>
-                                                    <label class="radio-inline">
+                                                    <label class="radio-inline d-font">
                                                         <input type="radio" value="false" name="userStatus" <%=user.getActive().equals("false") ? "checked" : ""%>>
                                                         Disabled
                                                     </label>
@@ -146,8 +146,8 @@
                                         </fieldset>
 
                                         <div class="float-right  m-t-50 m-b-20">
-                                            <button type="reset" class="btn btn-lg btn-secondary" id="reset"><i class="icon-reload-alt position-left"></i>Reset</button>&nbsp;
-                                            <button type="submit" name="uid" value="<%=user.getId()%>" class="btn btn-lg btn-success"><i class="icon-arrow-right14"></i>Submit</button>
+                                            <button type="reset" class="btn btn-lg btn-secondary d-font" id="reset"><i class="icon-reload-alt position-left"></i>Reset</button>&nbsp;
+                                            <button type="submit" name="uid" value="<%=user.getId()%>" class="btn btn-lg btn-success d-font"><i class="icon-arrow-right14"></i>Submit</button>
                                         </div>
                                     </div>
                                 </form>
@@ -168,7 +168,7 @@
                                         %>
                                         <div class="col-md-2 col-sm-6" title="<%=u.getDisplayName()%>" style="padding: 5px 5px">
                                             <div class="our-team3">
-                                                <img src="../../resources/avatars/<%=u.getPhotoURL()%>" alt="<%=u.getDisplayName()%>">
+                                                <img src="../../resources/avatars/<%=u.getPhotoURL()%>" alt="">
                                             </div>
                                         </div>
                                         <% }%>

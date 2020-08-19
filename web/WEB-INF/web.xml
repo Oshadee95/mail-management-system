@@ -107,7 +107,7 @@
     <welcome-file-list>
         <welcome-file>Login</welcome-file>
     </welcome-file-list>
-    <!--        <error-page>
-        <location>/Mails/Inbox</location>
-    </error-page>-->
+    <error-page>
+        <location>/Login</location>
+    </error-page>
 </web-app>

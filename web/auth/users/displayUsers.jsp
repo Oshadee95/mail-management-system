@@ -41,14 +41,13 @@
                                     <table class="table datatable table-striped table-responsive">
                                         <thead>
                                             <tr>
-                                                <th style="width: 2vw !important"></th>
-                                                <th style="width: 25vw !important">Display Name</th>
-                                                <th style="width: 10vw !important">Office</th>
-                                                <th style="width: 20vw !important">Occupation</th>
-                                                <th style="width: 10vw !important">Role</th>
-                                                <th style="width: 5vw !important">Status</th>
-                                                <th style="width: 15vw !important">Last Updated</th>
-                                                <th style="width: 15vw !important"></th>
+                                                <th style="width: 2vw" class="d-font"></th>
+                                                <th style="width: 25vw" class="d-font">Display Name</th>
+                                                <th style="width: 10vw" class="d-font">Office</th>
+                                                <th style="width: 20vw" class="d-font">Occupation</th>
+                                                <th style="width: 10vw" class="d-font">Role</th>
+                                                <th style="width: 5vw" class="d-font">Status</th>
+                                                <th style="width: 15vw" class="d-font"></th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -57,19 +56,18 @@
                                                 for (UserInfo u : userList) {
                                             %>
                                             <tr>
-                                                <td style="width: 2vw !important"><img alt="" src="../../resources/avatars/<%=u.getPhotoURL()%>" class="rounded-circle img-sm"></td>
-                                                <td style="width: 25vw !important"><%=u.getDisplayName()%></td>
-                                                <td style="width: 10vw !important"><%=u.getOffice()%></td>
-                                                <td style="width: 20vw !important"><%=u.getOccupation()%></td>
-                                                <td style="width: 10vw !important"><%=u.getRoleId()%></td>
-                                                <td style="width: 5vw !important"><%=u.getActive().equals("true") ? "Active" : "Disabled"%></td>
-                                                <td style="width: 15vw !important"><%=u.getUpdatedAt()%></td>
-                                                <td style="width: 15vw !important">
-                                                    <form method="POST" action="<%=request.getContextPath()+Route.DISPLAY_USER_UPDATE_FORM_ROUTE%>" style="display: inline">
-                                                        <button type="submit" name="uid" value="<%=u.getId()%>" class="btn btn-outline-warning btn-sm"><i class=" icon-editing"></i> &nbsp;Update</button>
+                                                <td style="width: 2vw" class="d-font"><img alt="" src="../../resources/avatars/<%=u.getPhotoURL()%>" class="rounded-circle img-sm"></td>
+                                                <td style="width: 25vw" class="d-font"><%=u.getDisplayName()%></td>
+                                                <td style="width: 10vw" class="d-font"><%=u.getOffice()%></td>
+                                                <td style="width: 20vw" class="d-font"><%=u.getOccupation()%></td>
+                                                <td style="width: 10vw" class="d-font"><%=u.getRoleId()%></td>
+                                                <td style="width: 5vw" class="d-font"><%=u.getActive().equals("true") ? "Active" : "Disabled"%></td>
+                                                <td style="width: 15vw; padding: 8px 0;" class="text-center">
+                                                    <form method="POST" action="<%=request.getContextPath()+Route.DISPLAY_USER_UPDATE_FORM_ROUTE%>" style="display: inline; 6vw">
+                                                        <button type="submit" name="uid" value="<%=u.getId()%>" class="btn btn-outline-warning btn-sm d-btn-font"><i class=" icon-editing"></i> &nbsp;Update</button>
                                                     </form>
-                                                    <form method="POST" action="<%=request.getContextPath()+Route.DISPLAY_USERS_FORM_ROUTE%>" style="display: inline">
-                                                        <button type="submit" name="uid" value="<%=u.getId()%>" class="btn btn-outline-primary btn-sm float-right"><i class="icon-eye2"></i> &nbsp;Open</button>
+                                                    <form method="POST" action="<%=request.getContextPath()+Route.DISPLAY_USERS_FORM_ROUTE%>" style="display: inline; 6vw">
+                                                         &nbsp;&nbsp;&nbsp;<button type="submit" name="uid" value="<%=u.getId()%>" class="btn btn-outline-primary btn-sm d-btn-font"><i class="icon-eye2"></i> &nbsp;Open</button>
                                                     </form>
                                                 </td>
                                             </tr>

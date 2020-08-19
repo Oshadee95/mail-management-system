@@ -35,11 +35,11 @@
                                     <table class="table datatable table-striped table-responsive">
                                         <thead>
                                             <tr>
-                                                <th style="width: 6vw !important">Activity ID</th>
-                                                <th style="width: 10vw !important">Activity ID</th>
-                                                <th style="width: 10vw !important">User Name</th>
-                                                <th style="width: 64vw !important">Activity</th>
-                                                <th style="width: 10vw !important">Occurred At</th>
+                                                <th style="width: 6vw" class="d-font">Activity ID</th>
+                                                <th style="width: 10vw" class="d-font">Activity ID</th>
+                                                <th style="width: 10vw" class="d-font">User Name</th>
+                                                <th style="width: 64vw" class="d-font">Activity</th>
+                                                <th style="width: 10vw" class="d-font">Occurred At</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -49,11 +49,11 @@
                                                 for (ActivityInfo i : activityList) {
                                             %>
                                             <tr>
-                                                <td style="width: 6vw !important"><%=i.getId()%></td>
-                                                <td style="width: 10vw !important"><%=i.getType()%></td>
-                                                <td style="width: 10vw !important"><%=i.getUserName()%></td>
-                                                <td style="width: 64vw !important"><%=i.getAction()%></td>
-                                                <td style="width: 10vw !important"><%=dFomatter.format(i.getOccuredAt())%></td>
+                                                <td style="width: 6vw" class="d-font"><%=i.getId()%></td>
+                                                <td style="width: 10vw" class="d-font"><%=i.getType()%></td>
+                                                <td style="width: 10vw" class="d-font"><%=i.getUserName()%></td>
+                                                <td style="width: 64vw" class="d-font"><%=i.getAction()%></td>
+                                                <td style="width: 10vw" class="d-font"><%=dFomatter.format(i.getOccuredAt())%></td>
                                             </tr>
                                             <% }%>
                                         </tbody>

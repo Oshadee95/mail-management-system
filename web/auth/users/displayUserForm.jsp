@@ -37,7 +37,7 @@
                                     <div class="card-title p-t-10">
                                         user information
                                         <a class="example-image-link" href="../../resources/avatars/<%=user.getPhotoURL()%>" data-lightbox="example-2" data-title="<%=user.getFullName()%>">
-                                            <img src="../../resources/avatars/<%=user.getPhotoURL()%>" alt="<%=user.getPhotoURL()%>" class="rounded-circle float-right" style="margin-top: -8px; max-height: 50px; height: 50px; width: 50px;">
+                                            <img src="../../resources/avatars/<%=user.getPhotoURL()%>" alt="" class="rounded-circle float-right" style="margin-top: -8px; max-height: 50px; height: 50px; width: 50px;">
                                         </a>
                                     </div>
                                     <hr>
@@ -45,36 +45,36 @@
                                 <div class="card-block">
                                     <fieldset>
                                         <div class="form-group row">
-                                            <label class="control-label col-lg-4">National identification</label>
+                                            <label class="control-label col-lg-4 d-font">National identification</label>
                                             <div class="col-lg-8">
-                                                <input type="text" readonly class="form-control" value="<%=user.getNic()%>">
+                                                <input type="text" readonly class="form-control d-font" value="<%=user.getNic()%>">
                                             </div>
                                         </div>
 
                                         <div class="form-group row">
-                                            <label class="control-label col-lg-4">Full name</label>
+                                            <label class="control-label col-lg-4 d-font">Full name</label>
                                             <div class="col-lg-8">
-                                                <input type="text" class="form-control" readonly value="<%=user.getFullName()%>">
+                                                <input type="text" class="form-control d-font" readonly value="<%=user.getFullName()%>">
                                             </div>
                                         </div>
 
                                         <div class="form-group row m-b-40">
-                                            <label class="control-label col-lg-4">Display name</label>
+                                            <label class="control-label col-lg-4 d-font">Display name</label>
                                             <div class="col-lg-8">
-                                                <input type="text" class="form-control" readonly value="<%=user.getDisplayName()%>">
+                                                <input type="text" class="form-control d-font" readonly value="<%=user.getDisplayName()%>">
                                             </div>
                                         </div>
 
                                         <hr>
 
                                         <div class="form-group row m-t-40">
-                                            <label class="control-label col-lg-4">Office </label>
+                                            <label class="control-label col-lg-4 d-font">Office </label>
                                             <div class="col-lg-8">
-                                                <label class="radio-inline">
+                                                <label class="radio-inline d-font">
                                                     <input type="radio" value="Government" <%=user.getOffice().equals("Government") ? "checked" : ""%> disabled>
                                                     Government
                                                 </label>
-                                                <label class="radio-inline">
+                                                <label class="radio-inline d-font">
                                                     <input type="radio" value="Private" <%=user.getOffice().equals("Private") ? "checked" : ""%> disabled>
                                                     Private
                                                 </label>
@@ -83,29 +83,29 @@
 
 
                                         <div class="form-group row">
-                                            <label class="control-label col-lg-4">Occupation</label>
+                                            <label class="control-label col-lg-4 d-font">Occupation</label>
                                             <div class="col-lg-8">
-                                                <input type="text" class="form-control" value="<%=user.getOccupation()%>" readonly>
+                                                <input type="text" class="form-control d-font" value="<%=user.getOccupation()%>" readonly>
                                             </div>
                                         </div>
 
 
                                         <div class="form-group row">
-                                            <label class="control-label col-lg-4">Role type</label>
+                                            <label class="control-label col-lg-4 d-font">Role type</label>
                                             <div class="col-lg-8">
-                                                <input type="text" class="form-control" value="<%=user.getRoleId()%>" readonly>
+                                                <input type="text" class="form-control d-font" value="<%=user.getRoleId()%>" readonly>
                                             </div>
                                         </div>
 
 
-                                        <div class="form-group row">
-                                            <label class="control-label col-lg-4">Status</label>
+                                        <div class="form-group row p-b-40">
+                                            <label class="control-label col-lg-4 d-font">Status</label>
                                             <div class="col-lg-8">
-                                                <label class="radio-inline">
+                                                <label class="radio-inline d-font">
                                                     <input type="radio" disabled <%=user.getActive().equals("true") ? "checked" : ""%>>
                                                     Active
                                                 </label>
-                                                <label class="radio-inline">
+                                                <label class="radio-inline d-font">
                                                     <input type="radio" disabled <%=user.getActive().equals("false") ? "checked" : ""%>>
                                                     Disabled
                                                 </label>
@@ -118,7 +118,7 @@
                         </div>
 
                         <div class="col-md-6 col-sm-6">
-                            <div class="card card-inverse card-flat" style="height: 75vh; overflow-y: auto">
+                            <div class="card card-inverse card-flat" style="height: 69vh; overflow-y: auto">
                                 <div class="card-header m-b-20">
                                     <div class="card-title p-t-10">Employees</div>
                                     <hr>
@@ -131,7 +131,7 @@
                                         %>
                                         <div class="col-md-2 col-sm-6" title="<%=u.getDisplayName()%>" style="padding: 5px 5px">
                                             <div class="our-team3">
-                                                <img class="img-fluid" src="../../resources/avatars/<%=u.getPhotoURL()%>" alt="<%=u.getDisplayName()%>" >
+                                                <img class="img-fluid" src="../../resources/avatars/<%=u.getPhotoURL()%>" alt="">
                                             </div>
                                         </div>
                                         <% }%>

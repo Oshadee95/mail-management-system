@@ -46,6 +46,7 @@ public class CategoryServlet extends HttpServlet {
                 ActivityService activityService = new ActivityService();
                 ActivityInfo activity = new ActivityInfo();
                 request.setCharacterEncoding("UTF-8"); 
+                request.getSession().setAttribute("navigatedPath", "categories");
                 
                 switch (request.getServletPath()) {
                     case Route.DISPLAY_CATEGORIES_ROUTE:

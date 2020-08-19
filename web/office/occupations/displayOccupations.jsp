@@ -38,6 +38,7 @@
                     <div class="row">
 
                         <%
+                            UserInfo user = (UserInfo) request.getSession().getAttribute("authUser");  
                             if(request.getSession().getAttribute("occupationAction") != null && request.getSession().getAttribute("occupationAction").equals("104")){
                             Occupation occupation = (Occupation) request.getSession().getAttribute("dbOccupation");
                         %>
@@ -118,9 +119,15 @@
                                             <tr>
                                                 <td style="width:95vw"><%=oc.getTitle()%></td>
                                                 <td style="width:5vw">
+                                                    <% if(oc.getId() != 2) { %>
                                                     <form method="POST" action="<%=request.getContextPath()%>/Office/Occupation/104" style="display: inline">
                                                         <button type="submit" name="oid" value="<%=oc.getId()%>" class="btn btn-outline-warning btn-sm"><i class=" icon-editing"></i> &nbsp;Update </button>
                                                     </form>
+                                                    <% } else if(user.getRoleId().equals("SYS_ADMIN")) { %>
+                                                   <form method="POST" action="<%=request.getContextPath()%>/Office/Occupation/104" style="display: inline">
+                                                        <button type="submit" name="oid" value="<%=oc.getId()%>" class="btn btn-outline-warning btn-sm"><i class=" icon-editing"></i> &nbsp;Update </button>
+                                                    </form>
+                                                    <% } %>
                                                 </td>
                                             </tr>
                                             <% }%>

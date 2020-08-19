@@ -5,20 +5,14 @@
  */
 package controllers;
 
-import configurations.MessageConfig;
 import configurations.Route;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.SQLException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import models.ActivityInfo;
-import models.Notification;
 import models.UserInfo;
-import services.ActivityService;
-import services.InboxService;
 
 /**
  *
@@ -58,10 +52,10 @@ public class DashboardServlet extends HttpServlet {
     }
 
     private void resolveRequest(UserInfo user, HttpServletRequest request, HttpServletResponse response) throws IOException {
-        if (!((user.getRoleId().equals("P_OPERATOR")) || (user.getRoleId().equals("G_OPERATOR")) || (user.getRoleId().equals("SYS_ADMIN")))) {
-            response.sendRedirect(request.getContextPath() + Route.DISPLAY_MYMAIL_ROUTE);
+        if ((user.getRoleId().equals("P_OPERATOR")) || (user.getRoleId().equals("G_OPERATOR")) || (user.getRoleId().equals("SYS_ADMIN"))) {
+            response.sendRedirect(request.getContextPath() + Route.DISPLAY_INBOX_ROUTE);
         } else {
-            response.sendRedirect(request.getContextPath() + Route.DISPLAY_DASHBOARD_ROUTE);
+            response.sendRedirect(request.getContextPath() + Route.DISPLAY_MYMAIL_ROUTE);
         }
     }
 

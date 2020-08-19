@@ -36,27 +36,34 @@
                                     <div class="card-title p-t-10">user registration form</div>
                                     <hr>
                                 </div>
-                                <form class="form-validate" method="POST" action="<%=request.getContextPath()%>/Auth/Users/103" enctype="multipart/form-data">
+                                <% 
+                                    UserInfo user = (UserInfo) request.getSession().getAttribute("authUser");  
+                                    UserInfo tUser = null;
+                                    if(request.getSession().getAttribute("submittedUser") != null){
+                                        tUser = (UserInfo) request.getSession().getAttribute("submittedUser");
+                                    }
+                                %>
+                                <form class="form-validate" method="POST" action="<%=request.getContextPath()+Route.REGISTER_USER_ROUTE%>" enctype="multipart/form-data">
                                     <div class="card-block">
                                         <fieldset>
                                             <div class="form-group row">
                                                 <label class="control-label col-lg-4">National identification <span class="text-danger">*</span></label>
                                                 <div class="col-lg-8">
-                                                    <input style="background-color: white" type="text" name="nic" class="form-control" required placeholder="Enter NIC" maxlength="20" aria-required="true">
+                                                    <input style="background-color: white" type="text" name="nic" class="form-control" required placeholder="Enter NIC" maxlength="20" aria-required="true" value="<%=(tUser != null)? tUser.getNic() : "" %>">
                                                 </div>
                                             </div>
 
                                             <div class="form-group row">
                                                 <label class="control-label col-lg-4">Full name<span class="text-danger">*</span></label>
                                                 <div class="col-lg-8">
-                                                    <input style="background-color: white" type="text" name="fullname" class="form-control" required placeholder="Enter full name" maxlength="300" aria-required="true">
+                                                    <input style="background-color: white" type="text" name="fullname" class="form-control" required placeholder="Enter full name" maxlength="300" aria-required="true" value="<%=(tUser != null)? tUser.getFullName(): "" %>">
                                                 </div>
                                             </div>
 
                                             <div class="form-group row">
                                                 <label class="control-label col-lg-4">Display name<span class="text-danger">*</span></label>
                                                 <div class="col-lg-8">
-                                                    <input style="background-color: white" type="text" name="displayName" class="form-control" required placeholder="Enter first and last name" maxlength="200" aria-required="true">
+                                                    <input style="background-color: white" type="text" name="displayName" class="form-control" required placeholder="Enter first and last name" maxlength="200" aria-required="true" value="<%=(tUser != null)? tUser.getDisplayName(): "" %>">
                                                 </div>
                                             </div>
 
@@ -74,6 +81,7 @@
                                                 <label class="control-label col-lg-4">Password</label>
                                                 <div class="col-lg-8">
                                                     <input style="background-color: white" type="password" name="password" class="form-control" placeholder="Enter password (minimum 6 characters)">
+                                                    <small class="form-text text-muted">Leave blank to set nic as the default password</small>
                                                 </div>
                                             </div>
 
@@ -84,11 +92,11 @@
                                                 <label class="control-label col-lg-4">Office type <span class="text-danger">*</span></label>
                                                 <div class="col-lg-8">
                                                     <label class="radio-inline">
-                                                        <input type="radio" value="Government" name="officeType" required>
-                                                        Govenment
+                                                        <input type="radio" value="Government" name="officeType" required <%=((tUser != null) && (tUser.getOffice().equals("Government")))? "checked" : "" %>>
+                                                        Government
                                                     </label>
                                                     <label class="radio-inline">
-                                                        <input type="radio" value="Private" name="officeType" required>
+                                                        <input type="radio" value="Private" name="officeType" required <%=((tUser != null) && (tUser.getOffice().equals("Private")))? "checked" : "" %>>
                                                         Private
                                                     </label>
                                                 </div>
@@ -104,38 +112,55 @@
                                                             List<Occupation> occupationList = (List<Occupation>) request.getAttribute("occupationList");
                                                             for (Occupation o : occupationList) {
                                                         %>
-                                                        <option value="<%=o.getId()%>"><%=o.getTitle()%></option>
-                                                        <% }; %>
+                                                        <% if(o.getId() != 2){ %>
+                                                            <option <%=((tUser != null) && (tUser.getOccupationId() == o.getId()))? "selected" : "" %> value="<%=o.getId()%>"><%=o.getTitle()%></option>
+                                                        <% } } %>
                                                     </select>
                                                 </div>
                                             </div>
 
-
+                                            <% if(user.getRoleId().equals("SYS_ADMIN")){%>
                                             <div class="form-group row">
                                                 <label class="control-label col-lg-4">Role type <span class="text-danger">*</span></label>
                                                 <div class="col-lg-8">
                                                     <select style="background-color: white" name="role" class="form-control" aria-required="true" required>
-                                                        <option value="0">Select role</option>
+                                                        <option value="unselected">Select role</option>
                                                         <%
                                                             List<Role> roleList = (List<Role>) request.getAttribute("roleList");
                                                             for (Role r : roleList) {
                                                         %>
-                                                        <option value="<%=r.getId()%>"><%=r.getId()%></option>
+                                                        <option <%=((tUser != null) && (tUser.getRoleId().equals(r.getId())))? "selected" : "" %> value="<%=r.getId()%>"><%=r.getId()%></option>
                                                         <% };%>
                                                     </select>
                                                 </div>
                                             </div>
-
+                                            <% }  else { %>
+                                            <div class="form-group row">
+                                                <label class="control-label col-lg-4">Role type <span class="text-danger">*</span></label>
+                                                <div class="col-lg-8">
+                                                    <select style="background-color: white" name="role" class="form-control" aria-required="true" required>
+                                                        <option value="unselected">Select role</option>
+                                                        <%
+                                                            List<Role> roleList = (List<Role>) request.getAttribute("roleList");
+                                                            for (Role r : roleList) {
+                                                                if(!((r.getId().equals("SYS_ADMIN")) || (r.getId().equals("GOVERNOR")))){
+                                                        %>
+                                                                <option <%=((tUser != null) && (tUser.getRoleId().equals(r.getId())))? "selected" : "" %> value="<%=r.getId()%>"><%=r.getId()%></option>
+                                                        <% } } %>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <% } %>
 
                                             <div class="form-group row">
                                                 <label class="control-label col-lg-4">Status</label>
                                                 <div class="col-lg-8">
                                                     <label class="radio-inline">
-                                                        <input type="radio" value="true" name="userStatus">
+                                                        <input type="radio" value="true" name="userStatus"  <%=((tUser != null) && (tUser.getOffice().equals("true")))? "checked" : "" %>>
                                                         Active
                                                     </label>
                                                     <label class="radio-inline">
-                                                        <input type="radio" value="false" name="userStatus">
+                                                        <input type="radio" value="false" name="userStatus"  <%=((tUser != null) && (tUser.getOffice().equals("false")))? "checked" : "" %>>
                                                         Disabled
                                                     </label>
                                                 </div>
@@ -145,7 +170,7 @@
 
                                         <div class="float-right  m-t-50 m-b-20">
                                             <button type="reset" class="btn btn-lg btn-secondary" id="reset"><i class="icon-reload-alt position-left"></i>Reset</button>&nbsp;
-                                            <button type="submit" class="btn btn-lg btn-success"><i class="icon-arrow-right14"></i>Submit</button>
+                                            <button type="submit" name="uNForm" class="btn btn-lg btn-success"><i class="icon-arrow-right14"></i>Submit</button>
                                         </div>
                                     </div>
                                 </form>

@@ -5,6 +5,10 @@
  */
 package controllers;
 
+import configurations.MessageConfig;
+import configurations.PathConfig;
+import configurations.Route;
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -53,98 +57,137 @@ public class UserServlet extends HttpServlet {
                 request.setCharacterEncoding("UTF-8");
 
                 switch (request.getServletPath()) {
-                    case "/Auth/Users/100":
+                    case Route.DISPLAY_USERS_ROUTE:
                         try {
                             request.setAttribute("userList", new UserService().getAll());
                             request.getRequestDispatcher("/auth/users/displayUsers.jsp").forward(request, response);
                         } catch (IOException | ClassNotFoundException | SQLException | ServletException e) {
-                            request.getSession().setAttribute("notification", new Notification("Error Notification", "Failed to retrieve users. ECODE - 1025.<br>Contact system administrator", "danger"));
-                            response.sendRedirect(request.getContextPath() + "/Mails/Inbox/100");
+                            try {
+                                recordActivity(MessageConfig.USER_OPERATION_FAILED, "Location : UserServlet.java | Line : 66 " + MessageConfig.USER_ERROR_2044 + " | Error : " + e.getMessage(), authUser, activityService, activity, request);
+                                setNotification(MessageConfig.USER_OPERATION_NOTIFICATION_TITLE, MessageConfig.USER_ERROR_2044_LOCAL, "danger", request);
+                                response.sendRedirect(request.getContextPath() + Route.DISPLAY_DASHBOARD_ROUTE);
+                            } catch (Exception ex) {
+//                                    ex.printStackTrace();
+                            }
                         }
                         break;
-                    case "/Auth/Users/101":
+                    case Route.DISPLAY_USERS_FORM_ROUTE:
                         if ((request.getParameter("uid") != null)) {
                             try {
                                 UserInfo uInfo = new UserInfo();
                                 uInfo.setId(request.getParameter("uid"));
-                                request.setAttribute("userTemp", new UserService().get(uInfo));
+                                request.setAttribute("selectedUser", new UserService().get(uInfo));
                                 request.setAttribute("userList", new UserService().getAll());
                                 request.getRequestDispatcher("/auth/users/displayUserForm.jsp").forward(request, response);
                             } catch (IOException | ClassNotFoundException | SQLException | ServletException e) {
-                                request.getSession().setAttribute("notification", new Notification("Error Notification", "Failed to retrieve user. ECODE - 1026.<br>Contact system administrator", "danger"));
-                                response.sendRedirect(request.getContextPath() + "/Auth/Users/100");
+                                try {
+                                    recordActivity(MessageConfig.USER_OPERATION_FAILED, "Location : UserServlet.java | Line : 84 " + MessageConfig.USER_ERROR_2045 + " | Error : " + e.getMessage(), authUser, activityService, activity, request);
+                                    setNotification(MessageConfig.USER_OPERATION_NOTIFICATION_TITLE, MessageConfig.USER_ERROR_2045_LOCAL, "danger", request);
+                                    response.sendRedirect(request.getContextPath() + Route.DISPLAY_USERS_ROUTE);
+                                } catch (Exception ex) {
+//                                    ex.printStackTrace();
+                                }
                             }
                         } else {
-                            request.getSession().setAttribute("notification", new Notification("Error Notification", "Unauthorized request. User is not permitted to perform action", "danger"));
-                            response.sendRedirect(request.getContextPath() + "/Auth/Users/100");
+                            redirectUnauthorizedRequest("root", authUser, request, response);
                         }
                         break;
-                    case "/Auth/Users/102":
+                    case Route.DISPLAY_REGISTER_USER_FORM_ROUTE:
                         try {
                             request.setAttribute("userList", new UserService().getAll());
                             request.setAttribute("roleList", new RoleService().getAll());
                             request.setAttribute("occupationList", new OccupationService().getAll());
                             request.getRequestDispatcher("/auth/users/newUserForm.jsp").forward(request, response);
                         } catch (IOException | ClassNotFoundException | SQLException | ServletException e) {
-                            request.getSession().setAttribute("notification", new Notification("Error Notification", "Failed to retrieve user form. ECODE - 1027.<br>Contact system administrator", "danger"));
-                            response.sendRedirect(request.getContextPath() + "/Auth/Users/100");
-                        }
-                        break;
-                    case "/Auth/Users/103":
-                        try {
-                            if (registerUser(request)) {
-                                request.getSession().removeAttribute("userTemp");
-                                response.sendRedirect(request.getContextPath() + "/Auth/Users/102");
-                            } else { // TODO : add session to store the form values to sent it back when a error is occured
-                                response.sendRedirect(request.getContextPath() + "/Auth/Users/102");
+                            try {
+                                recordActivity(MessageConfig.USER_OPERATION_FAILED, "Location : UserServlet.java | Line : 103 " + MessageConfig.USER_ERROR_2046 + " | Error : " + e.getMessage(), authUser, activityService, activity, request);
+                                setNotification(MessageConfig.USER_OPERATION_NOTIFICATION_TITLE, MessageConfig.USER_ERROR_2046_LOCAL, "danger", request);
+                                response.sendRedirect(request.getContextPath() + Route.DISPLAY_USERS_ROUTE);
+                            } catch (Exception ex) {
+//                                    ex.printStackTrace();
                             }
-                        } catch (Exception e) {
-                            request.getSession().setAttribute("notification", new Notification("Error Notification", "Failed to register user. ECODE - 1028.<br>Contact system administrator", "danger"));
-                            response.sendRedirect(request.getContextPath() + "/Auth/Users/100");
                         }
                         break;
-                    case "/Auth/Users/104":
-                        if ((request.getParameter("uid") != null)) {
+                    case Route.REGISTER_USER_ROUTE:
+                        if ((request.getParameter("uNForm") != null) || (request.getSession().getAttribute("submittedUser") != null)) {
+                            try {
+                                if (registerUser(request, authUser, activityService, activity)) {
+                                    request.getSession().removeAttribute("submittedUser");
+                                    response.sendRedirect(request.getContextPath() + Route.DISPLAY_USERS_ROUTE);
+                                } else {
+                                    response.sendRedirect(request.getContextPath() + Route.DISPLAY_REGISTER_USER_FORM_ROUTE);
+                                }
+                            } catch (Exception e) {
+                                try {
+                                    recordActivity(MessageConfig.USER_OPERATION_FAILED, "Location : UserServlet.java | Line : 122 " + MessageConfig.USER_ERROR_2035 + " | Error : " + e.getMessage(), authUser, activityService, activity, request);
+                                    setNotification(MessageConfig.USER_OPERATION_NOTIFICATION_TITLE, MessageConfig.USER_ERROR_2035_LOCAL, "danger", request);
+                                    response.sendRedirect(request.getContextPath() + Route.DISPLAY_USERS_ROUTE);
+                                } catch (Exception ex) {
+//                                    ex.printStackTrace();
+                                }
+                            }
+                        } else {
+                            redirectUnauthorizedRequest("root", authUser, request, response);
+                        }
+                        break;
+                    case Route.DISPLAY_USER_UPDATE_FORM_ROUTE:
+                        if ((request.getParameter("uid") != null) || (request.getSession().getAttribute("selectedUser") != null)) {
                             try {
                                 UserInfo uInfo = new UserInfo();
                                 uInfo.setId(request.getParameter("uid"));
-                                request.getSession().setAttribute("userTemp", new UserService().get(uInfo));
+                                if (request.getSession().getAttribute("selectedUser") == null) {
+                                    request.getSession().setAttribute("selectedUser", new UserService().get(uInfo));
+                                }
                                 request.setAttribute("userList", new UserService().getAll());
                                 request.setAttribute("roleList", new RoleService().getAll());
                                 request.setAttribute("occupationList", new OccupationService().getAll());
                                 request.getRequestDispatcher("/auth/users/updateUserForm.jsp").forward(request, response);
                             } catch (IOException | ClassNotFoundException | SQLException | ServletException e) {
-                                request.getSession().setAttribute("notification", new Notification("Error Notification", "Failed to retrieve user. ECODE - 1029.<br>Contact system administrator", "danger"));
-                                response.sendRedirect(request.getContextPath() + "/Auth/Users/100");
+                                try {
+                                    recordActivity(MessageConfig.USER_OPERATION_FAILED, "Location : UserServlet.java | Line : 147 " + MessageConfig.USER_ERROR_2047 + " | Error : " + e.getMessage(), authUser, activityService, activity, request);
+                                    setNotification(MessageConfig.USER_OPERATION_NOTIFICATION_TITLE, MessageConfig.USER_ERROR_2047_LOCAL, "danger", request);
+                                    response.sendRedirect(request.getContextPath() + Route.DISPLAY_USERS_ROUTE);
+                                } catch (Exception ex) {
+//                                    ex.printStackTrace();
+                                }
                             }
                         } else {
-                            request.getSession().setAttribute("notification", new Notification("Error Notification", "Unauthorized request. User is not permitted to perform action", "danger"));
-                            response.sendRedirect(request.getContextPath() + "/Auth/Users/100");
+                            redirectUnauthorizedRequest("root", authUser, request, response);
                         }
                         break;
-                    case "/Auth/Users/105":
-                        try {
-                            if (updateUser(request)) {
-                                request.getSession().removeAttribute("userTemp");
-                                response.sendRedirect(request.getContextPath() + "/Auth/Users/100");
-                            } else { // TODO : add session to store the form values to sent it back when a error is occured
-                                response.sendRedirect(request.getContextPath() + "/Auth/Users/100");
+                    case Route.UPDATE_USER_ROUTE:
+                        if (request.getParameter("uid") != null) {
+                            try {
+                                if (updateUser(request, authUser, activityService, activity)) {
+                                    request.getSession().removeAttribute("selectedUser");
+                                    response.sendRedirect(request.getContextPath() + Route.DISPLAY_USERS_ROUTE);
+                                } else {
+                                    response.sendRedirect(request.getContextPath() + Route.DISPLAY_USER_UPDATE_FORM_ROUTE);
+                                }
+                            } catch (Exception e) {
+                                try {
+                                    recordActivity(MessageConfig.USER_OPERATION_FAILED, "Location : UserServlet.java | Line : 169 " + MessageConfig.USER_ERROR_2039 + " | Error : " + e.getMessage(), authUser, activityService, activity, request);
+                                    setNotification(MessageConfig.USER_OPERATION_NOTIFICATION_TITLE, MessageConfig.USER_ERROR_2039_LOCAL, "danger", request);
+                                    response.sendRedirect(request.getContextPath() + Route.DISPLAY_USERS_ROUTE);
+                                } catch (Exception ex) {
+//                                    ex.printStackTrace();
+                                }
                             }
-                        } catch (Exception e) {
-                            request.getSession().setAttribute("notification", new Notification("Error Notification", "Failed to update user. ECODE - 1030.<br>Contact system administrator", "danger"));
-                            response.sendRedirect(request.getContextPath() + "/Auth/Users/100");
+                        } else {
+                            redirectUnauthorizedRequest("root", authUser, request, response);
                         }
                         break;
                     default:
-                        response.sendRedirect(request.getContextPath() + "/Auth/Users/100");
+                        redirectUnauthorizedRequest("root", authUser, request, response);
                         break;
-
                 }
+            } else {
+                redirectUnauthorizedRequest("login", null, request, response);
             }
         }
     }
 
-    private boolean registerUser(HttpServletRequest request) throws ClassNotFoundException, SQLException, IOException, ServletException, Exception {
+    private boolean registerUser(HttpServletRequest request, UserInfo authUser, ActivityService activityService, ActivityInfo activity) throws ClassNotFoundException, SQLException, IOException, ServletException, Exception {
         if ((request.getParameter("nic") != null)
                 && (request.getParameter("fullname") != null)
                 && (request.getParameter("displayName") != null)
@@ -154,12 +197,8 @@ public class UserServlet extends HttpServlet {
                 && (request.getParameter("userStatus") != null)
                 && (request.getPart("avatar") != null)) {
 
-            // obtains the upload file part in this multipart request
-            Part filePart = request.getPart("avatar");
-
-            if (!((filePart.getContentType().equals("image/png")) || (filePart.getContentType().equals("image/jpeg")))) {
-                request.getSession().setAttribute("notification", new Notification("Error Notification", "Failed to register user. ECODE - 1031.<br>Uploaded image type not supported", "danger"));
-                return false; // If image type is not accecpted
+            if (!validateUploadedAvatar(request)) {
+                return false;
             }
 
             UserInfo user = new UserInfo();
@@ -173,31 +212,42 @@ public class UserServlet extends HttpServlet {
             user.setOccupationId(Integer.parseInt(request.getParameter("occupation")));
             user.setRoleId(request.getParameter("role"));
             user.setActive(request.getParameter("userStatus"));
+            request.getSession().setAttribute("submittedUser", user); // Setting submitted user to session 
 
-            if ((request.getParameter("password") != null) && request.getParameter("password").length() > 6) {
-                user.setPassword(Crypto.generateSecurePassword(request.getParameter("password")));
-            } else {
-                user.setPassword(Crypto.generateSecurePassword(request.getParameter("nic")));
+            if (!validateOccupation(request, user, "add")) {
+                return false;
             }
 
-            UserService us = new UserService();
-
-            if (us.add(user)) {
-                uploadFile(request, imageName, filePart);
-                request.getSession().setAttribute("notification", new Notification("Success Notification", "User successfully registered", "success"));
-                return true;
-            } else {
-                request.getSession().setAttribute("notification", new Notification("Error Notification", "Failed to register user. ECODE - 1032.<br>Contact system administrator", "danger"));
-                return false; // If new category was selected but values are missing 
+            if (!validateRole(request, user, "add")) {
+                return false;
             }
 
+            validatePassword(request, "add", user, null); // default will be set to nic if password is not entered
+
+            UserService userService = new UserService();
+            if (userService.add(user)) {
+                if (uploadFile(request, imageName)) {
+                    recordActivity(MessageConfig.USER_OPERATION_SUCCESSFUL, MessageConfig.USER_SUCCESSFUULY_ADDED + " User id : " + user.getId(), authUser, activityService, activity, request);
+                    setNotification(MessageConfig.USER_OPERATION_NOTIFICATION_TITLE, MessageConfig.USER_SUCCESSFUULY_ADDED_NOTIFICATION, "success", request);
+                    return true;
+                } else {
+                    userService.remove(user);
+                    recordActivity(MessageConfig.USER_OPERATION_FAILED, "Location : UserServlet.java | Line : 235 " + MessageConfig.USER_ERROR_2036, authUser, activityService, activity, request);
+                    setNotification(MessageConfig.USER_OPERATION_NOTIFICATION_TITLE, MessageConfig.USER_ERROR_2036_LOCAL, "danger", request);
+                    return false;
+                }
+            } else {
+                recordActivity(MessageConfig.USER_OPERATION_FAILED, "Location : UserServlet.java | Line : 240 " + MessageConfig.USER_ERROR_2035, authUser, activityService, activity, request);
+                setNotification(MessageConfig.USER_OPERATION_NOTIFICATION_TITLE, MessageConfig.USER_ERROR_2035_LOCAL, "danger", request);
+                return false;
+            }
         } else {
-            request.getSession().setAttribute("notification", new Notification("Error Notification", "Failed to register user. ECODE - 1033.<br>Reqired values are missing, Please make sure all required vales are filled", "danger"));
-            return false; // if required form values are missing
+            setFieldsMissingNotification("add", request);
+            return false;
         }
     }
 
-    private boolean updateUser(HttpServletRequest request) throws IOException, ServletException, Exception {
+    private boolean updateUser(HttpServletRequest request, UserInfo authUser, ActivityService activityService, ActivityInfo activity) throws IOException, ServletException, Exception {
         if ((request.getParameter("fullname") != null)
                 && (request.getParameter("displayName") != null)
                 && (request.getParameter("officeType") != null)
@@ -205,9 +255,9 @@ public class UserServlet extends HttpServlet {
                 && (request.getParameter("role") != null)
                 && (request.getParameter("userStatus") != null)) {
 
-            UserInfo tempUserInfo = (UserInfo) request.getSession().getAttribute("userTemp");
+            UserInfo dbUser = (UserInfo) request.getSession().getAttribute("selectedUser");
             UserInfo user = new UserInfo();
-            user.setId(tempUserInfo.getId());
+            user.setId(dbUser.getId());
             user.setFullName(request.getParameter("fullname"));
             user.setDisplayName(request.getParameter("displayName"));
             user.setOffice(request.getParameter("officeType"));
@@ -215,40 +265,128 @@ public class UserServlet extends HttpServlet {
             user.setRoleId(request.getParameter("role"));
             user.setActive(request.getParameter("userStatus"));
 
-            if ((request.getParameter("password") != null) && request.getParameter("password").length() > 6) {
-                user.setPassword(Crypto.generateSecurePassword(request.getParameter("password")));
-            } else {
-                user.setPassword(tempUserInfo.getPassword());
+            if (!validateOccupation(request, user, "update")) {
+                return false;
             }
 
-            UserService us = new UserService();
+            if (!validateRole(request, user, "update")) {
+                return false;
+            }
 
-            if (us.update(user)) {
-                if ((request.getPart("avatar") != null) && (request.getPart("avatar").getContentType().equals("image/png") || request.getPart("avatar").getContentType().equals("image/jpeg"))) {
-                    uploadFile(request, tempUserInfo.getPhotoURL(), request.getPart("avatar"));
+            validatePassword(request, "update", user, dbUser);
+
+            UserService userService = new UserService();
+            if (userService.update(user)) {
+                if (validateUploadedAvatar(request)) {
+                    if (uploadFile(request, dbUser.getPhotoURL())) {
+                        recordActivity(MessageConfig.USER_OPERATION_SUCCESSFUL, MessageConfig.USER_SUCCESSFUULY_UPDATED + " User id : " + user.getId(), authUser, activityService, activity, request);
+                        setNotification(MessageConfig.USER_OPERATION_NOTIFICATION_TITLE, MessageConfig.USER_SUCCESSFUULY_UPDATED_NOTIFICATION, "success", request);
+                        return true;
+                    } else {
+                        recordActivity(MessageConfig.USER_OPERATION_FAILED, "Location : UserServlet.java | Line : 286 " + MessageConfig.USER_ERROR_2040, authUser, activityService, activity, request);
+                        setNotification(MessageConfig.USER_OPERATION_NOTIFICATION_TITLE, MessageConfig.USER_ERROR_2040_LOCAL, "danger", request);
+                        return false;
+                    }
+                } else {
+                    recordActivity(MessageConfig.USER_OPERATION_SUCCESSFUL, MessageConfig.USER_SUCCESSFUULY_UPDATED + " User id : " + user.getId(), authUser, activityService, activity, request);
+                    setNotification(MessageConfig.USER_OPERATION_NOTIFICATION_TITLE, MessageConfig.USER_SUCCESSFUULY_UPDATED_NOTIFICATION, "success", request);
+                    return true;
                 }
-                request.getSession().setAttribute("notification", new Notification("Success Notification", "User successfully updated", "success"));
-                return true;
             } else {
-                request.getSession().setAttribute("notification", new Notification("Error Notification", "Failed to update user. ECODE - 1035.<br>Contact system administrator", "danger"));
-                return false; // If new category was selected but values are missing 
+                recordActivity(MessageConfig.USER_OPERATION_FAILED, "Location : UserServlet.java | Line : 296 " + MessageConfig.USER_ERROR_2039, authUser, activityService, activity, request);
+                setNotification(MessageConfig.USER_OPERATION_NOTIFICATION_TITLE, MessageConfig.USER_ERROR_2039_LOCAL, "danger", request);
+                return false;
             }
-
         } else {
-            request.getSession().setAttribute("notification", new Notification("Error Notification", "Failed to update user. ECODE - 1036.<br>Reqired values are missing, Please make sure all required vales are filled", "danger"));
-            return false; // if required form values are missing
+            setFieldsMissingNotification("update", request);
+            return false;
         }
     }
 
-    private void uploadFile(HttpServletRequest request, String imageName, Part filePart) throws IOException, ServletException {
+    private boolean validateUploadedAvatar(HttpServletRequest request) throws IOException, ServletException {
+        if (((request.getPart("avatar") != null) && (request.getPart("avatar").getContentType().equals("image/png")) || (request.getPart("avatar").getContentType().equals("image/jpeg")))) {
+            return true;
+        } else {
+            setNotification(MessageConfig.USER_OPERATION_NOTIFICATION_TITLE, MessageConfig.USER_ERROR_2038_LOCAL, "danger", request);
+            return false; // If image type is not accecpted
+        }
+    }
+
+    private void validatePassword(HttpServletRequest request, String action, UserInfo user, UserInfo dbUser) throws Exception {
+        if ((request.getParameter("password") != null)) {
+            user.setPassword(Crypto.generateSecurePassword(request.getParameter("password")));
+        } else {
+            if (action.equals("add")) {
+                user.setPassword(Crypto.generateSecurePassword(request.getParameter("nic")));
+            } else {
+                user.setPassword(Crypto.generateSecurePassword(dbUser.getPassword()));
+            }
+        }
+    }
+
+    private boolean validateRole(HttpServletRequest request, UserInfo user, String action) throws Exception {
+        if (!(request.getParameter("role").equals("unselected"))) {
+            user.setRoleId(request.getParameter("role"));
+            return true;
+        } else {
+            setFieldsMissingNotification(action, request);
+            return false;
+        }
+    }
+
+    private boolean validateOccupation(HttpServletRequest request, UserInfo user, String action) throws Exception {
+        if (!(request.getParameter("occupation").equals("0"))) {
+            user.setOccupationId(Integer.parseInt(request.getParameter("occupation")));
+            return true;
+        } else {
+            setFieldsMissingNotification(action, request);
+            return false;
+        }
+    }
+
+    private boolean uploadFile(HttpServletRequest request, String imageName) throws IOException, ServletException {
+        Part filePart = request.getPart("avatar");
         // obtains input stream of the upload file
         InputStream inputStream = filePart.getInputStream();
 
         // Change the output path accordingly
-        OutputStream output = new FileOutputStream("C:\\Users\\RED-HAWK\\Documents\\GitHub Projects\\mail-management-system\\web\\resources\\avatars\\" + imageName);
+        OutputStream output = new FileOutputStream(PathConfig.USER_PHOTO_UPLOAD_PATH + imageName);
         byte[] buffer = new byte[1024];
         while (inputStream.read(buffer) > 0) {
             output.write(buffer);
+        }
+        File isPhotoSaved = new File(PathConfig.USER_PHOTO_UPLOAD_PATH + imageName);
+        return isPhotoSaved.exists();
+    }
+
+    private void recordActivity(String type, String operation, UserInfo user, ActivityService activityService, ActivityInfo activity, HttpServletRequest request) throws ClassNotFoundException, SQLException {
+        activity.setUserId(user.getId());
+        activity.setType(type);
+        activity.setAction(operation);
+        activityService.add(activity);
+    }
+
+    private void setNotification(String title, String body, String className, HttpServletRequest request) {
+        request.getSession().setAttribute("notification", new Notification(title, body, className));
+    }
+
+    private void redirectUnauthorizedRequest(String route, UserInfo user, HttpServletRequest request, HttpServletResponse response) throws IOException {
+        setNotification(MessageConfig.UNAUTHORIZED_REQUEST_NOTIFICATION_TITLE, user.getDisplayName() + MessageConfig.UNAUTHORIZED_REQUEST_NOTIFICATION, "warning", request);
+        switch (route) {
+            case "login":
+                response.sendRedirect(request.getContextPath() + Route.LOGIN_ROUTE);
+                break;
+            case "root":
+                response.sendRedirect(request.getContextPath() + Route.DISPLAY_USERS_ROUTE);
+                break;
+        }
+    }
+
+    private void setFieldsMissingNotification(String action, HttpServletRequest request) {
+        if (action.equals("add")) {
+            setNotification(MessageConfig.USER_OPERATION_NOTIFICATION_TITLE, MessageConfig.USER_ERROR_2037_LOCAL, "danger", request);
+        } else {
+            setNotification(MessageConfig.USER_OPERATION_NOTIFICATION_TITLE, MessageConfig.USER_ERROR_2042_LOCAL, "danger", request);
         }
     }
 

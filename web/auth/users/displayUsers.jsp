@@ -33,7 +33,7 @@
                                 <div class="card-header">
                                     <div class="elements p-t-30">
                                         <ul class="icons-list">
-                                            <li><a href="<%=request.getContextPath()%>/Auth/Users/102" class="btn btn-link btn-md"><i class="icon-user-plus x3" style="color :#24ab8f!important"></i></a></li>
+                                            <li><a href="<%=request.getContextPath()+Route.DISPLAY_REGISTER_USER_FORM_ROUTE%>" class="btn btn-link btn-md"><i class="icon-user-plus x3" style="color :#24ab8f!important"></i></a></li>
                                         </ul>
                                     </div>
                                 </div>
@@ -65,10 +65,10 @@
                                                 <td style="width: 5vw !important"><%=u.getActive().equals("true") ? "Active" : "Disabled"%></td>
                                                 <td style="width: 15vw !important"><%=u.getUpdatedAt()%></td>
                                                 <td style="width: 15vw !important">
-                                                    <form method="POST" action="<%=request.getContextPath()%>/Auth/Users/104" style="display: inline">
+                                                    <form method="POST" action="<%=request.getContextPath()+Route.DISPLAY_USER_UPDATE_FORM_ROUTE%>" style="display: inline">
                                                         <button type="submit" name="uid" value="<%=u.getId()%>" class="btn btn-outline-warning btn-sm"><i class=" icon-editing"></i> &nbsp;Update</button>
                                                     </form>
-                                                    <form method="POST" action="<%=request.getContextPath()%>/Auth/Users/101" style="display: inline">
+                                                    <form method="POST" action="<%=request.getContextPath()+Route.DISPLAY_USERS_FORM_ROUTE%>" style="display: inline">
                                                         <button type="submit" name="uid" value="<%=u.getId()%>" class="btn btn-outline-primary btn-sm float-right"><i class="icon-eye2"></i> &nbsp;Open</button>
                                                     </form>
                                                 </td>

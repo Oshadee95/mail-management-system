@@ -12,7 +12,7 @@
 <html lang="en">
     <%@ include file="../../layouts/styles.jsp" %>
 
-    <body id="top" data-gr-c-s-loaded="true" cz-shortcut-listen="true" style="overflow: visible;">
+    <body id="top" data-gr-c-s-loaded="true" cz-shortcut-listen="true" style="overflow-y: auto; overflow-x: hidden">
 
         <div id="preloader" style="display: none;">
             <div id="status" style="display: none;">
@@ -20,7 +20,7 @@
             </div>
         </div>
 
-        <div id="body-wrapper" class="body-container">
+        <div id="body-wrapper" class="body-container" style="overflow: hidden !important;">
 
             <%@ include file="../../layouts/top-navigation.jsp" %>
 
@@ -30,66 +30,52 @@
 
                 <div class="container-fluid page-content">
                     <div class="row">
+                        <% UserInfo user = (UserInfo) request.getAttribute("selectedUser");%>
                         <div class="col-md-6 col-sm-6">
                             <div class="card card-inverse">
                                 <div class="card-header m-b-20">
-                                    <div class="card-title p-t-10">user info update form</div>
+                                    <div class="card-title p-t-10">
+                                        user information
+                                        <a class="example-image-link" href="../../resources/avatars/<%=user.getPhotoURL()%>" data-lightbox="example-2" data-title="<%=user.getFullName()%>">
+                                            <img src="../../resources/avatars/<%=user.getPhotoURL()%>" alt="<%=user.getPhotoURL()%>" class="rounded-circle float-right" style="margin-top: -8px; max-height: 50px; height: 50px; width: 50px;">
+                                        </a>
+                                    </div>
                                     <hr>
                                 </div>
-                                <% UserInfo user = (UserInfo) request.getAttribute("userTemp");%>
                                 <div class="card-block">
                                     <fieldset>
                                         <div class="form-group row">
-                                            <label class="control-label col-lg-4">National identification <span class="text-danger">*</span></label>
+                                            <label class="control-label col-lg-4">National identification</label>
                                             <div class="col-lg-8">
-                                                <input style="background-color: white" type="text" readonly class="form-control" value="<%=user.getNic()%>">
+                                                <input type="text" readonly class="form-control" value="<%=user.getNic()%>">
                                             </div>
                                         </div>
 
                                         <div class="form-group row">
-                                            <label class="control-label col-lg-4">Full name<span class="text-danger">*</span></label>
+                                            <label class="control-label col-lg-4">Full name</label>
                                             <div class="col-lg-8">
-                                                <input style="background-color: white" type="text" name="fullname" class="form-control" required value="<%=user.getFullName()%>" maxlength="300" aria-required="true">
+                                                <input type="text" class="form-control" readonly value="<%=user.getFullName()%>">
                                             </div>
                                         </div>
-
-                                        <div class="form-group row">
-                                            <label class="control-label col-lg-4">Display name<span class="text-danger">*</span></label>
-                                            <div class="col-lg-8">
-                                                <input style="background-color: white" type="text" name="displayName" class="form-control" required value="<%=user.getDisplayName()%>" maxlength="200" aria-required="true">
-                                            </div>
-                                        </div>
-
-
-                                        <div class="form-group row">
-                                            <label class="control-label col-lg-4">User image<span class="text-danger">*</span></label>
-                                            <div class="col-lg-8">
-                                                <input style="background-color: white" type="file" name="avatar" class="form-control" accept="image/x-png,image/jpeg">
-                                                <small class="form-text text-muted">Upload an image with 300x300 pixels</small>
-                                            </div>
-                                        </div>
-
 
                                         <div class="form-group row m-b-40">
-                                            <label class="control-label col-lg-4">Password</label>
+                                            <label class="control-label col-lg-4">Display name</label>
                                             <div class="col-lg-8">
-                                                <input style="background-color: white" type="password" name="password" class="form-control" minlength="6" placeholder="Enter password (minimum 6 characters)">
-                                                <small class="form-text text-muted">Leave blank to use old password</small>
+                                                <input type="text" class="form-control" readonly value="<%=user.getDisplayName()%>">
                                             </div>
                                         </div>
-
 
                                         <hr>
 
                                         <div class="form-group row m-t-40">
-                                            <label class="control-label col-lg-4">Office type <span class="text-danger">*</span></label>
+                                            <label class="control-label col-lg-4">Office </label>
                                             <div class="col-lg-8">
                                                 <label class="radio-inline">
-                                                    <input type="radio" value="Government" name="officeType" <%=user.getOffice().equals("Government") ? "checked" : ""%> required>
+                                                    <input type="radio" value="Government" <%=user.getOffice().equals("Government") ? "checked" : ""%> disabled>
                                                     Government
                                                 </label>
                                                 <label class="radio-inline">
-                                                    <input type="radio" value="Private" name="officeType" <%=user.getOffice().equals("Private") ? "checked" : ""%> required>
+                                                    <input type="radio" value="Private" <%=user.getOffice().equals("Private") ? "checked" : ""%> disabled>
                                                     Private
                                                 </label>
                                             </div>
@@ -97,17 +83,17 @@
 
 
                                         <div class="form-group row">
-                                            <label class="control-label col-lg-4">Occupation <span class="text-danger">*</span></label>
+                                            <label class="control-label col-lg-4">Occupation</label>
                                             <div class="col-lg-8">
-                                                <input type="text" class="form-control" value="<%=user.getOccupation()%>">
+                                                <input type="text" class="form-control" value="<%=user.getOccupation()%>" readonly>
                                             </div>
                                         </div>
 
 
                                         <div class="form-group row">
-                                            <label class="control-label col-lg-4">Role type <span class="text-danger">*</span></label>
+                                            <label class="control-label col-lg-4">Role type</label>
                                             <div class="col-lg-8">
-                                                <input type="text" class="form-control" value="<%=user.getRoleId()%>">
+                                                <input type="text" class="form-control" value="<%=user.getRoleId()%>" readonly>
                                             </div>
                                         </div>
 
@@ -145,7 +131,7 @@
                                         %>
                                         <div class="col-md-2 col-sm-6" title="<%=u.getDisplayName()%>" style="padding: 5px 5px">
                                             <div class="our-team3">
-                                                <img src="../../resources/avatars/<%=u.getPhotoURL()%>" alt="<%=u.getDisplayName()%>">
+                                                <img class="img-fluid" src="../../resources/avatars/<%=u.getPhotoURL()%>" alt="<%=u.getDisplayName()%>" >
                                             </div>
                                         </div>
                                         <% }%>

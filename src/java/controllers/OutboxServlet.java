@@ -8,6 +8,7 @@ package controllers;
 import configurations.MessageConfig;
 import configurations.PathConfig;
 import configurations.Route;
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -286,7 +287,8 @@ public class OutboxServlet extends HttpServlet {
         while (inputStream.read(buffer) > 0) {
             output.write(buffer);
         }
-        return true;
+        File isPhotoSaved = new File(PathConfig.OUTBOX_LETTER_UPLOAD_PATH + imageName);
+        return isPhotoSaved.exists();
     }
 
     private void recordActivity(String type, String operation, UserInfo user, ActivityService activityService, ActivityInfo activity, HttpServletRequest request) throws ClassNotFoundException, SQLException {

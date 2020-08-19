@@ -36,8 +36,8 @@
                                     <div class="card-title p-t-10">user info update form</div>
                                     <hr>
                                 </div>
-                                <form class="form-validate" method="POST" action="<%=request.getContextPath()%>/Auth/Users/105" enctype="multipart/form-data">
-                                    <% UserInfo user = (UserInfo) request.getSession().getAttribute("userTemp");%>
+                                <form class="form-validate" method="POST" action="<%=request.getContextPath()+Route.UPDATE_USER_ROUTE%>" enctype="multipart/form-data">
+                                    <% UserInfo user = (UserInfo) request.getSession().getAttribute("selectedUser");%>
                                     <div class="card-block">
                                         <fieldset>
                                             <div class="form-group row">

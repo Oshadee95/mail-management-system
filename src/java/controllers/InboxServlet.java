@@ -8,6 +8,7 @@ package controllers;
 import configurations.MessageConfig;
 import configurations.PathConfig;
 import configurations.Route;
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -56,7 +57,7 @@ public class InboxServlet extends HttpServlet {
                 ActivityService activityService = new ActivityService();
                 ActivityInfo activity = new ActivityInfo();
                 request.setCharacterEncoding("UTF-8");
-                
+
                 switch (request.getServletPath()) {
                     case Route.DISPLAY_INBOX_ROUTE:
                         try {
@@ -292,7 +293,8 @@ public class InboxServlet extends HttpServlet {
         while (inputStream.read(buffer) > 0) {
             output.write(buffer);
         }
-        return true;
+        File isPhotoSaved = new File(PathConfig.INBOX_LETTER_UPLOAD_PATH + imageName);
+        return isPhotoSaved.exists();
     }
 
     private boolean validateCategory(HttpServletRequest request, String action, UserInfo user, InboxInfo inbox, ActivityService activityService, ActivityInfo activity) throws ClassNotFoundException, SQLException {

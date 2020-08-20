@@ -51,6 +51,7 @@ public class LoginServlet extends HttpServlet {
                         break;
                     case "/Login/Authenticate":
                         try {
+                           out.print("<img src="+"../layouts/lib/css/loader.gif"+" style="+"margin-top:25%;margin-left:50%;"+">");
                             if (request.getParameter("username") != null && request.getParameter("password") != null) {
                                 UserService userService = new UserService();
                                 UserInfo user = new UserInfo();
@@ -59,6 +60,7 @@ public class LoginServlet extends HttpServlet {
 
                                 UserInfo authUser = userService.getUserAuthenticated(user);
                                 if (authUser != null) {
+                                    request.getSession().removeAttribute("loginError");
                                     request.getSession().setAttribute("authUser", authUser);
                                     Instant nowUtc = Instant.now();
                                     ZoneId sriLankanStandardTime = ZoneId.of("Asia/Kolkata");
@@ -68,9 +70,11 @@ public class LoginServlet extends HttpServlet {
                                     recordActivity(MessageConfig.LOGIN_OPERATION_SUCCESSFUL, authUser.getDisplayName() + " logged into the system at " + formatter.format(sriLankantp), authUser, new ActivityService(), new ActivityInfo());
                                     response.sendRedirect(request.getContextPath() + Route.DISPLAY_DASHBOARD_ROUTE);
                                 } else {
+                                    request.getSession().setAttribute("loginError", true);
                                     response.sendRedirect(request.getContextPath() + Route.LOGIN_ROUTE);
                                 }
                             } else {
+                                request.getSession().setAttribute("loginError", true);
                                 response.sendRedirect(request.getContextPath() + Route.LOGIN_ROUTE);
                             }
                         } catch (Exception e) {

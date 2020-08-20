@@ -18238,12 +18238,12 @@ figure.hover-effect-3:hover>div i.right-icon {
 
 ::-moz-selection {
     color: #fff;
-    background: #2fd3b1
+    background: #f44455
 }
 
 ::selection {
     color: #fff;
-    background: #2fd3b1
+    background: #f44455
 }
 
 p, ul, ol, dl, dd, dt, th, td, kbd, blockquote {
@@ -20478,7 +20478,7 @@ h6 small, .h6 small {
 }
 
 .og-close:hover::before, .og-close:hover::after {
-    background: #2fd3b1
+    background: #f44455
 }
 
 .og-close::before {
@@ -27444,7 +27444,7 @@ img.jcrop-preview {
 }
 
 .jvectormap-zoomin:hover, .jvectormap-zoomout:hover {
-    background-color: #2fd3b1
+    background-color: #f44455
 }
 
 .jvectormap-zoomout {
@@ -35411,6 +35411,17 @@ body>.ui-pnotify-modal-overlay {
     }
 }
 
+.btn-login {
+    background: #f44455;
+    border-color: #f44455;
+    color: #fff;
+}
+
+.btn-login:hover {
+    background-color: #b7303d;
+    border-color: #b7303d;
+}
+
 .demo6 .testimonial {
     margin: 0 15px;
     padding-top: 15px;
@@ -35519,8 +35530,8 @@ body>.ui-pnotify-modal-overlay {
     display: table;
     position: absolute;
     background-color: #111;
-    background-image: url(../../img/demo/login.jpg);
-    background: linear-gradient(rgba(17, 17, 17, 0.5), rgba(17, 17, 17, 0.5)), url(../../img/demo/login.jpg);
+    background-image: url(../../img/login/background.jpg);
+    background: linear-gradient(rgba(17, 17, 17, 0.5), rgba(17, 17, 17, 0.5)), url(../../img/login/background.jpg);
     background-repeat: no-repeat;
     background-position: top left;
     background-size: cover
@@ -35534,7 +35545,7 @@ body>.ui-pnotify-modal-overlay {
 .auth-container .auth-module {
     max-width: 100%;
     width: 290px;
-    border-top: 5px solid #24ab8f;
+    border-top: 5px solid #f44455;
     -webkit-border-radius: 5px;
     -moz-border-radius: 5px;
     border-radius: 5px;
@@ -36239,7 +36250,7 @@ body>.ui-pnotify-modal-overlay {
 
 #frame #sidepanel #profile .wrap #expanded input:focus {
     outline: none;
-    background: #2fd3b1
+    background: #f44455
 }
 
 @media screen and (max-width:735px) {

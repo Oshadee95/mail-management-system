@@ -33,7 +33,7 @@
                                 <div class="card-header">
                                     <div class="elements p-t-30">
                                         <ul class="icons-list">
-                                            <li><a href="<%=request.getContextPath()+Route.DISPLAY_REGISTER_USER_FORM_ROUTE%>" class="btn btn-link btn-md"><i class="icon-user-plus x3" style="color :#24ab8f!important"></i></a></li>
+                                            <li><a href="<%=request.getContextPath()+Route.DISPLAY_REGISTER_USER_FORM_ROUTE%>" class="btn btn-link btn-md"><i class="icon-user-plus x3" style="color :#f44455 !important"></i></a></li>
                                         </ul>
                                     </div>
                                 </div>

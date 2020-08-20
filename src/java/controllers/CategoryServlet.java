@@ -45,12 +45,16 @@ public class CategoryServlet extends HttpServlet {
                 UserInfo authUser = (UserInfo) request.getSession().getAttribute("authUser");
                 ActivityService activityService = new ActivityService();
                 ActivityInfo activity = new ActivityInfo();
-                request.setCharacterEncoding("UTF-8"); 
+                request.setCharacterEncoding("UTF-8");
                 request.getSession().setAttribute("navigatedPath", "categories");
-                
+
                 switch (request.getServletPath()) {
                     case Route.DISPLAY_CATEGORIES_ROUTE:
                         try {
+                            if ((request.getParameter("reset") != null) && (request.getParameter("reset").equals("true"))) {
+                                request.getSession().removeAttribute("dbCategory");
+                                request.getSession().removeAttribute("categoryAction");
+                            }
                             request.setAttribute("categoryList", new CategoryService().getAll());
                             request.getRequestDispatcher("/mails/categories/displayCategories.jsp").forward(request, response);
                         } catch (Exception e) {
@@ -123,7 +127,7 @@ public class CategoryServlet extends HttpServlet {
                                 }
                             }
                         } else {
-                           redirectUnauthorizedRequest("root", authUser, request, response);
+                            redirectUnauthorizedRequest("root", authUser, request, response);
                         }
                         break;
                     default:

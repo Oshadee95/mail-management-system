@@ -133,7 +133,7 @@
                                             <div class="form-group row">
                                                 <label class="control-label col-lg-4 d-font"><%=(language.equals("si"))? Language.si_categoryType :  Language.en_collectorId%>  <span class="text-danger">*</span></label>
                                                 <div class="col-lg-7 col-11">
-                                                    <select style="background-color: white" name="mailCategory" class="form-control d-font" aria-required="true" required>
+                                                    <select style="background-color: white" name="mailCategory" class="form-control d-font" aria-required="true" required style="padding-top: 5px;">
                                                         <option value="0"><%=(language.equals("si"))? Language.si_selectCategory :  Language.en_selectCategory%></option>
                                                         <option value="01"><%=(language.equals("si"))? Language.si_newCategory :  Language.en_newCategory%></option>
                                                         <%
@@ -144,15 +144,15 @@
                                                         <% }; %>
                                                     </select>
                                                 </div>
-                                                <button type="button" id="addCategory" style="padding-top: 0; padding-left: 0;" class=" col-lg-1 col-1 btn btn-link btn-lg"><i id="newCategoryIcon" class="icon-plus-circle2" style="color : #6887ff; padding: 0; float: right"></i></button>
+                                                <button type="button" id="addCategory" style="padding-top: 0; padding-left: 0;" class=" col-lg-1 col-1 btn btn-link btn-lg"><i id="newCategoryIcon" class="icon-plus-circle2" style="color : #f44455; padding: 0; float: right"></i></button>
                                             </div>
 
                                             <div class="form-group row" id="newCategoryDiv" style="display: none">
                                                 <div class="col-lg-8 offset-4">
-                                                    <input type="text" style="background-color: white" name="newCategoryName" placeholder="<%=(language.equals("si"))? Language.si_enterNewCategoryName :  Language.en_enterNewCategoryName%>" class="form-control d-font" value="">
+                                                    <input type="text" style="background-color: white" name="newCategoryName" placeholder="<%=(language.equals("si"))? Language.si_enterCategoryName :  Language.en_enterCategoryName%>" class="form-control d-font" value="">
                                                 </div>
                                                 <div class="col-lg-8 offset-4 m-t-20">
-                                                    <textarea style="background-color: white" rows="2" cols="5" name="newCategoryDescription" class="form-control d-font" placeholder="<%=(language.equals("si"))? Language.si_enterNewCategoryDescription :  Language.en_enterNewCategoryDescription%>" aria-required="true"></textarea>
+                                                    <textarea style="background-color: white" rows="2" cols="5" name="newCategoryDescription" class="form-control d-font" placeholder="<%=(language.equals("si"))? Language.si_enterCategoryDescription :  Language.en_enteeCategoryDescription%>" aria-required="true"></textarea>
                                                 </div>
                                             </div>
                                             

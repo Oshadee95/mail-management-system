@@ -56,11 +56,11 @@ public class Language {
     public static String en_newCategory = "New Category";
     public static String si_newCategory = "";
 
-    public static String en_enterNewCategoryName = "Enter category name";
-    public static String si_enterNewCategoryName = "";
+    public static String en_enterCategoryName = "Enter category name";
+    public static String si_enterCategoryName = "";
 
-    public static String en_enterNewCategoryDescription = "Enter category description";
-    public static String si_enterNewCategoryDescription = "";
+    public static String en_enteeCategoryDescription = "Enter category description";
+    public static String si_enterCategoryDescription = "";
 
     public static String en_letterImage = "Letter image";
     public static String si_letterImage = "";
@@ -89,6 +89,9 @@ public class Language {
     public static String en_reset = "reset";
     public static String si_reset = "";
 
+    public static String en_cancel = "cancel";
+    public static String si_cancel = "";
+    
     public static String en_categoryName = "Name";
     public static String si_categoryName = "";
 
@@ -124,4 +127,10 @@ public class Language {
     
     public static String en_updateMail = "update mail";
     public static String si_updateMail = "";
+    
+    public static String en_categoryRegistrationForm = "category registration form";
+    public static String si_categoryRegistrationForm = "";
+    
+    public static String en_categoryUpdateForm = "category update form";
+    public static String si_categoryUpdateForm = "";
 }

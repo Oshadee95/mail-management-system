@@ -4,6 +4,7 @@
     Author     : RED-HAWK
 --%>
 
+<%@page import="configurations.Language"%>
 <%@page import="models.InboxInfo"%>
 <%@page import="java.util.Date"%>
 <%@page import="java.text.SimpleDateFormat"%>
@@ -40,10 +41,10 @@
                             if (request.getSession().getAttribute("categoryAction") != null && request.getSession().getAttribute("categoryAction").equals("104")) {
                                 Category category = category = (Category) request.getSession().getAttribute("dbCategory");
                         %>
-                        <div class="col-md-4 col-sm-4">
+                        <div class="col-lg-4 col-md-4">
                             <div class="card card-inverse">
                                 <div class="card-header m-b-5">
-                                    <div class="card-title p-t-10"> category update form</div>
+                                    <div class="card-title p-t-10"><%=(language.equals("si"))? Language.si_categoryUpdateForm :  Language.en_categoryUpdateForm%></div>
                                     <hr>
                                 </div>    
 
@@ -51,22 +52,22 @@
                                     <div class="card-block">
                                         <fieldset>
                                             <div class="form-group row">
-                                                <label class="control-label col-lg-4 d-font">Category name </label>
+                                                <label class="control-label col-lg-4 d-font"><%=(language.equals("si"))? Language.si_categoryName :  Language.en_categoryName%>  <span class="text-danger">*</span></label>
                                                 <div class="col-lg-8">
-                                                    <input type="text" name="cName" class="form-control d-font" value="<%=category.getName()%>">
+                                                    <input type="text" name="cName" class="form-control d-font" value="<%=category.getName()%>" placeholder="<%=(language.equals("si"))? Language.si_enterCategoryName :  Language.en_enterCategoryName%>">
                                                 </div>
                                             </div>
 
                                             <div class="form-group row">
-                                                <label class="control-label col-lg-4 d-font">Category description </label>
+                                                <label class="control-label col-lg-4 d-font"><%=(language.equals("si"))? Language.si_categoryDescription :  Language.en_categoryDescription%> <span class="text-danger">*</span></label>
                                                 <div class="col-lg-8">
-                                                    <input type="text" name="cDesc" class="form-control d-font" value="<%=(category != null) ? category.getDescription() : ""%>">
+                                                    <input type="text" name="cDesc" class="form-control d-font" value="<%=(category != null) ? category.getDescription() : ""%>" placeholder="<%=(language.equals("si"))? Language.si_enterCategoryDescription :  Language.en_enteeCategoryDescription%>" >
                                                 </div>
                                             </div>
                                         </fieldset>
                                         <div class="float-right  m-t-40 m-b-20">
-                                            <button type="reset" class="btn btn-md btn-secondary d-font" id="reset"><i class="icon-reload-alt position-left"></i>Reset</button>&nbsp;&nbsp;
-                                            <button type="submit" name="cid" value="<%=category.getId()%>" class="btn btn-md btn-warning d-font"><i class="icon-save  position-left"></i> Update</button>
+                                            <a href="<%=request.getContextPath()+Route.DISPLAY_CATEGORIES_ROUTE+"?reset=true"%>" class="btn btn-md btn-secondary d-font" id="reset"><i class="icon-reload-alt position-left"></i><%=(language.equals("si"))? Language.si_cancel :  Language.en_cancel%></a>&nbsp;&nbsp;
+                                            <button type="submit" name="cid" value="<%=category.getId()%>" class="btn btn-md btn-warning d-font"><i class="icon-save  position-left"></i> <%=(language.equals("si"))? Language.si_update :  Language.en_update%></button>
                                         </div>
                                     </div>
                                 </form>
@@ -74,10 +75,10 @@
                             </div>
                         </div>
                         <% } else { %>
-                        <div class="col-md-4 col-sm-4">
+                        <div class="col-ld-4 col-md-4">
                             <div class="card card-inverse">
                                 <div class="card-header m-b-5">
-                                    <div class="card-title p-t-10"> category registration form</div>
+                                    <div class="card-title p-t-10"><%=(language.equals("si"))? Language.si_categoryRegistrationForm :  Language.en_categoryRegistrationForm%></div>
                                     <hr>
                                 </div>    
                                 <%
@@ -90,21 +91,21 @@
                                     <div class="card-block">
                                         <fieldset>
                                             <div class="form-group row">
-                                                <label class="control-label col-lg-4 d-font">Category name </label>
+                                                <label class="control-label col-lg-4 d-font"><%=(language.equals("si"))? Language.si_categoryName :  Language.en_categoryName%> <span class="text-danger">*</span></label>
                                                 <div class="col-lg-8">
-                                                    <input type="text" name="cName" class="form-control d-font" placeholder="Enter category name" value="<%=(category != null) ? category.getName() : ""%>">
+                                                    <input type="text" name="cName" class="form-control d-font" placeholder="Enter category name" value="<%=(category != null) ? category.getName() : ""%>" placeholder="<%=(language.equals("si"))? Language.si_enterCategoryName :  Language.en_enterCategoryName%>">
                                                 </div>
                                             </div>
                                             <div class="form-group row">
-                                                <label class="control-label col-lg-4 d-font">Category description </label>
+                                                <label class="control-label col-lg-4 d-font"><%=(language.equals("si"))? Language.si_categoryDescription :  Language.en_categoryDescription%> <span class="text-danger">*</span></label>
                                                 <div class="col-lg-8">
-                                                    <input type="text" name="cDesc" class="form-control d-font" placeholder="Enter category description" value="<%=(category != null) ? category.getDescription() : ""%>">
+                                                    <input type="text" name="cDesc" class="form-control d-font" placeholder="<%=(language.equals("si"))? Language.si_enterCategoryDescription :  Language.en_enteeCategoryDescription%>"  value="<%=(category != null) ? category.getDescription() : ""%>">
                                                 </div>
                                             </div>
                                         </fieldset>
                                         <div class="float-right  m-t-40 m-b-20">
-                                            <button type="reset" class="btn btn-md btn-secondary d-font" id="reset"><i class="icon-reload-alt position-left"></i>Reset</button>&nbsp;&nbsp;
-                                            <button type="submit" name="cNForm" class="btn btn-md btn-primary d-font"><i class="icon-save  position-left"></i> register</button>
+                                            <button type="reset" class="btn btn-md btn-secondary d-font" id="reset"><i class="icon-reload-alt position-left"></i><%=(language.equals("si"))? Language.si_reset :  Language.en_reset%></button>&nbsp;&nbsp;
+                                            <button type="submit" name="cNForm" class="btn btn-md btn-primary d-font"><i class="icon-save  position-left"></i> <%=(language.equals("si"))? Language.si_register :  Language.en_register%></button>
                                         </div>
                                     </div>
                                 </form>
@@ -118,9 +119,9 @@
                                     <table id="datatable" class="table datatable table-striped table-responsive">
                                         <thead>
                                             <tr>
-                                                <th style="width: 30vw" class="d-font">Name</th>
-                                                <th style="width: 65vw" class="d-font">Description</th>
-                                                <th style="width: 5vw"></th>
+                                                <th style="width: 30vw" class="d-font"><%=(language.equals("si"))? Language.si_categoryName :  Language.en_categoryName%></th>
+                                                <th style="width: 65vw" class="d-font"><%=(language.equals("si"))? Language.si_categoryDescription :  Language.en_categoryDescription%></th>
+                                                <th></th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -131,10 +132,15 @@
                                             <tr>
                                                 <td style="width:30vw" class="d-font"><%=c.getName()%></td>
                                                 <td style="width:65vw" class="d-font"><%=c.getDescription()%></td>
-                                                <td style="width:5vw">
-                                                    <form method="POST" action="<%=request.getContextPath()+Route.DISPLAY_CATEGORY_UPDATE_FORM_ROUTE%>" style="display: inline">
-                                                        <button type="submit" name="cid" value="<%=c.getId()%>" class="btn btn-outline-warning btn-sm d-btn-font"><i class=" icon-editing"></i> &nbsp;Update </button>
-                                                    </form>
+                                                <td>
+                                                    <ul class="icons-list">
+                                                        <li class="dropdown">
+                                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false"></a>
+                                                        <ul class="dropdown-menu dropdown-menu-right">
+                                                            <a href="<%=request.getContextPath()+Route.DISPLAY_CATEGORY_UPDATE_FORM_ROUTE+"?cid=1"%>" class="dropdown-item"><i class="icon-pencil6"></i> Edit</a>
+                                                        </ul>
+                                                        </li>
+                                                    </ul>
                                                 </td>
                                             </tr>
                                             <% }%>

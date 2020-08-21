@@ -65,7 +65,7 @@ public class OccupationServlet extends HttpServlet {
                             }
                             break;
                         case Route.REGISTER_OCCUPATIONS_ROUTE:
-                            if (request.getParameter("oNForm") != null) {
+                            if ((request.getParameter("oNForm") != null) && (request.getMethod().equals("POST"))) {
                                 try {
                                     if (addOccupation(request, authUser, activityService, activity)) {
                                         request.getSession().removeAttribute("dbOccupation");
@@ -107,7 +107,7 @@ public class OccupationServlet extends HttpServlet {
                             }
                             break;
                         case Route.UPDATE_OCCUPATIONS_ROUTE:
-                            if (request.getParameter("oid") != null) {
+                            if ((request.getParameter("oid") != null) && (request.getMethod().equals("POST"))) {
                                 try {
                                     if (updateOccupation(request, authUser, activityService, activity)) {
                                         request.getSession().removeAttribute("occupationAction");

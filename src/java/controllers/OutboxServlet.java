@@ -103,7 +103,7 @@ public class OutboxServlet extends HttpServlet {
                         }
                         break;
                     case Route.REGISTER_OUTBOX_ROUTE:
-                        if (request.getParameter("rForm") != null) {
+                        if ((request.getParameter("rForm") != null) && (request.getMethod().equals("POST"))) {
                             try {
                                 if (replyMail(request, authUser, activityService, activity)) {
                                     request.getSession().removeAttribute("selectedInbox");
@@ -155,7 +155,7 @@ public class OutboxServlet extends HttpServlet {
                         }
                         break;
                     case Route.UPDATE_OUTBOX_ROUTE:
-                        if (request.getParameter("rUFrom") != null) {
+                        if ((request.getParameter("rUFrom") != null) && (request.getMethod().equals("POST"))) {
                             try {
                                 if (updateReplyMail(request, authUser, activityService, activity)) {
                                     request.getSession().removeAttribute("selectedInbox");

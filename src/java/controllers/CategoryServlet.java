@@ -68,7 +68,7 @@ public class CategoryServlet extends HttpServlet {
                         }
                         break;
                     case Route.REGISTER_CATEGORY_ROUTE:
-                        if (request.getParameter("cNForm") != null) {
+                        if ((request.getParameter("cNForm") != null) && (request.getMethod().equals("POST"))) {
                             try {
                                 if (addCategory(request, authUser, activityService, activity)) {
                                     request.getSession().removeAttribute("dbCategory");
@@ -110,7 +110,7 @@ public class CategoryServlet extends HttpServlet {
                         }
                         break;
                     case Route.UPDATE_CATEGORY_ROUTE:
-                        if (request.getParameter("cid") != null) {
+                        if ((request.getParameter("cid") != null) && (request.getMethod().equals("POST")) ) {
                             try {
                                 if (updateCategory(request, authUser, activityService, activity)) {
                                     request.getSession().removeAttribute("categoryAction");

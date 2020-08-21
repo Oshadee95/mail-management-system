@@ -112,7 +112,7 @@ public class UserServlet extends HttpServlet {
                             }
                             break;
                         case Route.REGISTER_USER_ROUTE:
-                            if ((request.getParameter("uNForm") != null) || (request.getSession().getAttribute("submittedUser") != null)) {
+                            if (((request.getParameter("uNForm") != null) && (request.getMethod().equals("POST"))) || (request.getSession().getAttribute("submittedUser") != null)) {
                                 try {
                                     if (registerUser(request, authUser, activityService, activity)) {
                                         request.getSession().removeAttribute("submittedUser");
@@ -159,7 +159,7 @@ public class UserServlet extends HttpServlet {
                             }
                             break;
                         case Route.UPDATE_USER_ROUTE:
-                            if (request.getParameter("uid") != null) {
+                            if ((request.getParameter("uid") != null) && (request.getMethod().equals("POST"))) {
                                 try {
                                     if (updateUser(request, authUser, activityService, activity)) {
                                         request.getSession().removeAttribute("selectedUser");

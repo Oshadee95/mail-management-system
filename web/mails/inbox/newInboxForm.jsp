@@ -82,22 +82,18 @@
                                                             <%
                                                                 List<UserInfo> uPFormList = (List<UserInfo>) request.getAttribute("userList");
                                                                 for (User u : uPFormList) {
-                                                                    if (u.getOffice().equals("Private")) {
+                                                                    if (u.getOffice().equals("Private") && !(u.getId().equals(user.getId()))) {
                                                             %>
-                                                                <% if(!(u.getId().equals(user.getId()))) { %>
-                                                                    <option <%=((inbox != null) && (inbox.getRecipientId() == u.getId())) ? "selected" : ""%> value="<%=u.getId()%>"><%=u.getDisplayName()%></option>
-                                                                <% } %>
+                                                            <option <%=((inbox != null) && (inbox.getRecipientId().equals(u.getId()))) ? "selected" : ""%> value="<%=u.getId()%>"><%=u.getDisplayName()%></option>
                                                             <% } } %>
                                                         </optgroup>
                                                         <optgroup label="<%=(language.equals("si"))? Language.si_government :  Language.en_government%>">
                                                             <%
                                                                 List<UserInfo> uGFormList = (List<UserInfo>) request.getAttribute("userList");
                                                                 for (User u : uGFormList) {
-                                                                     if(u.getOffice().equals("Government")){
+                                                                     if(u.getOffice().equals("Government") && !(u.getId().equals(user.getId()))){
                                                             %>
-                                                                <% if(!(u.getId().equals(user.getId()))) { %>
-                                                                    <option <%=((inbox != null) && (inbox.getRecipientId() == u.getId())) ? "selected" : ""%> value="<%=u.getId()%>"><%=u.getFullName()%></option>
-                                                                <% } %>
+                                                                <option value="<%=u.getId()%>" <%=((inbox != null) && (inbox.getRecipientId().equals(u.getId()))) ? "selected" : ""%>><%=u.getFullName()%></option>
                                                             <% } } %>
                                                         </optgroup>
                                                     </select>

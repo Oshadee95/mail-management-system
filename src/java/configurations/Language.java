@@ -107,9 +107,6 @@ public class Language {
     public static String en_private = "Private";
     public static String si_private = "";
     
-    public static String en_mailid = "";
-    public static String si_mailid = "";
-    
     public static String en_category = "Category";
     public static String si_category = "";
     
@@ -119,18 +116,36 @@ public class Language {
     public static String en_recipientName = "Recipient name";
     public static String si_recipientName = "";
     
-    public static String en_reply = "reply";
+    public static String en_reply = "Reply Mail";
     public static String si_reply = "";
     
-    public static String en_updateReply = "update reply";
+    public static String en_updateReply = "Update Reply";
     public static String si_updateReply = "";
+    
+    public static String en_editReply = "Edit Reply";
+    public static String si_editReply = "";
+    
+    public static String en_viewMail = "View Mail";
+    public static String si_viewMail = "";
     
     public static String en_updateMail = "update mail";
     public static String si_updateMail = "";
+    
+    public static String en_editMail = "Edit Mail";
+    public static String si_editMail = "";
+    
+    public static String en_editCategory = "Edit Category";
+    public static String si_editCategory = "";
     
     public static String en_categoryRegistrationForm = "category registration form";
     public static String si_categoryRegistrationForm = "";
     
     public static String en_categoryUpdateForm = "category update form";
     public static String si_categoryUpdateForm = "";
+    
+    public static String en_mailId = "Mail ID";
+    public static String si_mailId = "";
+    
+    public static String en_collectedOn = "Collected on";
+    public static String si_collectedOn = "";
 }

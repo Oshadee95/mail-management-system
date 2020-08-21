@@ -40,29 +40,34 @@ public class ActivityServlet extends HttpServlet {
 
             if (request.getSession().getAttribute("authUser") != null) {
                 UserInfo authUser = (UserInfo) request.getSession().getAttribute("authUser");
-                ActivityService activityService = new ActivityService();
-                ActivityInfo activity = new ActivityInfo();
-                request.setCharacterEncoding("UTF-8");
-                request.getSession().setAttribute("navigatedPath", "activities");
 
-                switch (request.getServletPath()) {
-                    case Route.DISPLAY_ACTIVITIES_ROUTES:
-                        try {
-                            request.setAttribute("activityList", new ActivityService().getAll());
-                            request.getRequestDispatcher("/auth/activities/displayActivities.jsp").forward(request, response);
-                        } catch (IOException | ClassNotFoundException | SQLException | ServletException e) {
+                if (authUser.getRoleId().equals("SYS_ADMIN")) {
+                    ActivityService activityService = new ActivityService();
+                    ActivityInfo activity = new ActivityInfo();
+                    request.setCharacterEncoding("UTF-8");
+                    request.getSession().setAttribute("navigatedPath", "activities");
+
+                    switch (request.getServletPath()) {
+                        case Route.DISPLAY_ACTIVITIES_ROUTES:
                             try {
-                                recordActivity(MessageConfig.ACTIVITY_OPERATION_FAILED, "Location : ActivityServlet.java | Line : 52 " + MessageConfig.ACTIVITY_ERROR_2007 + " | Error : " + e.getMessage(), authUser, activityService, activity, request);
-                                setNotification(MessageConfig.MYMAIL_OPERATION_NOTIFICATION_TITLE, MessageConfig.ACTIVITY_ERROR_2007_LOCAL, "danger", request);
-                                response.sendRedirect(request.getContextPath() + Route.DISPLAY_DASHBOARD_ROUTE);
-                            } catch (Exception ex) {
+                                request.setAttribute("activityList", new ActivityService().getAll());
+                                request.getRequestDispatcher("/auth/activities/displayActivities.jsp").forward(request, response);
+                            } catch (Exception e) {
+                                try {
+                                    recordActivity(MessageConfig.ACTIVITY_OPERATION_FAILED, "Location : ActivityServlet.java | Line : 52 " + MessageConfig.ACTIVITY_ERROR_2007 + " | Error : " + e.getMessage(), authUser, activityService, activity, request);
+                                    setNotification(MessageConfig.MYMAIL_OPERATION_NOTIFICATION_TITLE, MessageConfig.ACTIVITY_ERROR_2007_LOCAL, "danger", request);
+                                    response.sendRedirect(request.getContextPath() + Route.DISPLAY_DASHBOARD_ROUTE);
+                                } catch (Exception ex) {
 //                                    ex.printStackTrace();
+                                }
                             }
-                        }
-                        break;
-                    default:
-                        redirectUnauthorizedRequest("root", authUser, request, response);
-                        break;
+                            break;
+                        default:
+                            redirectUnauthorizedRequest("root", authUser, request, response);
+                            break;
+                    }
+                } else {
+                    response.sendRedirect(request.getContextPath() + Route.DISPLAY_DASHBOARD_ROUTE);
                 }
             } else {
                 redirectUnauthorizedRequest("login", null, request, response);

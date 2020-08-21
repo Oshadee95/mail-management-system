@@ -132,12 +132,12 @@
                                             <tr>
                                                 <td style="width:30vw" class="d-font"><%=c.getName()%></td>
                                                 <td style="width:65vw" class="d-font"><%=c.getDescription()%></td>
-                                                <td>
+                                                <td class="text-center">
                                                     <ul class="icons-list">
                                                         <li class="dropdown">
                                                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false"></a>
                                                         <ul class="dropdown-menu dropdown-menu-right">
-                                                            <a href="<%=request.getContextPath()+Route.DISPLAY_CATEGORY_UPDATE_FORM_ROUTE+"?cid=1"%>" class="dropdown-item"><i class="icon-pencil6"></i> Edit</a>
+                                                            <a href="<%=request.getContextPath()+Route.DISPLAY_CATEGORY_UPDATE_FORM_ROUTE+"?cid="+c.getId()%>" class="dropdown-item d-font"><i class="icon-editing"></i> <%=(language.equals("si"))? Language.si_editCategory:  Language.en_editCategory%></a>
                                                         </ul>
                                                         </li>
                                                     </ul>

@@ -44,16 +44,16 @@
                                     </div>
                                 </div>
                                 <div class="card-block m-t-40">
-                                    <table class="table datatable table-striped table-responsive">
+                                    <table class="table datatable table-striped table-responsive" style="padding-bottom: 10vh">
                                         <thead>
                                             <tr>
-                                                <th style="width: 4vw" class="d-font"><%=(language.equals("si"))? Language.si_mailid :  Language.en_mailid%></th>
+                                                <th style="width: 4vw" class="d-font"><%=(language.equals("si"))? Language.si_mailId :  Language.en_mailId%></th>
                                                 <th style="width: 12vw" class="d-font"><%=(language.equals("si"))? Language.si_letterType :  Language.en_letterType%></th>
                                                 <th style="width: 15vw" class="d-font"><%=(language.equals("si"))? Language.si_categoryType :  Language.en_categoryType%></th>
-                                                <th style="width: 20vw" class="d-font"><%=(language.equals("si"))? Language.si_brief :  Language.en_brief%></th>
+                                                <th style="width: 25vw" class="d-font"><%=(language.equals("si"))? Language.si_brief :  Language.en_brief%></th>
                                                 <th style="width: 12vw" class="d-font"><%=(language.equals("si"))? Language.si_recipientName :  Language.en_recipientName%></th>
                                                 <th style="width: 10vw" class="d-font"><%=(language.equals("si"))? Language.si_submittedOn :  Language.en_submittedOn%></th>
-                                                <th style="width: 10vw" class="d-font"></th>
+                                                <th></th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -71,31 +71,22 @@
                                                 <td style="width: 10vw;" class="d-font"><%=dFomatter.format(inbox.getRecordedAt())%></td>
                                                 <td class="text-center">
                                                     <ul class="icons-list">
-                                                        <li><form method="POST" action="<%=request.getContextPath()+Route.DISPLAY_OUTBOX_FORM_ROUTE%>" style="display: inline;">
-                                                                <button type="submit" name="mid" value="<%=inbox.getId()%>" class="btn btn-link btn-md d-btn-font"><i class="icon-eye2"></i></button>
-                                                            </form></li>
                                                         <li class="dropdown">
-                                                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false"></a>
-                                                            <ul class="dropdown-menu dropdown-menu-right">
-                                                                <% if (inbox.getReplied().equals("false")) {%>
-                                                                <form method="POST" action="<%=request.getContextPath()+Route.DISPLAY_REGISTER_OUTBOX_FORM_ROUTE%>">
-                                                                    <button type="submit" name="mid" value="<%=inbox.getId()%>" class="float-left btn btn-link dropdown-item d-btn-font"><i class="icon-reply-all2"></i>&nbsp;&nbsp;&nbsp; <%=(language.equals("si"))? Language.si_reply :  Language.en_reply%> &nbsp;</button>
-                                                                </form>
-                                                                <% } else {%>
-                                                                <form  method="POST" action="<%=request.getContextPath()+Route.DISPLAY_OUTBOX_UPDATE_FORM_ROUTE%>">
-                                                                    <button type="submit" name="mid" value="<%=inbox.getId()%>" class="float-left btn btn-link dropdown-item d-btn-font"><i class="icon-reply-all2"></i>&nbsp;&nbsp;&nbsp; <%=(language.equals("si"))? Language.si_updateReply :  Language.en_updateReply%></button>
-                                                                </form>
-                                                                <% } %>
-                                                                <% if (inbox.getCollectorId().equals(user.getId())) {%>
-                                                                <form method="POST" action="<%=request.getContextPath()+Route.DISPLAY_INBOX_UPDATE_FORM_ROUTE%>">
-                                                                    <button type="submit" name="mid" value="<%=inbox.getId()%>" class="float-left btn btn-link dropdown-item d-btn-font"><i class=" icon-editing"></i> &nbsp;<%=(language.equals("si"))? Language.si_updateMail :  Language.en_updateMail%></button>
-                                                                </form>
-                                                                <% }%>
-                                                            </ul>
+                                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false" style="<%=((inbox.getCollectorId().equals(user.getId())) || ((authUser.getRoleId().equals("SYS_ADMIN") || authUser.getRoleId().equals("GOVERNOR") || authUser.getRoleId().equals("P_SECRETARIAT"))))? "color:#F44336" : "" %>"></a>
+                                                        <ul class="dropdown-menu dropdown-menu-right">
+                                                            <% if (inbox.getReplied().equals("false")) {%>
+                                                                <a href="<%=request.getContextPath()+Route.DISPLAY_REGISTER_OUTBOX_FORM_ROUTE+"?mid="+inbox.getId()%>" class="dropdown-item d-font"><i class="icon-reply-all2"></i> <%=(language.equals("si"))? Language.si_reply :  Language.en_reply%></a>
+                                                            <% } else {%>
+                                                                <a href="<%=request.getContextPath()+Route.DISPLAY_OUTBOX_UPDATE_FORM_ROUTE+"?mid="+inbox.getId()%>" class="dropdown-item d-font"><i class="icon-reply-all2"></i> <%=(language.equals("si"))? Language.si_updateReply :  Language.en_updateReply%></a>
+                                                            <% } %>
+                                                            <% if (inbox.getCollectorId().equals(user.getId())) {%>
+                                                                <a href="<%=request.getContextPath()+Route.DISPLAY_INBOX_UPDATE_FORM_ROUTE+"?mid="+inbox.getId()%>" class="dropdown-item d-font"><i class="icon-editing"></i> <%=(language.equals("si"))? Language.en_editMail :  Language.en_editMail%></a>
+                                                            <% }%>
+                                                            <a href="<%=request.getContextPath()+Route.DISPLAY_OUTBOX_FORM_ROUTE+"?mid="+inbox.getId()%>" class="dropdown-item d-font"><i class="icon-eye2"></i> <%=(language.equals("si"))? Language.si_viewMail :  Language.en_viewMail%></a>
+                                                        </ul>
                                                         </li>
-                                                    </ul>   
+                                                    </ul>
                                                 </td>
-
                                             </tr>
                                             <% }%>
                                         </tbody>

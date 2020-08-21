@@ -41,14 +41,16 @@ public class MyMailServlet extends HttpServlet {
 
             if (request.getSession().getAttribute("authUser") != null) {
                 UserInfo authUser = (UserInfo) request.getSession().getAttribute("authUser");
-                ActivityService activityService = new ActivityService();
-                ActivityInfo activity = new ActivityInfo();
-                request.setCharacterEncoding("UTF-8");
-                request.getSession().setAttribute("navigatedPath", "mymail");
 
-                switch (request.getServletPath()) {
-                    case Route.DISPLAY_MYMAIL_ROUTE:
-                        if (!((authUser.getRoleId().equals("P_OPERATOR")) || (authUser.getRoleId().equals("G_OPERATOR")) || (authUser.getRoleId().equals("SYS_ADMIN")))) {
+                if (!((authUser.getRoleId().equals("P_OPERATOR")) || (authUser.getRoleId().equals("G_OPERATOR")) || (authUser.getRoleId().equals("SYS_ADMIN")))) {
+                    ActivityService activityService = new ActivityService();
+                    ActivityInfo activity = new ActivityInfo();
+                    request.setCharacterEncoding("UTF-8");
+                    request.getSession().setAttribute("navigatedPath", "mymail");
+
+                    switch (request.getServletPath()) {
+                        case Route.DISPLAY_MYMAIL_ROUTE:
+
                             try {
                                 request.getSession().setAttribute("previousRoute", Route.DISPLAY_MYMAIL_ROUTE);
                                 request.setAttribute("inboxList", new InboxService().getAllByUser(authUser));
@@ -62,13 +64,13 @@ public class MyMailServlet extends HttpServlet {
 //                                    ex.printStackTrace();
                                 }
                             }
-                        } else {
-                            redirectUnauthorizedRequest("root", authUser, request, response);
-                        }
-                        break;
-                    default:
-                        redirectUnauthorizedRequest("login", authUser, request, response);
-                        break;
+                            break;
+                        default:
+                            redirectUnauthorizedRequest("login", authUser, request, response);
+                            break;
+                    }
+                } else {
+                    response.sendRedirect(request.getContextPath() + Route.DISPLAY_DASHBOARD_ROUTE);
                 }
             } else {
                 redirectUnauthorizedRequest("login", null, request, response);

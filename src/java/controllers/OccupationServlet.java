@@ -42,92 +42,97 @@ public class OccupationServlet extends HttpServlet {
 
             if (request.getSession().getAttribute("authUser") != null) {
                 UserInfo authUser = (UserInfo) request.getSession().getAttribute("authUser");
-                ActivityService activityService = new ActivityService();
-                ActivityInfo activity = new ActivityInfo();
-                request.setCharacterEncoding("UTF-8");
-                request.getSession().setAttribute("navigatedPath", "occupations");
-                
-                switch (request.getServletPath()) {
-                    case Route.DISPLAY_OCCUPATIONS_ROUTE:
-                        try {
-                            request.setAttribute("occupationList", new OccupationService().getAll());
-                            request.getRequestDispatcher("/office/occupations/displayOccupations.jsp").forward(request, response);
-                        } catch (Exception e) {
+
+                if (authUser.getRoleId().equals("SYS_ADMIN") || authUser.getRoleId().equals("GOVERNOR") || authUser.getRoleId().equals("P_SECRETARIAT")) {
+                    ActivityService activityService = new ActivityService();
+                    ActivityInfo activity = new ActivityInfo();
+                    request.setCharacterEncoding("UTF-8");
+                    request.getSession().setAttribute("navigatedPath", "occupations");
+
+                    switch (request.getServletPath()) {
+                        case Route.DISPLAY_OCCUPATIONS_ROUTE:
                             try {
-                                recordActivity(MessageConfig.OCCUPATION_OPERATION_FAILED, "Location : OccupationServlet.java | Line : 56 " + MessageConfig.OCCUPATION_ERROR_2012 + " | Error : " + e.getMessage(), authUser, activityService, activity, request);
-                                setNotification(MessageConfig.OCCUPATION_OPERATION_NOTIFICATION_TITLE, MessageConfig.OCCUPATION_ERROR_2012_LOCAL, "danger", request);
-                                response.sendRedirect(request.getContextPath() + Route.DISPLAY_DASHBOARD_ROUTE);
-                            } catch (Exception ex) {
-//                                    ex.printStackTrace();
-                            }
-                        }
-                        break;
-                    case Route.REGISTER_OCCUPATIONS_ROUTE:
-                        if (request.getParameter("oNForm") != null) {
-                            try {
-                                if (addOccupation(request, authUser, activityService, activity)) {
-                                    request.getSession().removeAttribute("dbOccupation");
-                                }
-                                response.sendRedirect(request.getContextPath() + "/Office/Occupation/100");
+                                request.setAttribute("occupationList", new OccupationService().getAll());
+                                request.getRequestDispatcher("/office/occupations/displayOccupations.jsp").forward(request, response);
                             } catch (Exception e) {
                                 try {
-                                    recordActivity(MessageConfig.OCCUPATION_OPERATION_FAILED, "Location : OccupationServlet.java | Line : 73 " + MessageConfig.OCCUPATION_ERROR_2008 + " | Error : " + e.getMessage(), authUser, activityService, activity, request);
-                                    setNotification(MessageConfig.OCCUPATION_OPERATION_NOTIFICATION_TITLE, MessageConfig.OCCUPATION_ERROR_2008_LOCAL, "danger", request);
-                                    response.sendRedirect(request.getContextPath() + Route.DISPLAY_OCCUPATIONS_ROUTE);
+                                    recordActivity(MessageConfig.OCCUPATION_OPERATION_FAILED, "Location : OccupationServlet.java | Line : 56 " + MessageConfig.OCCUPATION_ERROR_2012 + " | Error : " + e.getMessage(), authUser, activityService, activity, request);
+                                    setNotification(MessageConfig.OCCUPATION_OPERATION_NOTIFICATION_TITLE, MessageConfig.OCCUPATION_ERROR_2012_LOCAL, "danger", request);
+                                    response.sendRedirect(request.getContextPath() + Route.DISPLAY_DASHBOARD_ROUTE);
                                 } catch (Exception ex) {
 //                                    ex.printStackTrace();
                                 }
                             }
-                        } else {
-                            redirectUnauthorizedRequest("root", authUser, request, response);
-                        }
-                    case Route.DISPLAY_OCCUPATIONS_UPDATE_FORM_ROUTE:
-                        if (request.getParameter("oid") != null) {
-                            try {
-                                Occupation occupation = new Occupation();
-                                occupation.setId(Integer.parseInt(request.getParameter("oid")));
-                                request.getSession().setAttribute("dbOccupation", new OccupationService().get(occupation));
-                                request.getSession().setAttribute("occupationAction", "104");
-                                response.sendRedirect(request.getContextPath() + "/Office/Occupation/100");
-                            } catch (Exception e) {
+                            break;
+                        case Route.REGISTER_OCCUPATIONS_ROUTE:
+                            if (request.getParameter("oNForm") != null) {
                                 try {
-                                    recordActivity(MessageConfig.OCCUPATION_OPERATION_FAILED, "Location : OccupationServlet.java | Line : 93 " + MessageConfig.OCCUPATION_ERROR_2013 + " | Error : " + e.getMessage(), authUser, activityService, activity, request);
-                                    setNotification(MessageConfig.OCCUPATION_OPERATION_NOTIFICATION_TITLE, MessageConfig.OCCUPATION_ERROR_2013_LOCAL, "danger", request);
-                                    response.sendRedirect(request.getContextPath() + Route.DISPLAY_OCCUPATIONS_ROUTE);
-                                } catch (Exception ex) {
+                                    if (addOccupation(request, authUser, activityService, activity)) {
+                                        request.getSession().removeAttribute("dbOccupation");
+                                    }
+                                    response.sendRedirect(request.getContextPath() + "/Office/Occupation/100");
+                                } catch (Exception e) {
+                                    try {
+                                        recordActivity(MessageConfig.OCCUPATION_OPERATION_FAILED, "Location : OccupationServlet.java | Line : 73 " + MessageConfig.OCCUPATION_ERROR_2008 + " | Error : " + e.getMessage(), authUser, activityService, activity, request);
+                                        setNotification(MessageConfig.OCCUPATION_OPERATION_NOTIFICATION_TITLE, MessageConfig.OCCUPATION_ERROR_2008_LOCAL, "danger", request);
+                                        response.sendRedirect(request.getContextPath() + Route.DISPLAY_OCCUPATIONS_ROUTE);
+                                    } catch (Exception ex) {
 //                                    ex.printStackTrace();
+                                    }
                                 }
-                            }
-                        } else {
-                            if (!(request.getServletPath().equals("/Office/Occupation/103"))) {
+                            } else {
                                 redirectUnauthorizedRequest("root", authUser, request, response);
                             }
-                        }
-                        break;
-                    case Route.UPDATE_OCCUPATIONS_ROUTE:
-                        if (request.getParameter("oid") != null) {
-                            try {
-                                if (updateOccupation(request, authUser, activityService, activity)) {
-                                    request.getSession().removeAttribute("occupationAction");
-                                    request.getSession().removeAttribute("dbOccupation");
-                                }
-                                response.sendRedirect(request.getContextPath() + "/Office/Occupation/100");
-                            } catch (Exception e) {
+                        case Route.DISPLAY_OCCUPATIONS_UPDATE_FORM_ROUTE:
+                            if (request.getParameter("oid") != null) {
                                 try {
-                                    recordActivity(MessageConfig.OCCUPATION_OPERATION_FAILED, "Location : OccupationServlet.java | Line : 1116 " + MessageConfig.OCCUPATION_ERROR_2011 + " | Error : " + e.getMessage(), authUser, activityService, activity, request);
-                                    setNotification(MessageConfig.OCCUPATION_OPERATION_NOTIFICATION_TITLE, MessageConfig.OCCUPATION_ERROR_2011_LOCAL, "danger", request);
-                                    response.sendRedirect(request.getContextPath() + Route.DISPLAY_OCCUPATIONS_ROUTE);
-                                } catch (Exception ex) {
+                                    Occupation occupation = new Occupation();
+                                    occupation.setId(Integer.parseInt(request.getParameter("oid")));
+                                    request.getSession().setAttribute("dbOccupation", new OccupationService().get(occupation));
+                                    request.getSession().setAttribute("occupationAction", "104");
+                                    response.sendRedirect(request.getContextPath() + "/Office/Occupation/100");
+                                } catch (Exception e) {
+                                    try {
+                                        recordActivity(MessageConfig.OCCUPATION_OPERATION_FAILED, "Location : OccupationServlet.java | Line : 93 " + MessageConfig.OCCUPATION_ERROR_2013 + " | Error : " + e.getMessage(), authUser, activityService, activity, request);
+                                        setNotification(MessageConfig.OCCUPATION_OPERATION_NOTIFICATION_TITLE, MessageConfig.OCCUPATION_ERROR_2013_LOCAL, "danger", request);
+                                        response.sendRedirect(request.getContextPath() + Route.DISPLAY_OCCUPATIONS_ROUTE);
+                                    } catch (Exception ex) {
 //                                    ex.printStackTrace();
+                                    }
+                                }
+                            } else {
+                                if (!(request.getServletPath().equals("/Office/Occupation/103"))) {
+                                    redirectUnauthorizedRequest("root", authUser, request, response);
                                 }
                             }
-                        } else {
+                            break;
+                        case Route.UPDATE_OCCUPATIONS_ROUTE:
+                            if (request.getParameter("oid") != null) {
+                                try {
+                                    if (updateOccupation(request, authUser, activityService, activity)) {
+                                        request.getSession().removeAttribute("occupationAction");
+                                        request.getSession().removeAttribute("dbOccupation");
+                                    }
+                                    response.sendRedirect(request.getContextPath() + "/Office/Occupation/100");
+                                } catch (Exception e) {
+                                    try {
+                                        recordActivity(MessageConfig.OCCUPATION_OPERATION_FAILED, "Location : OccupationServlet.java | Line : 1116 " + MessageConfig.OCCUPATION_ERROR_2011 + " | Error : " + e.getMessage(), authUser, activityService, activity, request);
+                                        setNotification(MessageConfig.OCCUPATION_OPERATION_NOTIFICATION_TITLE, MessageConfig.OCCUPATION_ERROR_2011_LOCAL, "danger", request);
+                                        response.sendRedirect(request.getContextPath() + Route.DISPLAY_OCCUPATIONS_ROUTE);
+                                    } catch (Exception ex) {
+//                                    ex.printStackTrace();
+                                    }
+                                }
+                            } else {
+                                redirectUnauthorizedRequest("root", authUser, request, response);
+                            }
+                            break;
+                        default:
                             redirectUnauthorizedRequest("root", authUser, request, response);
-                        }
-                        break;
-                    default:
-                        redirectUnauthorizedRequest("root", authUser, request, response);
-                        break;
+                            break;
+                    }
+                } else {
+                    response.sendRedirect(request.getContextPath() + Route.DISPLAY_DASHBOARD_ROUTE);
                 }
             } else {
                 redirectUnauthorizedRequest("login", null, request, response);

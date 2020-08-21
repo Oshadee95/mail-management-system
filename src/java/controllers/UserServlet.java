@@ -52,135 +52,140 @@ public class UserServlet extends HttpServlet {
 
             if (request.getSession().getAttribute("authUser") != null) {
                 UserInfo authUser = (UserInfo) request.getSession().getAttribute("authUser");
-                ActivityService activityService = new ActivityService();
-                ActivityInfo activity = new ActivityInfo();
-                request.setCharacterEncoding("UTF-8");
-                request.getSession().setAttribute("navigatedPath", "users");
 
-                switch (request.getServletPath()) {
-                    case Route.DISPLAY_USERS_ROUTE:
-                        try {
-                            request.setAttribute("userList", new UserService().getAll());
-                            request.getRequestDispatcher("/auth/users/displayUsers.jsp").forward(request, response);
-                        } catch (IOException | ClassNotFoundException | SQLException | ServletException e) {
+                if (authUser.getRoleId().equals("SYS_ADMIN") || authUser.getRoleId().equals("GOVERNOR") || authUser.getRoleId().equals("P_SECRETARIAT")) {
+                    ActivityService activityService = new ActivityService();
+                    ActivityInfo activity = new ActivityInfo();
+                    request.setCharacterEncoding("UTF-8");
+                    request.getSession().setAttribute("navigatedPath", "users");
+
+                    switch (request.getServletPath()) {
+                        case Route.DISPLAY_USERS_ROUTE:
                             try {
-                                recordActivity(MessageConfig.USER_OPERATION_FAILED, "Location : UserServlet.java | Line : 66 " + MessageConfig.USER_ERROR_2044 + " | Error : " + e.getMessage(), authUser, activityService, activity, request);
-                                setNotification(MessageConfig.USER_OPERATION_NOTIFICATION_TITLE, MessageConfig.USER_ERROR_2044_LOCAL, "danger", request);
-                                response.sendRedirect(request.getContextPath() + Route.DISPLAY_DASHBOARD_ROUTE);
-                            } catch (Exception ex) {
-//                                    ex.printStackTrace();
-                            }
-                        }
-                        break;
-                    case Route.DISPLAY_USERS_FORM_ROUTE:
-                        if ((request.getParameter("uid") != null)) {
-                            try {
-                                UserInfo uInfo = new UserInfo();
-                                uInfo.setId(request.getParameter("uid"));
-                                request.setAttribute("selectedUser", new UserService().get(uInfo));
                                 request.setAttribute("userList", new UserService().getAll());
-                                request.getRequestDispatcher("/auth/users/displayUserForm.jsp").forward(request, response);
+                                request.getRequestDispatcher("/auth/users/displayUsers.jsp").forward(request, response);
                             } catch (IOException | ClassNotFoundException | SQLException | ServletException e) {
                                 try {
-                                    recordActivity(MessageConfig.USER_OPERATION_FAILED, "Location : UserServlet.java | Line : 84 " + MessageConfig.USER_ERROR_2045 + " | Error : " + e.getMessage(), authUser, activityService, activity, request);
-                                    setNotification(MessageConfig.USER_OPERATION_NOTIFICATION_TITLE, MessageConfig.USER_ERROR_2045_LOCAL, "danger", request);
-                                    response.sendRedirect(request.getContextPath() + Route.DISPLAY_USERS_ROUTE);
+                                    recordActivity(MessageConfig.USER_OPERATION_FAILED, "Location : UserServlet.java | Line : 66 " + MessageConfig.USER_ERROR_2044 + " | Error : " + e.getMessage(), authUser, activityService, activity, request);
+                                    setNotification(MessageConfig.USER_OPERATION_NOTIFICATION_TITLE, MessageConfig.USER_ERROR_2044_LOCAL, "danger", request);
+                                    response.sendRedirect(request.getContextPath() + Route.DISPLAY_DASHBOARD_ROUTE);
                                 } catch (Exception ex) {
 //                                    ex.printStackTrace();
                                 }
                             }
-                        } else {
-                            redirectUnauthorizedRequest("root", authUser, request, response);
-                        }
-                        break;
-                    case Route.DISPLAY_REGISTER_USER_FORM_ROUTE:
-                        try {
-                            request.setAttribute("userList", new UserService().getAll());
-                            request.setAttribute("roleList", new RoleService().getAll());
-                            request.setAttribute("occupationList", new OccupationService().getAll());
-                            request.getRequestDispatcher("/auth/users/newUserForm.jsp").forward(request, response);
-                        } catch (IOException | ClassNotFoundException | SQLException | ServletException e) {
-                            try {
-                                recordActivity(MessageConfig.USER_OPERATION_FAILED, "Location : UserServlet.java | Line : 103 " + MessageConfig.USER_ERROR_2046 + " | Error : " + e.getMessage(), authUser, activityService, activity, request);
-                                setNotification(MessageConfig.USER_OPERATION_NOTIFICATION_TITLE, MessageConfig.USER_ERROR_2046_LOCAL, "danger", request);
-                                response.sendRedirect(request.getContextPath() + Route.DISPLAY_USERS_ROUTE);
-                            } catch (Exception ex) {
-//                                    ex.printStackTrace();
-                            }
-                        }
-                        break;
-                    case Route.REGISTER_USER_ROUTE:
-                        if ((request.getParameter("uNForm") != null) || (request.getSession().getAttribute("submittedUser") != null)) {
-                            try {
-                                if (registerUser(request, authUser, activityService, activity)) {
-                                    request.getSession().removeAttribute("submittedUser");
-                                    response.sendRedirect(request.getContextPath() + Route.DISPLAY_USERS_ROUTE);
-                                } else {
-                                    response.sendRedirect(request.getContextPath() + Route.DISPLAY_REGISTER_USER_FORM_ROUTE);
-                                }
-                            } catch (Exception e) {
+                            break;
+                        case Route.DISPLAY_USERS_FORM_ROUTE:
+                            if ((request.getParameter("uid") != null)) {
                                 try {
-                                    recordActivity(MessageConfig.USER_OPERATION_FAILED, "Location : UserServlet.java | Line : 122 " + MessageConfig.USER_ERROR_2035 + " | Error : " + e.getMessage(), authUser, activityService, activity, request);
-                                    setNotification(MessageConfig.USER_OPERATION_NOTIFICATION_TITLE, MessageConfig.USER_ERROR_2035_LOCAL, "danger", request);
-                                    response.sendRedirect(request.getContextPath() + Route.DISPLAY_USERS_ROUTE);
-                                } catch (Exception ex) {
+                                    UserInfo uInfo = new UserInfo();
+                                    uInfo.setId(request.getParameter("uid"));
+                                    request.setAttribute("selectedUser", new UserService().get(uInfo));
+                                    request.setAttribute("userList", new UserService().getAll());
+                                    request.getRequestDispatcher("/auth/users/displayUserForm.jsp").forward(request, response);
+                                } catch (IOException | ClassNotFoundException | SQLException | ServletException e) {
+                                    try {
+                                        recordActivity(MessageConfig.USER_OPERATION_FAILED, "Location : UserServlet.java | Line : 84 " + MessageConfig.USER_ERROR_2045 + " | Error : " + e.getMessage(), authUser, activityService, activity, request);
+                                        setNotification(MessageConfig.USER_OPERATION_NOTIFICATION_TITLE, MessageConfig.USER_ERROR_2045_LOCAL, "danger", request);
+                                        response.sendRedirect(request.getContextPath() + Route.DISPLAY_USERS_ROUTE);
+                                    } catch (Exception ex) {
 //                                    ex.printStackTrace();
+                                    }
                                 }
+                            } else {
+                                redirectUnauthorizedRequest("root", authUser, request, response);
                             }
-                        } else {
-                            redirectUnauthorizedRequest("root", authUser, request, response);
-                        }
-                        break;
-                    case Route.DISPLAY_USER_UPDATE_FORM_ROUTE:
-                        if ((request.getParameter("uid") != null) || (request.getSession().getAttribute("selectedUser") != null)) {
+                            break;
+                        case Route.DISPLAY_REGISTER_USER_FORM_ROUTE:
                             try {
-                                UserInfo uInfo = new UserInfo();
-                                uInfo.setId(request.getParameter("uid"));
-                                if (request.getSession().getAttribute("selectedUser") == null) {
-                                    request.getSession().setAttribute("selectedUser", new UserService().get(uInfo));
-                                }
                                 request.setAttribute("userList", new UserService().getAll());
                                 request.setAttribute("roleList", new RoleService().getAll());
                                 request.setAttribute("occupationList", new OccupationService().getAll());
-                                request.getRequestDispatcher("/auth/users/updateUserForm.jsp").forward(request, response);
+                                request.getRequestDispatcher("/auth/users/newUserForm.jsp").forward(request, response);
                             } catch (IOException | ClassNotFoundException | SQLException | ServletException e) {
                                 try {
-                                    recordActivity(MessageConfig.USER_OPERATION_FAILED, "Location : UserServlet.java | Line : 147 " + MessageConfig.USER_ERROR_2047 + " | Error : " + e.getMessage(), authUser, activityService, activity, request);
-                                    setNotification(MessageConfig.USER_OPERATION_NOTIFICATION_TITLE, MessageConfig.USER_ERROR_2047_LOCAL, "danger", request);
+                                    recordActivity(MessageConfig.USER_OPERATION_FAILED, "Location : UserServlet.java | Line : 103 " + MessageConfig.USER_ERROR_2046 + " | Error : " + e.getMessage(), authUser, activityService, activity, request);
+                                    setNotification(MessageConfig.USER_OPERATION_NOTIFICATION_TITLE, MessageConfig.USER_ERROR_2046_LOCAL, "danger", request);
                                     response.sendRedirect(request.getContextPath() + Route.DISPLAY_USERS_ROUTE);
                                 } catch (Exception ex) {
 //                                    ex.printStackTrace();
                                 }
                             }
-                        } else {
-                            redirectUnauthorizedRequest("root", authUser, request, response);
-                        }
-                        break;
-                    case Route.UPDATE_USER_ROUTE:
-                        if (request.getParameter("uid") != null) {
-                            try {
-                                if (updateUser(request, authUser, activityService, activity)) {
-                                    request.getSession().removeAttribute("selectedUser");
-                                    response.sendRedirect(request.getContextPath() + Route.DISPLAY_USERS_ROUTE);
-                                } else {
-                                    response.sendRedirect(request.getContextPath() + Route.DISPLAY_USER_UPDATE_FORM_ROUTE);
-                                }
-                            } catch (Exception e) {
+                            break;
+                        case Route.REGISTER_USER_ROUTE:
+                            if ((request.getParameter("uNForm") != null) || (request.getSession().getAttribute("submittedUser") != null)) {
                                 try {
-                                    recordActivity(MessageConfig.USER_OPERATION_FAILED, "Location : UserServlet.java | Line : 169 " + MessageConfig.USER_ERROR_2039 + " | Error : " + e.getMessage(), authUser, activityService, activity, request);
-                                    setNotification(MessageConfig.USER_OPERATION_NOTIFICATION_TITLE, MessageConfig.USER_ERROR_2039_LOCAL, "danger", request);
-                                    response.sendRedirect(request.getContextPath() + Route.DISPLAY_USERS_ROUTE);
-                                } catch (Exception ex) {
+                                    if (registerUser(request, authUser, activityService, activity)) {
+                                        request.getSession().removeAttribute("submittedUser");
+                                        response.sendRedirect(request.getContextPath() + Route.DISPLAY_USERS_ROUTE);
+                                    } else {
+                                        response.sendRedirect(request.getContextPath() + Route.DISPLAY_REGISTER_USER_FORM_ROUTE);
+                                    }
+                                } catch (Exception e) {
+                                    try {
+                                        recordActivity(MessageConfig.USER_OPERATION_FAILED, "Location : UserServlet.java | Line : 122 " + MessageConfig.USER_ERROR_2035 + " | Error : " + e.getMessage(), authUser, activityService, activity, request);
+                                        setNotification(MessageConfig.USER_OPERATION_NOTIFICATION_TITLE, MessageConfig.USER_ERROR_2035_LOCAL, "danger", request);
+                                        response.sendRedirect(request.getContextPath() + Route.DISPLAY_USERS_ROUTE);
+                                    } catch (Exception ex) {
 //                                    ex.printStackTrace();
+                                    }
                                 }
+                            } else {
+                                redirectUnauthorizedRequest("root", authUser, request, response);
                             }
-                        } else {
+                            break;
+                        case Route.DISPLAY_USER_UPDATE_FORM_ROUTE:
+                            if ((request.getParameter("uid") != null) || (request.getSession().getAttribute("selectedUser") != null)) {
+                                try {
+                                    UserInfo uInfo = new UserInfo();
+                                    uInfo.setId(request.getParameter("uid"));
+                                    if (request.getSession().getAttribute("selectedUser") == null) {
+                                        request.getSession().setAttribute("selectedUser", new UserService().get(uInfo));
+                                    }
+                                    request.setAttribute("userList", new UserService().getAll());
+                                    request.setAttribute("roleList", new RoleService().getAll());
+                                    request.setAttribute("occupationList", new OccupationService().getAll());
+                                    request.getRequestDispatcher("/auth/users/updateUserForm.jsp").forward(request, response);
+                                } catch (IOException | ClassNotFoundException | SQLException | ServletException e) {
+                                    try {
+                                        recordActivity(MessageConfig.USER_OPERATION_FAILED, "Location : UserServlet.java | Line : 147 " + MessageConfig.USER_ERROR_2047 + " | Error : " + e.getMessage(), authUser, activityService, activity, request);
+                                        setNotification(MessageConfig.USER_OPERATION_NOTIFICATION_TITLE, MessageConfig.USER_ERROR_2047_LOCAL, "danger", request);
+                                        response.sendRedirect(request.getContextPath() + Route.DISPLAY_USERS_ROUTE);
+                                    } catch (Exception ex) {
+//                                    ex.printStackTrace();
+                                    }
+                                }
+                            } else {
+                                redirectUnauthorizedRequest("root", authUser, request, response);
+                            }
+                            break;
+                        case Route.UPDATE_USER_ROUTE:
+                            if (request.getParameter("uid") != null) {
+                                try {
+                                    if (updateUser(request, authUser, activityService, activity)) {
+                                        request.getSession().removeAttribute("selectedUser");
+                                        response.sendRedirect(request.getContextPath() + Route.DISPLAY_USERS_ROUTE);
+                                    } else {
+                                        response.sendRedirect(request.getContextPath() + Route.DISPLAY_USER_UPDATE_FORM_ROUTE);
+                                    }
+                                } catch (Exception e) {
+                                    try {
+                                        recordActivity(MessageConfig.USER_OPERATION_FAILED, "Location : UserServlet.java | Line : 169 " + MessageConfig.USER_ERROR_2039 + " | Error : " + e.getMessage(), authUser, activityService, activity, request);
+                                        setNotification(MessageConfig.USER_OPERATION_NOTIFICATION_TITLE, MessageConfig.USER_ERROR_2039_LOCAL, "danger", request);
+                                        response.sendRedirect(request.getContextPath() + Route.DISPLAY_USERS_ROUTE);
+                                    } catch (Exception ex) {
+//                                    ex.printStackTrace();
+                                    }
+                                }
+                            } else {
+                                redirectUnauthorizedRequest("root", authUser, request, response);
+                            }
+                            break;
+                        default:
                             redirectUnauthorizedRequest("root", authUser, request, response);
-                        }
-                        break;
-                    default:
-                        redirectUnauthorizedRequest("root", authUser, request, response);
-                        break;
+                            break;
+                    }
+                } else {
+                    response.sendRedirect(request.getContextPath() + Route.DISPLAY_DASHBOARD_ROUTE);
                 }
             } else {
                 redirectUnauthorizedRequest("login", null, request, response);

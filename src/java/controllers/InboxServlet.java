@@ -95,7 +95,7 @@ public class InboxServlet extends HttpServlet {
                         }
                         break;
                     case Route.REGISTER_INBOX_ROUTE:
-                        if ((request.getParameter("nMFrom") != null || (request.getSession().getAttribute("submittedMail") != null))) {
+                        if (((request.getParameter("nMFrom") != null && (request.getMethod().equals("POST")))|| (request.getSession().getAttribute("submittedMail") != null))) {
                             try {
                                 if (registerMail(request, authUser, activityService, activity)) {
                                     request.getSession().removeAttribute("submittedMail");
@@ -141,7 +141,7 @@ public class InboxServlet extends HttpServlet {
                         }
                         break;
                     case Route.UPDATE_INBOX_ROUTE:
-                        if (request.getParameter("mid") != null) {
+                        if ((request.getParameter("mid") != null) && (request.getMethod().equals("POST"))) {
                             try {
                                 if (updateMail(request, authUser, activityService, activity)) {
                                     request.getSession().removeAttribute("selectedInbox");
@@ -248,7 +248,7 @@ public class InboxServlet extends HttpServlet {
             inbox.setRecipientId(request.getParameter("mailRecipient")); // mail recipient
             inbox.setCategoryId(Integer.parseInt(request.getParameter("mailCategory")));
             inbox.setContent(request.getParameter("mailBrief")); // mail brief
-            request.getSession().setAttribute("submittedMail", inbox);
+            request.getSession().setAttribute("selectedInbox", inbox);
 
             if (!(validateMailRecipient(request, "update"))) {
                 return false;
@@ -294,7 +294,7 @@ public class InboxServlet extends HttpServlet {
         while (inputStream.read(buffer) > 0) {
             output.write(buffer);
         }
-        File isPhotoSaved = new File(PathConfig.INBOX_LETTER_UPLOAD_PATH + imageName);
+        File isPhotoSaved = new File(PathConfig.INBOX_LETTER_UPLOAD_PATH + imageName + "-I.png");
         return isPhotoSaved.exists();
     }
 
@@ -359,7 +359,9 @@ public class InboxServlet extends HttpServlet {
     }
 
     private void redirectUnauthorizedRequest(String route, UserInfo user, HttpServletRequest request, HttpServletResponse response) throws IOException {
-        setNotification(MessageConfig.UNAUTHORIZED_REQUEST_NOTIFICATION_TITLE, user.getDisplayName() + MessageConfig.UNAUTHORIZED_REQUEST_NOTIFICATION, "warning", request);
+        if(user != null) {
+            setNotification(MessageConfig.UNAUTHORIZED_REQUEST_NOTIFICATION_TITLE, user.getDisplayName() + MessageConfig.UNAUTHORIZED_REQUEST_NOTIFICATION, "warning", request);
+        }
         switch (route) {
             case "login":
                 response.sendRedirect(request.getContextPath() + Route.LOGIN_ROUTE);

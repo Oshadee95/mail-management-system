@@ -14,12 +14,6 @@
 
     <body id="top" data-gr-c-s-loaded="true" cz-shortcut-listen="true" style="overflow-y: auto; overflow-x: hidden">
 
-        <div id="preloader" style="display: none;">
-            <div id="status" style="display: none;">
-                <div class="loader"></div>
-            </div>
-        </div>
-
         <div id="body-wrapper" class="body-container" style="overflow: hidden !important;">
 
             <%@ include file="../../layouts/top-navigation.jsp" %>
@@ -30,6 +24,13 @@
 
                 <div class="container-fluid page-content">
                     <div class="row">
+                         <div class="col-lg-12 p-b-20">
+                            <ul class="breadcrumb text-right">
+                                <li><a href="<%=request.getContextPath()+Route.DISPLAY_DASHBOARD_ROUTE%>"> Dashboard</a></li>
+                                <li><a href="<%=request.getContextPath()+Route.DISPLAY_INBOX_ROUTE %>"> Mails</a></li>
+                                <li class="active">Reply Mail</li>
+                            </ul>
+                        </div>
                         <%
                             InboxInfo inbox = (InboxInfo) request.getSession().getAttribute("selectedInbox");
                             Date date = new Date();

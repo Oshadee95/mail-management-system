@@ -41,6 +41,10 @@
         <servlet-name>DashboardServlet</servlet-name>
         <servlet-class>controllers.DashboardServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>LanguageServlet</servlet-name>
+        <servlet-class>controllers.LanguageServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>InboxServlet</servlet-name>
         <url-pattern>/Mails/Inbox/100</url-pattern>
@@ -100,6 +104,11 @@
     <servlet-mapping>
         <servlet-name>DashboardServlet</servlet-name>
         <url-pattern>/Dashboard/Home/100</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>LanguageServlet</servlet-name>
+        <url-pattern>/Auth/Language/en</url-pattern>
+        <url-pattern>/Auth/Language/si</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>120</session-timeout>

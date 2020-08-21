@@ -13,12 +13,6 @@
 
     <body id="top" data-gr-c-s-loaded="true" cz-shortcut-listen="true" style="overflow-y: auto; overflow-x: hidden">
 
-        <div id="preloader" style="display: none;">
-            <div id="status" style="display: none;">
-                <div class="loader"></div>
-            </div>
-        </div>
-
         <div id="body-wrapper" class="body-container" style="overflow: hidden !important;">
 
             <%@ include file="../../layouts/top-navigation.jsp" %>
@@ -29,6 +23,12 @@
 
                 <div class="container-fluid page-content">
                     <div class="row">
+                        <div class="col-lg-12 p-b-20">
+                            <ul class="breadcrumb text-right">
+                                <li><a href="<%=request.getContextPath()+Route.DISPLAY_DASHBOARD_ROUTE%>"> Dashboard</a></li>
+                                <li class="active">Users</li>
+                            </ul>
+                        </div>
                         <div class="col-md-12 col-sm-12">
                             <div class="card card-inverse">
                                 <div class="card-header">
@@ -53,6 +53,7 @@
                                         </thead>
                                         <tbody>
                                             <%
+                                                UserInfo user = (UserInfo) request.getSession().getAttribute("authUser"); 
                                                 List<UserInfo> userList = (List<UserInfo>) request.getAttribute("userList");
                                                 for (UserInfo u : userList) {
                                             %>
@@ -68,6 +69,7 @@
                                                 <td style="width: 10vw" class="d-font"><%=u.getRoleId()%></td>
                                                 <td style="width: 5vw" class="d-font"><%=u.getActive().equals("true") ? "Active" : "Disabled"%></td>
                                                 <td class="text-center">
+                                                    <% if(!u.getRoleId().equals("GOVERNOR")) { %>
                                                     <ul class="icons-list">
                                                         <li class="dropdown">
                                                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false"></a>
@@ -77,6 +79,17 @@
                                                         </ul>
                                                         </li>
                                                     </ul>
+                                                    <% } else if(u.getRoleId().equals("GOVERNOR") && (user.getRoleId().equals("SYS_ADMIN") || user.getRoleId().equals("GOVERNOR"))) { %>
+                                                    <ul class="icons-list">
+                                                        <li class="dropdown">
+                                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false"></a>
+                                                        <ul class="dropdown-menu dropdown-menu-right">
+                                                            <a href="<%=request.getContextPath()+Route.DISPLAY_USER_UPDATE_FORM_ROUTE+"?uid="+u.getId()%>" class="dropdown-item d-font"><i class="icon-editing"></i> <%=(language.equals("si"))? Language.si_editUser:  Language.en_editUser%></a>
+                                                            <a href="<%=request.getContextPath()+Route.DISPLAY_USERS_FORM_ROUTE+"?uid="+u.getId()%>" class="dropdown-item d-font"><i class="icon-eye2"></i> <%=(language.equals("si"))? Language.si_viewUser:  Language.en_viewUser%></a>
+                                                        </ul>
+                                                        </li>
+                                                    </ul>
+                                                    <% } %>
                                                 </td>
                                             </tr>
                                             <% }%>

@@ -59,5 +59,10 @@ public class Route {
     public static final String REGISTER_USER_ROUTE = "/Auth/Users/103";
     public static final String DISPLAY_USER_UPDATE_FORM_ROUTE = "/Auth/Users/104";
     public static final String UPDATE_USER_ROUTE = "/Auth/Users/105";
+    
+    
+    // Language route
+    public static final String EN = "/Auth/Language/en";
+    public static final String SI = "/Auth/Language/si";
 
 }

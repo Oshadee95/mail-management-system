@@ -10013,21 +10013,21 @@ body {
     padding-right: 15px;
     padding-bottom: 5px;
     padding-left: 15px;
-    color: #111;
-    font-size: 12px
+    color: #263b4a;
+    font-size: 15px
 }
 
 .user-dropdown .dropdown-menu .user-links>li>a i {
     padding-right: 5px;
     font-size: 16px;
     top: -1px;
-    color: #111
+    color: #263b4a
 }
 
 .user-dropdown .dropdown-menu .user-links>li>a.active, .user-dropdown .dropdown-menu .user-links>li>a:hover, .user-dropdown .dropdown-menu .user-links>li>a:focus {
     text-decoration: none;
-    background-color: rgba(255, 255, 255, .3);
-    color: #111
+    background-color: #F44336;
+    color: #fff
 }
 
 .user-dropdown .dropdown-menu .btn {
@@ -15189,7 +15189,7 @@ input[class*=bg-]+.form-control-feedback {
 }
 
 .breadcrumb>li {
-    font-size: 12px;
+    font-size: 14px;
     position: relative;
     display: inline-block
 }
@@ -15202,7 +15202,7 @@ input[class*=bg-]+.form-control-feedback {
     color: #263b4a
 }
 
-.breadcrumb>li:first-child:before {
+/*.breadcrumb>li:first-child:before {
     content: "";
     speak: none;
     font-family: icomoon;
@@ -15220,7 +15220,7 @@ input[class*=bg-]+.form-control-feedback {
     color: #263b4a;
     top: 1px;
     position: relative
-}
+}*/
 
 .breadcrumb>li+li:before {
     content: "";

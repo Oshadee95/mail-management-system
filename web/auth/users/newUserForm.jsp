@@ -3,6 +3,7 @@
     Created on : Aug 12, 2020, 4:34:15 PM
     Author     : RED-HAWK
 --%>
+<%@page import="configurations.Language"%>
 <%@page import="models.UserInfo"%>
 <%@page import="models.Occupation"%>
 <%@page import="models.Role"%>
@@ -102,28 +103,25 @@
                                                 </div>
                                             </div>
 
-
+                                            <% if(user.getRoleId().equals("SYS_ADMIN")){%>
                                             <div class="form-group row">
                                                 <label class="control-label col-lg-4 d-font">Occupation <span class="text-danger">*</span></label>
                                                 <div class="col-lg-8">
-                                                    <select style="background-color: white" name="occupation" class="form-control d-font" aria-required="true" required>
+                                                    <select style="background-color: white; padding-top: 5px;" name="occupation" class="form-control d-font" aria-required="true" required>
                                                         <option value="0">Select occupation</option>
                                                         <%
                                                             List<Occupation> occupationList = (List<Occupation>) request.getAttribute("occupationList");
                                                             for (Occupation o : occupationList) {
                                                         %>
-                                                        <% if(o.getId() != 2){ %>
                                                             <option <%=((tUser != null) && (tUser.getOccupationId() == o.getId()))? "selected" : "" %> value="<%=o.getId()%>"><%=o.getTitle()%></option>
-                                                        <% } } %>
+                                                        <% }%>
                                                     </select>
                                                 </div>
                                             </div>
-
-                                            <% if(user.getRoleId().equals("SYS_ADMIN")){%>
                                             <div class="form-group row">
                                                 <label class="control-label col-lg-4 d-font">Role type <span class="text-danger">*</span></label>
                                                 <div class="col-lg-8">
-                                                    <select style="background-color: white" name="role" class="form-control d-font" aria-required="true" required>
+                                                    <select style="background-color: white; padding-top: 5px;" name="role" class="form-control d-font" aria-required="true" required>
                                                         <option value="unselected">Select role</option>
                                                         <%
                                                             List<Role> roleList = (List<Role>) request.getAttribute("roleList");
@@ -136,9 +134,24 @@
                                             </div>
                                             <% }  else { %>
                                             <div class="form-group row">
+                                                <label class="control-label col-lg-4 d-font">Occupation <span class="text-danger">*</span></label>
+                                                <div class="col-lg-8">
+                                                    <select style="background-color: white; padding-top: 5px;" name="occupation" class="form-control d-font" aria-required="true" required>
+                                                        <option value="0">Select occupation</option>
+                                                        <%
+                                                            List<Occupation> occupationList = (List<Occupation>) request.getAttribute("occupationList");
+                                                            for (Occupation o : occupationList) {
+                                                        %>
+                                                        <% if(o.getId() != 2){ %>
+                                                            <option <%=((tUser != null) && (tUser.getOccupationId() == o.getId()))? "selected" : "" %> value="<%=o.getId()%>"><%=o.getTitle()%></option>
+                                                        <% } } %>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
                                                 <label class="control-label col-lg-4 d-font">Role type <span class="text-danger">*</span></label>
                                                 <div class="col-lg-8">
-                                                    <select style="background-color: white" name="role" class="form-control d-font" aria-required="true" required>
+                                                    <select style="background-color: white; padding-top: 5px;" name="role" class="form-control d-font" aria-required="true" required>
                                                         <option value="unselected">Select role</option>
                                                         <%
                                                             List<Role> roleList = (List<Role>) request.getAttribute("roleList");
@@ -156,21 +169,20 @@
                                                 <label class="control-label col-lg-4 d-font">Status</label>
                                                 <div class="col-lg-8">
                                                     <label class="radio-inline d-font">
-                                                        <input type="radio" value="true" name="userStatus"  <%=((tUser != null) && (tUser.getOffice().equals("true")))? "checked" : "" %>>
+                                                        <input type="radio" value="true" name="userStatus"  <%=((tUser != null) && (tUser.getActive().equals("true")))? "checked" : "" %>>
                                                         Active
                                                     </label>
                                                     <label class="radio-inline d-font">
-                                                        <input type="radio" value="false" name="userStatus"  <%=((tUser != null) && (tUser.getOffice().equals("false")))? "checked" : "" %>>
+                                                        <input type="radio" value="false" name="userStatus"  <%=((tUser != null) && (tUser.getActive().equals("false")))? "checked" : "" %>>
                                                         Disabled
                                                     </label>
                                                 </div>
                                             </div>
 
-                                        </fieldset>
-
-                                        <div class="float-right  m-t-50 m-b-20">
-                                            <button type="reset" class="btn btn-lg btn-secondary d-font" id="reset"><i class="icon-reload-alt position-left"></i>Reset</button>&nbsp;
-                                            <button type="submit" name="uNForm" class="btn btn-lg btn-success d-font"><i class="icon-arrow-right14"></i>Submit</button>
+                                        </fieldset>      
+                                        <div class="float-right  m-t-40 m-b-40">
+                                            <button type="reset" class="btn btn-md btn-secondary d-font" id="reset"><i class="icon-reload-alt position-left"></i><%=(language.equals("si"))? Language.si_reset :  Language.en_reset%></button>&nbsp;&nbsp;
+                                            <button type="submit" name="uNForm" class="btn btn-md btn-primary d-font"><i class="icon-envelop  position-left"></i><%=(language.equals("si"))? Language.si_register :  Language.en_register%></button>
                                         </div>
                                     </div>
                                 </form>

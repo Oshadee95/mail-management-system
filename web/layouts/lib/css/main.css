@@ -38653,11 +38653,11 @@ body>.ui-pnotify-modal-overlay {
 }
 
 .text-primary {
-    color: #0cc2aa!important
+    color: #F44336!important
 }
 
 .text-primary:focus, .text-primary:hover {
-    color: #0cc2aa!important
+    color: #F44336!important
 }
 
 .text-primary-50 {

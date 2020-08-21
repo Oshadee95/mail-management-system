@@ -134,6 +134,9 @@ public class Language {
     public static String en_editMail = "Edit Mail";
     public static String si_editMail = "";
     
+    public static String en_editOccupation = "Edit Occupation";
+    public static String si_editOccupation = "";
+    
     public static String en_editCategory = "Edit Category";
     public static String si_editCategory = "";
     
@@ -148,4 +151,10 @@ public class Language {
     
     public static String en_collectedOn = "Collected on";
     public static String si_collectedOn = "";
+    
+    public static String en_editUser = "Edit User";
+    public static String si_editUser = "";
+    
+    public static String en_viewUser = "View User";
+    public static String si_viewUser = "";
 }

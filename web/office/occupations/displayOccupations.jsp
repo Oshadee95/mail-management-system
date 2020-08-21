@@ -4,6 +4,7 @@
     Author     : RED-HAWK
 --%>
 
+<%@page import="configurations.Language"%>
 <%@page import="models.Occupation"%>
 <%@page import="models.InboxInfo"%>
 <%@page import="java.util.Date"%>
@@ -118,15 +119,25 @@
                                             %>
                                             <tr>
                                                 <td style="width:95vw" class="d-font"><%=oc.getTitle()%></td>
-                                                <td style="width:5vw">
+                                                <td class="text-center">
                                                     <% if(oc.getId() != 2) { %>
-                                                    <form method="POST" action="<%=request.getContextPath()+Route.DISPLAY_OCCUPATIONS_UPDATE_FORM_ROUTE%>" style="display: inline">
-                                                        <button type="submit" name="oid" value="<%=oc.getId()%>" class="btn btn-outline-warning btn-sm d-btn-font"><i class=" icon-editing"></i> &nbsp;Update </button>
-                                                    </form>
+                                                    <ul class="icons-list">
+                                                        <li class="dropdown">
+                                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false"></a>
+                                                        <ul class="dropdown-menu dropdown-menu-right">
+                                                            <a href="<%=request.getContextPath()+Route.DISPLAY_OCCUPATIONS_UPDATE_FORM_ROUTE+"?oid="+oc.getId()%>" class="dropdown-item d-font"><i class="icon-editing"></i> <%=(language.equals("si"))? Language.si_editOccupation:  Language.en_editOccupation%></a>
+                                                        </ul>
+                                                        </li>
+                                                    </ul>
                                                     <% } else if(user.getRoleId().equals("SYS_ADMIN")) { %>
-                                                   <form method="POST" action="<%=request.getContextPath()+Route.DISPLAY_OCCUPATIONS_UPDATE_FORM_ROUTE%>" style="display: inline">
-                                                        <button type="submit" name="oid" value="<%=oc.getId()%>" class="btn btn-outline-warning btn-sm d-btn-font"><i class=" icon-editing"></i> &nbsp;Update </button>
-                                                    </form>
+                                                    <ul class="icons-list">
+                                                        <li class="dropdown">
+                                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false"></a>
+                                                        <ul class="dropdown-menu dropdown-menu-right">
+                                                            <a href="<%=request.getContextPath()+Route.DISPLAY_OCCUPATIONS_UPDATE_FORM_ROUTE+"?oid="+oc.getId()%>" class="dropdown-item d-font"><i class="icon-editing"></i> <%=(language.equals("si"))? Language.si_editOccupation:  Language.en_editOccupation%></a>
+                                                        </ul>
+                                                        </li>
+                                                    </ul>
                                                     <% } %>
                                                 </td>
                                             </tr>

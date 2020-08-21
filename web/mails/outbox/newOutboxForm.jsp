@@ -189,7 +189,7 @@
                                     <a class="example-image-link" href="../../resources/mails/inbox/<%=inbox.getImageURL()%>" data-lightbox="example-2" data-title="MAIL ID <%=inbox.getId()%>">
                                         <img class="img-fluid example-image" src="../../resources/mails/inbox/<%=inbox.getImageURL()%>" alt="<%=inbox.getImageURL()%>">
                                     </a>
-                                    <a href="../../resources/mails/inbox/<%=inbox.getImageURL()%>" download="<%=inbox.getId()%>-I" class="btn btn-sm float-right p-t-5" style="color : #fff; border-color: #F44336; border-radius: 0; margin-top: -34px; background-color: #F44336; font-size: 14px">INBOX &nbsp;&nbsp;<i style="color : #fff" class="icon-download4"></i></a>
+                                    <a href="../../resources/mails/inbox/<%=inbox.getImageURL()%>" download="<%=inbox.getId()%>-I" class="btn btn-sm float-right p-t-5" style="color : #fff; border-color: #F44336; border-radius: 0; margin-top: -34px; background-color: #F44336; font-size: 14px"></i></a>
                                 </div>
                             </div>
                         </div>

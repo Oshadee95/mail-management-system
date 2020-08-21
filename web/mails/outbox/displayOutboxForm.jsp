@@ -120,7 +120,7 @@
                                             </div>
                                         </div>
 
-                                        <div class="form-group row m-b-10">
+                                        <div class="form-group row m-b-40">
                                             <label class="control-label col-lg-4 d-font">replied by </label>
                                             <div class="col-lg-8">
                                                 <input style="color: #848484;" type="text" class="form-control d-font" readonly value="<%=outbox.getSenderName()%>">
@@ -187,14 +187,14 @@
                                     <a class="example-image-link" href="../../resources/mails/inbox/<%=inbox.getImageURL()%>" data-lightbox="example-2" data-title="MAIL ID <%=inbox.getId()%>">
                                         <img class="img-fluid example-image" src="../../resources/mails/inbox/<%=inbox.getImageURL()%>" alt="<%=inbox.getImageURL()%>">
                                     </a>
-                                    <a href="../../resources/mails/inbox/<%=inbox.getImageURL()%>" download="<%=inbox.getId()%>-I" class="btn btn-sm float-right p-t-5" style="color : #fff; border-color: #0275d8; border-radius: 0; margin-top: -34px; background-color: #0275d8; font-size: 14px">INBOX &nbsp;&nbsp;<i style="color : #fff" class="icon-download4"></i></a>
+                                    <a href="../../resources/mails/inbox/<%=inbox.getImageURL()%>" download="<%=inbox.getId()%>-I" class="btn btn-sm float-right p-t-5" style="color : #fff; border-color: #F44336; border-radius: 0; margin-top: -34px; background-color: #F44336; font-size: 14px">INBOX &nbsp;&nbsp;<i style="color : #fff" class="icon-download4"></i></a>
                                 </div>
                                 <% if ((inbox.getReplied().equals("true")) && (request.getAttribute("selectedOutbox") != null)){ %>
                                 <div class="col-lg-12 m-t-10">
                                     <a class="example-image-link" href="../../resources/mails/outbox/<%=outbox.getReplyImageURL()%>" data-lightbox="example-2" data-title="REPLY - MAIL ID <%=inbox.getId()%>">
                                         <img class="img-fluid example-image" src="../../resources/mails/outbox/<%=outbox.getReplyImageURL()%>" alt="<%=outbox.getReplyImageURL()%>">
                                     </a>
-                                    <a href="../../resources/mails/outbox/<%=outbox.getReplyImageURL()%>" download="<%=inbox.getId()%>-O" class="btn btn-sm float-right p-t-5" style="color : #fff; border-color: #0275d8; border-radius: 0; margin-top: -34px; background-color: #0275d8; font-size: 14px">SENT &nbsp;&nbsp;<i style="color : #fff" class="icon-download4"></i></a>
+                                    <a href="../../resources/mails/outbox/<%=outbox.getReplyImageURL()%>" download="<%=inbox.getId()%>-O" class="btn btn-sm float-right p-t-5" style="color : #fff; border-color: #F44336; border-radius: 0; margin-top: -34px; background-color: #F44336; font-size: 14px">SENT &nbsp;&nbsp;<i style="color : #fff" class="icon-download4"></i></a>
                                 </div>
                                 <% } %>
                             </div>

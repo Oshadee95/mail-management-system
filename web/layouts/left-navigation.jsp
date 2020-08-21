@@ -12,7 +12,7 @@
                         <div class="admin-user-info text-center">
                             <ul>
                                 <li class="username"><%=authUser.getDisplayName()%></li>
-                                <li><a href="<%=request.getContextPath()%>/Logout" class="tooltip-bottom" data-tooltip="Logout"><i class="icon-exit3"></i></a></li>
+                                <li><a href="<%=request.getContextPath()%>/Logout" class="tooltip-bottom" data-tooltip="Logout"><i class="icon-logout text-primary"></i></a></li>
                             </ul>
                         </div>
                     </div>
@@ -27,7 +27,9 @@
                     <% if (!((authUser.getRoleId().equals("P_OPERATOR")) || (authUser.getRoleId().equals("G_OPERATOR")) || (authUser.getRoleId().equals("SYS_ADMIN")))) { %>
                     <li><a class="<%=(navigatedPath.equals("mymail")) ? "active" : "" %> d-nav-font" href="<%=request.getContextPath()+Route.DISPLAY_MYMAIL_ROUTE%>"><i class="icon-envelop"></i> <span>My Mail</span></a></li>    
                     <% } %>
-                    <li><a class="<%=(navigatedPath.equals("categories")) ? "active" : "" %> d-nav-font" href="<%=request.getContextPath()+Route.DISPLAY_CATEGORIES_ROUTE%>"><i class="icon-three-bars"></i> <span>Categories</span></a></li>     
+                    <% if (!(authUser.getRoleId().equals("G_OPERATOR")) || (authUser.getRoleId().equals("G_SECRETARIAT"))) { %>
+                        <li><a class="<%=(navigatedPath.equals("categories")) ? "active" : "" %> d-nav-font" href="<%=request.getContextPath()+Route.DISPLAY_CATEGORIES_ROUTE%>"><i class="icon-three-bars"></i> <span>Categories</span></a></li>     
+                    <% }%>
                     <li><a class="<%=(navigatedPath.equals("inbox")) ? "active" : "" %> d-nav-font" href="<%=request.getContextPath()+Route.DISPLAY_INBOX_ROUTE %>"><i class="icon-envelop"></i> <span>Mails</span></a></li>          
                     <% if ((authUser.getRoleId().equals("GOVERNOR")) || (authUser.getRoleId().equals("P_SECRETARIAT")) || (authUser.getRoleId().equals("SYS_ADMIN"))) { %>
                         <li><a class="<%=(navigatedPath.equals("occupations")) ? "active" : "" %> d-nav-font" href="<%=request.getContextPath()+Route.DISPLAY_OCCUPATIONS_ROUTE%>"><i class="icon-briefcase"></i> <span>Occupations</span></a></li>

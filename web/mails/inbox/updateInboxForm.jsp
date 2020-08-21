@@ -50,7 +50,7 @@
                                 <div class="card-header m-b-20">
                                     <div class="card-title p-t-10">
                                         <%=(language.equals("si"))? Language.si_mailUpdateForm :  Language.en_mailUpdateForm%>
-                                        <img alt="" src="../../resources/avatars/<%=inbox.getCollectorPhotoURL()%>" class="rounded-circle float-right" style="margin-top: 18px; max-height: 50px; height: 50px; width: 50px;">
+                                        <img alt="" src="../../resources/avatars/<%=(inbox != null && inbox.getCollectorPhotoURL() != null) ? inbox.getCollectorPhotoURL() : ""%>" class="rounded-circle float-right" style="margin-top: 18px; max-height: 50px; height: 50px; width: 50px;">
                                     </div>
                                     <hr>
                                 </div>   

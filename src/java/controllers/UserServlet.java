@@ -61,21 +61,31 @@ public class UserServlet extends HttpServlet {
 
                     switch (request.getServletPath()) {
                         case Route.DISPLAY_USERS_ROUTE:
-                            try {
-                                request.setAttribute("userList", new UserService().getAll());
-                                request.getRequestDispatcher("/auth/users/displayUsers.jsp").forward(request, response);
-                            } catch (IOException | ClassNotFoundException | SQLException | ServletException e) {
+                            if (authUser.getRoleId().equals("SYS_ADMIN")
+                                    || authUser.getRoleId().equals("GOVERNOR")
+                                    || authUser.getRoleId().equals("P_SECRETARIAT")) {
                                 try {
-                                    recordActivity(MessageConfig.USER_OPERATION_FAILED, "Location : UserServlet.java | Line : 66 " + MessageConfig.USER_ERROR_2044 + " | Error : " + e.getMessage(), authUser, activityService, activity, request);
-                                    setNotification(MessageConfig.USER_OPERATION_NOTIFICATION_TITLE, MessageConfig.USER_ERROR_2044_LOCAL, "danger", request);
-                                    response.sendRedirect(request.getContextPath() + Route.DISPLAY_DASHBOARD_ROUTE);
-                                } catch (Exception ex) {
+                                    request.setAttribute("userList", new UserService().getAll());
+                                    request.getRequestDispatcher("/auth/users/displayUsers.jsp").forward(request, response);
+                                } catch (IOException | ClassNotFoundException | SQLException | ServletException e) {
+                                    try {
+                                        recordActivity(MessageConfig.USER_OPERATION_FAILED, "Location : UserServlet.java | Line : 66 " + MessageConfig.USER_ERROR_2044 + " | Error : " + e.getMessage(), authUser, activityService, activity, request);
+                                        setNotification(MessageConfig.USER_OPERATION_NOTIFICATION_TITLE, MessageConfig.USER_ERROR_2044_LOCAL, "danger", request);
+                                        response.sendRedirect(request.getContextPath() + Route.DISPLAY_DASHBOARD_ROUTE);
+                                    } catch (Exception ex) {
 //                                    ex.printStackTrace();
+                                    }
                                 }
+                            } else {
+                                response.sendRedirect(request.getContextPath() + Route.DISPLAY_DASHBOARD_ROUTE);
                             }
                             break;
+
                         case Route.DISPLAY_USERS_FORM_ROUTE:
-                            if ((request.getParameter("uid") != null)) {
+                            if ((authUser.getRoleId().equals("SYS_ADMIN")
+                                    || authUser.getRoleId().equals("GOVERNOR")
+                                    || authUser.getRoleId().equals("P_SECRETARIAT"))
+                                    && (request.getParameter("uid") != null)) {
                                 try {
                                     UserInfo uInfo = new UserInfo();
                                     uInfo.setId(request.getParameter("uid"));
@@ -96,23 +106,34 @@ public class UserServlet extends HttpServlet {
                             }
                             break;
                         case Route.DISPLAY_REGISTER_USER_FORM_ROUTE:
-                            try {
-                                request.setAttribute("userList", new UserService().getAll());
-                                request.setAttribute("roleList", new RoleService().getAll());
-                                request.setAttribute("occupationList", new OccupationService().getAll());
-                                request.getRequestDispatcher("/auth/users/newUserForm.jsp").forward(request, response);
-                            } catch (IOException | ClassNotFoundException | SQLException | ServletException e) {
+                            if (authUser.getRoleId().equals("SYS_ADMIN")
+                                    || authUser.getRoleId().equals("GOVERNOR")
+                                    || authUser.getRoleId().equals("P_SECRETARIAT")) {
                                 try {
-                                    recordActivity(MessageConfig.USER_OPERATION_FAILED, "Location : UserServlet.java | Line : 103 " + MessageConfig.USER_ERROR_2046 + " | Error : " + e.getMessage(), authUser, activityService, activity, request);
-                                    setNotification(MessageConfig.USER_OPERATION_NOTIFICATION_TITLE, MessageConfig.USER_ERROR_2046_LOCAL, "danger", request);
-                                    response.sendRedirect(request.getContextPath() + Route.DISPLAY_USERS_ROUTE);
-                                } catch (Exception ex) {
+                                    request.setAttribute("userList", new UserService().getAll());
+                                    request.setAttribute("roleList", new RoleService().getAll());
+                                    request.setAttribute("occupationList", new OccupationService().getAll());
+                                    request.getRequestDispatcher("/auth/users/newUserForm.jsp").forward(request, response);
+                                } catch (IOException | ClassNotFoundException | SQLException | ServletException e) {
+                                    try {
+                                        recordActivity(MessageConfig.USER_OPERATION_FAILED, "Location : UserServlet.java | Line : 103 " + MessageConfig.USER_ERROR_2046 + " | Error : " + e.getMessage(), authUser, activityService, activity, request);
+                                        setNotification(MessageConfig.USER_OPERATION_NOTIFICATION_TITLE, MessageConfig.USER_ERROR_2046_LOCAL, "danger", request);
+                                        response.sendRedirect(request.getContextPath() + Route.DISPLAY_USERS_ROUTE);
+                                    } catch (Exception ex) {
 //                                    ex.printStackTrace();
+                                    }
                                 }
+                            } else {
+                                response.sendRedirect(request.getContextPath() + Route.DISPLAY_DASHBOARD_ROUTE);
                             }
                             break;
                         case Route.REGISTER_USER_ROUTE:
-                            if (((request.getParameter("uNForm") != null) && (request.getMethod().equals("POST"))) || (request.getSession().getAttribute("submittedUser") != null)) {
+                            if ((authUser.getRoleId().equals("SYS_ADMIN")
+                                    || authUser.getRoleId().equals("GOVERNOR")
+                                    || authUser.getRoleId().equals("P_SECRETARIAT"))
+                                    && ((request.getParameter("uNForm") != null)
+                                    && (request.getMethod().equals("POST"))
+                                    || (request.getSession().getAttribute("submittedUser") != null))) {
                                 try {
                                     if (registerUser(request, authUser, activityService, activity)) {
                                         request.getSession().removeAttribute("submittedUser");
@@ -134,13 +155,15 @@ public class UserServlet extends HttpServlet {
                             }
                             break;
                         case Route.DISPLAY_USER_UPDATE_FORM_ROUTE:
-                            if ((request.getParameter("uid") != null) || (request.getSession().getAttribute("selectedUser") != null)) {
+                            if ((authUser.getRoleId().equals("SYS_ADMIN")
+                                    || authUser.getRoleId().equals("GOVERNOR")
+                                    || authUser.getRoleId().equals("P_SECRETARIAT"))
+                                    && ((request.getParameter("uid") != null)
+                                    || (request.getSession().getAttribute("selectedUser") != null))) {
                                 try {
                                     UserInfo uInfo = new UserInfo();
                                     uInfo.setId(request.getParameter("uid"));
-                                    if (request.getSession().getAttribute("selectedUser") == null) {
-                                        request.getSession().setAttribute("selectedUser", new UserService().get(uInfo));
-                                    }
+                                    request.getSession().setAttribute("selectedUser", new UserService().get(uInfo));
                                     request.setAttribute("userList", new UserService().getAll());
                                     request.setAttribute("roleList", new RoleService().getAll());
                                     request.setAttribute("occupationList", new OccupationService().getAll());
@@ -159,7 +182,11 @@ public class UserServlet extends HttpServlet {
                             }
                             break;
                         case Route.UPDATE_USER_ROUTE:
-                            if ((request.getParameter("uid") != null) && (request.getMethod().equals("POST"))) {
+                            if ((authUser.getRoleId().equals("SYS_ADMIN")
+                                    || authUser.getRoleId().equals("GOVERNOR")
+                                    || authUser.getRoleId().equals("P_SECRETARIAT"))
+                                    && ((request.getParameter("uid") != null)
+                                    && (request.getMethod().equals("POST")))) {
                                 try {
                                     if (updateUser(request, authUser, activityService, activity)) {
                                         request.getSession().removeAttribute("selectedUser");
@@ -264,20 +291,15 @@ public class UserServlet extends HttpServlet {
             UserInfo dbUser = (UserInfo) request.getSession().getAttribute("selectedUser");
             UserInfo user = new UserInfo();
             user.setId(dbUser.getId());
+            user.setNic(dbUser.getNic());
             user.setFullName(request.getParameter("fullname"));
             user.setDisplayName(request.getParameter("displayName"));
+            user.setPhotoURL(dbUser.getPhotoURL());
             user.setOffice(request.getParameter("officeType"));
             user.setOccupationId(Integer.parseInt(request.getParameter("occupation")));
             user.setRoleId(request.getParameter("role"));
             user.setActive(request.getParameter("userStatus"));
-
-            if (!validateOccupation(request, user, "update")) {
-                return false;
-            }
-
-            if (!validateRole(request, user, "update")) {
-                return false;
-            }
+            request.getSession().setAttribute("selectedUser", user);
 
             validatePassword(request, "update", user, dbUser);
 
@@ -323,30 +345,30 @@ public class UserServlet extends HttpServlet {
             user.setPassword(Crypto.generateSecurePassword(request.getParameter("password")));
         } else {
             if (action.equals("add")) {
-                user.setPassword(Crypto.generateSecurePassword(request.getParameter("nic")));
+                user.setPassword(Crypto.generateSecurePassword(user.getNic()));
             } else {
-                user.setPassword(Crypto.generateSecurePassword(dbUser.getPassword()));
+                user.setPassword(dbUser.getPassword());
             }
         }
     }
 
     private boolean validateRole(HttpServletRequest request, UserInfo user, String action) throws Exception {
-        if (!(request.getParameter("role").equals("unselected"))) {
-            user.setRoleId(request.getParameter("role"));
-            return true;
-        } else {
+        if (request.getParameter("role").equals("unselected")) {
             setFieldsMissingNotification(action, request);
             return false;
+        } else {
+            user.setRoleId(request.getParameter("role"));
+            return true;
         }
     }
 
     private boolean validateOccupation(HttpServletRequest request, UserInfo user, String action) throws Exception {
-        if (!(request.getParameter("occupation").equals("0"))) {
-            user.setOccupationId(Integer.parseInt(request.getParameter("occupation")));
-            return true;
-        } else {
+        if (request.getParameter("occupation").equals("0")) {
             setFieldsMissingNotification(action, request);
             return false;
+        } else {
+            user.setOccupationId(Integer.parseInt(request.getParameter("occupation")));
+            return true;
         }
     }
 
@@ -377,7 +399,9 @@ public class UserServlet extends HttpServlet {
     }
 
     private void redirectUnauthorizedRequest(String route, UserInfo user, HttpServletRequest request, HttpServletResponse response) throws IOException {
-        setNotification(MessageConfig.UNAUTHORIZED_REQUEST_NOTIFICATION_TITLE, user.getDisplayName() + MessageConfig.UNAUTHORIZED_REQUEST_NOTIFICATION, "warning", request);
+        if (user != null) {
+            setNotification(MessageConfig.UNAUTHORIZED_REQUEST_NOTIFICATION_TITLE, user.getDisplayName() + MessageConfig.UNAUTHORIZED_REQUEST_NOTIFICATION, "warning", request);
+        }
         switch (route) {
             case "login":
                 response.sendRedirect(request.getContextPath() + Route.LOGIN_ROUTE);

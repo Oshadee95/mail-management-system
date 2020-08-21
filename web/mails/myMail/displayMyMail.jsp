@@ -34,7 +34,7 @@
                         <div class="col-md-12 col-sm-12">
                             <div class="card card-inverse">
                                 <div class="card-block">
-                                    <table id="mailCategorydt" class="table datatable table-striped table-responsive" style="min-height: 15vh">
+                                    <table id="mailCategorydt" class="table datatable table-striped table-responsive"  style="padding-bottom: 10vh">
                                         <thead>
                                             <tr>
                                                 <th style="width: 4vw" class="d-font"><%=(language.equals("si"))? Language.si_mailId :  Language.en_mailId%></th>

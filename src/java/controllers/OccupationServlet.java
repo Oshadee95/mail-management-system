@@ -107,7 +107,7 @@ public class OccupationServlet extends HttpServlet {
                             }
                             break;
                         case Route.UPDATE_OCCUPATIONS_ROUTE:
-                            if ((request.getParameter("oid") != null) && (request.getMethod().equals("POST"))) {
+                            if (request.getParameter("oid") != null) {
                                 try {
                                     if (updateOccupation(request, authUser, activityService, activity)) {
                                         request.getSession().removeAttribute("occupationAction");

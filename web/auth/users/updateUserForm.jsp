@@ -3,6 +3,7 @@
     Created on : Aug 12, 2020, 4:34:15 PM
     Author     : RED-HAWK
 --%>
+<%@page import="configurations.Language"%>
 <%@page import="models.UserInfo"%>
 <%@page import="models.Occupation"%>
 <%@page import="models.Role"%>
@@ -12,7 +13,7 @@
 <html lang="en">
     <%@ include file="../../layouts/styles.jsp" %>
 
-    <body id="top" data-gr-c-s-loaded="true" cz-shortcut-listen="true" style="overflow: visible;">
+    <body id="top" data-gr-c-s-loaded="true" cz-shortcut-listen="true" style="overflow-y: auto; overflow-x: hidden">
 
         <div id="preloader" style="display: none;">
             <div id="status" style="display: none;">
@@ -20,7 +21,7 @@
             </div>
         </div>
 
-        <div id="body-wrapper" class="body-container">
+        <div id="body-wrapper" class="body-container"  style="overflow: hidden !important;">
 
             <%@ include file="../../layouts/top-navigation.jsp" %>
 
@@ -32,12 +33,19 @@
                     <div class="row">
                         <div class="col-md-6 col-sm-6">
                             <div class="card card-inverse">
+                                 <% UserInfo aUser = (UserInfo) request.getSession().getAttribute("authUser");  
+                                    UserInfo user = (UserInfo) request.getSession().getAttribute("selectedUser");
+                                 %>
                                 <div class="card-header m-b-20">
-                                    <div class="card-title p-t-10">user info update form</div>
+                                    <div class="card-title p-t-10">
+                                        user information
+                                        <a class="example-image-link" href="../../resources/avatars/<%=user.getPhotoURL()%>" data-lightbox="example-2" data-title="<%=user.getFullName()%>">
+                                            <img src="../../resources/avatars/<%=user.getPhotoURL()%>" alt="" class="rounded-circle float-right" style="margin-top: -8px; max-height: 50px; height: 50px; width: 50px;">
+                                        </a>
+                                    </div>
                                     <hr>
                                 </div>
                                 <form class="form-validate" method="POST" action="<%=request.getContextPath()+Route.UPDATE_USER_ROUTE%>" enctype="multipart/form-data">
-                                    <% UserInfo user = (UserInfo) request.getSession().getAttribute("selectedUser");%>
                                     <div class="card-block">
                                         <fieldset>
                                             <div class="form-group row">
@@ -63,7 +71,7 @@
 
 
                                             <div class="form-group row">
-                                                <label class="control-label col-lg-4 d-font">User image<span class="text-danger">*</span></label>
+                                                <label class="control-label col-lg-4 d-font">User image</label>
                                                 <div class="col-lg-8">
                                                     <input style="background-color: white" type="file" name="avatar" class="form-control d-font" accept="image/x-png,image/jpeg">
                                                     <small class="form-text text-muted">Upload an image with 300x300 pixels</small>
@@ -97,37 +105,64 @@
                                             </div>
 
 
+                                             <% if(aUser.getRoleId().equals("SYS_ADMIN")){%>
                                             <div class="form-group row">
                                                 <label class="control-label col-lg-4 d-font">Occupation <span class="text-danger">*</span></label>
                                                 <div class="col-lg-8">
-                                                    <select style="background-color: white" name="occupation" class="form-control d-font" aria-required="true" required>
+                                                    <select style="background-color: white; padding-top: 5px;" name="occupation" class="form-control d-font" aria-required="true" required>
+                                                        <%
+                                                            List<Occupation> occupationList = (List<Occupation>) request.getAttribute("occupationList");
+                                                            for (Occupation o : occupationList) {
+                                                        %>
+                                                            <option <%=((user != null) && (user.getOccupationId() == o.getId()))? "selected" : "" %> value="<%=o.getId()%>"><%=o.getTitle()%></option>
+                                                        <% }%>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label class="control-label col-lg-4 d-font">Role type <span class="text-danger">*</span></label>
+                                                <div class="col-lg-8">
+                                                    <select style="background-color: white; padding-top: 5px;" name="role" class="form-control d-font" aria-required="true" required>
+                                                        <%
+                                                            List<Role> roleList = (List<Role>) request.getAttribute("roleList");
+                                                            for (Role r : roleList) {
+                                                        %>
+                                                        <option <%=((user != null) && (user.getRoleId().equals(r.getId())))? "selected" : "" %> value="<%=r.getId()%>"><%=r.getId()%></option>
+                                                        <% };%>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <% }  else { %>
+                                            <div class="form-group row">
+                                                <label class="control-label col-lg-4 d-font">Occupation <span class="text-danger">*</span></label>
+                                                <div class="col-lg-8">
+                                                    <select style="background-color: white; padding-top: 5px;" name="occupation" class="form-control d-font" aria-required="true" required>
                                                         <option value="0">Select occupation</option>
                                                         <%
                                                             List<Occupation> occupationList = (List<Occupation>) request.getAttribute("occupationList");
                                                             for (Occupation o : occupationList) {
                                                         %>
-                                                        <option <%=user.getOccupationId() == o.getId() ? "selected" : ""%> value="<%=o.getId()%>"><%=o.getTitle()%></option>
-                                                        <% }; %>
+                                                        <% if(o.getId() != 2){ %>
+                                                            <option <%=((user != null) && (user.getOccupationId() == o.getId()))? "selected" : "" %> value="<%=o.getId()%>"><%=o.getTitle()%></option>
+                                                        <% } } %>
                                                     </select>
                                                 </div>
                                             </div>
-
-
                                             <div class="form-group row">
                                                 <label class="control-label col-lg-4 d-font">Role type <span class="text-danger">*</span></label>
                                                 <div class="col-lg-8">
-                                                    <select style="background-color: white" name="role" class="form-control d-font" aria-required="true" required>
-                                                        <option value="0">Select role</option>
+                                                    <select style="background-color: white; padding-top: 5px;" name="role" class="form-control d-font" aria-required="true" required>
                                                         <%
                                                             List<Role> roleList = (List<Role>) request.getAttribute("roleList");
                                                             for (Role r : roleList) {
+                                                                if(!((r.getId().equals("SYS_ADMIN")) || (r.getId().equals("GOVERNOR")))){
                                                         %>
-                                                        <option <%=user.getRoleId().equals(r.getId()) ? "selected" : ""%> value="<%=r.getId()%>"><%=r.getId()%></option>
-                                                        <% };%>
+                                                                <option <%=((user != null) && (user.getRoleId().equals(r.getId())))? "selected" : "" %> value="<%=r.getId()%>"><%=r.getId()%></option>
+                                                        <% } } %>
                                                     </select>
                                                 </div>
                                             </div>
-
+                                            <% } %>
 
                                             <div class="form-group row">
                                                 <label class="control-label col-lg-4 d-font">Status</label>
@@ -144,10 +179,9 @@
                                             </div>
 
                                         </fieldset>
-
-                                        <div class="float-right  m-t-50 m-b-20">
-                                            <button type="reset" class="btn btn-lg btn-secondary d-font" id="reset"><i class="icon-reload-alt position-left"></i>Reset</button>&nbsp;
-                                            <button type="submit" name="uid" value="<%=user.getId()%>" class="btn btn-lg btn-success d-font"><i class="icon-arrow-right14"></i>Submit</button>
+                                        <div class="float-right  m-t-40 m-b-40">
+                                            <button type="reset" class="btn btn-md btn-secondary d-font" id="reset"><i class="icon-reload-alt position-left"></i><%=(language.equals("si"))? Language.si_reset :  Language.en_reset%></button>&nbsp;&nbsp;
+                                            <button type="submit" name="uid" value="<%=user.getId()%>" class="btn btn-md btn-warning d-font"><i class="icon-envelop position-left"></i><%=(language.equals("si"))? Language.si_update :  Language.en_update%></button>
                                         </div>
                                     </div>
                                 </form>

@@ -50,7 +50,6 @@ public class MyMailServlet extends HttpServlet {
 
                     switch (request.getServletPath()) {
                         case Route.DISPLAY_MYMAIL_ROUTE:
-
                             try {
                                 request.getSession().setAttribute("previousRoute", Route.DISPLAY_MYMAIL_ROUTE);
                                 request.setAttribute("inboxList", new InboxService().getAllByUser(authUser));

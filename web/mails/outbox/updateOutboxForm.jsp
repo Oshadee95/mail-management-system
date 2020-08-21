@@ -118,7 +118,7 @@
                                             </div>
                                         </div>
                                             
-                                        <div class="form-group row m-b-10">
+                                        <div class="form-group row m-b-40">
                                             <label class="control-label col-lg-4 d-font">replied by </label>
                                             <div class="col-lg-8">
                                                 <input style="color: #848484;" type="text" class="form-control d-font" readonly value="<%=outbox.getSenderName()%>">

@@ -43,96 +43,105 @@ public class CategoryServlet extends HttpServlet {
 
             if (request.getSession().getAttribute("authUser") != null) {
                 UserInfo authUser = (UserInfo) request.getSession().getAttribute("authUser");
-                ActivityService activityService = new ActivityService();
-                ActivityInfo activity = new ActivityInfo();
-                request.setCharacterEncoding("UTF-8");
-                request.getSession().setAttribute("navigatedPath", "categories");
 
-                switch (request.getServletPath()) {
-                    case Route.DISPLAY_CATEGORIES_ROUTE:
-                        try {
-                            if ((request.getParameter("reset") != null) && (request.getParameter("reset").equals("true"))) {
-                                request.getSession().removeAttribute("dbCategory");
-                                request.getSession().removeAttribute("categoryAction");
-                            }
-                            request.setAttribute("categoryList", new CategoryService().getAll());
-                            request.getRequestDispatcher("/mails/categories/displayCategories.jsp").forward(request, response);
-                        } catch (Exception e) {
+                if (authUser.getRoleId().equals("SYS_ADMIN")
+                        || authUser.getRoleId().equals("GOVERNOR")
+                        || authUser.getRoleId().equals("P_SECRETARIAT")
+                        || authUser.getRoleId().equals("P_OPERATOR")) {
+
+                    ActivityService activityService = new ActivityService();
+                    ActivityInfo activity = new ActivityInfo();
+                    request.setCharacterEncoding("UTF-8");
+                    request.getSession().setAttribute("navigatedPath", "categories");
+
+                    switch (request.getServletPath()) {
+                        case Route.DISPLAY_CATEGORIES_ROUTE:
                             try {
-                                recordActivity(MessageConfig.CATEGORY_OPERATION_FAILED, "Location : CategoryServlet.java | Line : 57 " + MessageConfig.CATEGORY_ERROR_2004 + " | Error : " + e.getMessage(), authUser, activityService, activity, request);
-                                setNotification(MessageConfig.CATEGORY_OPERATION_NOTIFICATION_TITLE, MessageConfig.CATEGORY_ERROR_2004_LOCAL, "danger", request);
-                                response.sendRedirect(request.getContextPath() + Route.DISPLAY_DASHBOARD_ROUTE);
-                            } catch (Exception ex) {
-//                                    ex.printStackTrace();
-                            }
-                        }
-                        break;
-                    case Route.REGISTER_CATEGORY_ROUTE:
-                        if ((request.getParameter("cNForm") != null) && (request.getMethod().equals("POST"))) {
-                            try {
-                                if (addCategory(request, authUser, activityService, activity)) {
+                                if ((request.getParameter("reset") != null) && (request.getParameter("reset").equals("true"))) {
                                     request.getSession().removeAttribute("dbCategory");
+                                    request.getSession().removeAttribute("categoryAction");
                                 }
-                                response.sendRedirect(request.getContextPath() + Route.DISPLAY_CATEGORIES_ROUTE);
+                                request.setAttribute("categoryList", new CategoryService().getAll());
+                                request.getRequestDispatcher("/mails/categories/displayCategories.jsp").forward(request, response);
                             } catch (Exception e) {
                                 try {
-                                    recordActivity(MessageConfig.CATEGORY_OPERATION_FAILED, "Location : CategoryServlet.java | Line : 74 " + MessageConfig.CATEGORY_ERROR_2000 + " | Error : " + e.getMessage(), authUser, activityService, activity, request);
-                                    setNotification(MessageConfig.CATEGORY_OPERATION_NOTIFICATION_TITLE, MessageConfig.CATEGORY_ERROR_2000_LOCAL, "danger", request);
-                                    response.sendRedirect(request.getContextPath() + Route.DISPLAY_CATEGORIES_ROUTE);
+                                    recordActivity(MessageConfig.CATEGORY_OPERATION_FAILED, "Location : CategoryServlet.java | Line : 57 " + MessageConfig.CATEGORY_ERROR_2004 + " | Error : " + e.getMessage(), authUser, activityService, activity, request);
+                                    setNotification(MessageConfig.CATEGORY_OPERATION_NOTIFICATION_TITLE, MessageConfig.CATEGORY_ERROR_2004_LOCAL, "danger", request);
+                                    response.sendRedirect(request.getContextPath() + Route.DISPLAY_DASHBOARD_ROUTE);
                                 } catch (Exception ex) {
 //                                    ex.printStackTrace();
                                 }
                             }
-                        } else {
-                            redirectUnauthorizedRequest("root", authUser, request, response);
-                        }
-                    case Route.DISPLAY_CATEGORY_UPDATE_FORM_ROUTE:
-                        if (request.getParameter("cid") != null) {
-                            try {
-                                Category category = new Category();
-                                category.setId(Integer.parseInt(request.getParameter("cid")));
-                                request.getSession().setAttribute("dbCategory", new CategoryService().get(category));
-                                request.getSession().setAttribute("categoryAction", "104");
-                                response.sendRedirect(request.getContextPath() + Route.DISPLAY_CATEGORIES_ROUTE);
-                            } catch (Exception e) {
+                            break;
+                        case Route.REGISTER_CATEGORY_ROUTE:
+                            if ((request.getParameter("cNForm") != null) && (request.getMethod().equals("POST"))) {
                                 try {
-                                    recordActivity(MessageConfig.CATEGORY_OPERATION_FAILED, "Location : CategoryServlet.java | Line : 94 " + MessageConfig.CATEGORY_ERROR_2005 + " | Error : " + e.getMessage(), authUser, activityService, activity, request);
-                                    setNotification(MessageConfig.CATEGORY_OPERATION_NOTIFICATION_TITLE, MessageConfig.CATEGORY_ERROR_2005_LOCAL, "danger", request);
+                                    if (addCategory(request, authUser, activityService, activity)) {
+                                        request.getSession().removeAttribute("dbCategory");
+                                    }
                                     response.sendRedirect(request.getContextPath() + Route.DISPLAY_CATEGORIES_ROUTE);
-                                } catch (Exception ex) {
+                                } catch (Exception e) {
+                                    try {
+                                        recordActivity(MessageConfig.CATEGORY_OPERATION_FAILED, "Location : CategoryServlet.java | Line : 74 " + MessageConfig.CATEGORY_ERROR_2000 + " | Error : " + e.getMessage(), authUser, activityService, activity, request);
+                                        setNotification(MessageConfig.CATEGORY_OPERATION_NOTIFICATION_TITLE, MessageConfig.CATEGORY_ERROR_2000_LOCAL, "danger", request);
+                                        response.sendRedirect(request.getContextPath() + Route.DISPLAY_CATEGORIES_ROUTE);
+                                    } catch (Exception ex) {
 //                                    ex.printStackTrace();
+                                    }
                                 }
-                            }
-                        } else {
-                            if (!(request.getServletPath().equals(Route.REGISTER_CATEGORY_ROUTE))) {
+                            } else {
                                 redirectUnauthorizedRequest("root", authUser, request, response);
                             }
-                        }
-                        break;
-                    case Route.UPDATE_CATEGORY_ROUTE:
-                        if ((request.getParameter("cid") != null) && (request.getMethod().equals("POST")) ) {
-                            try {
-                                if (updateCategory(request, authUser, activityService, activity)) {
-                                    request.getSession().removeAttribute("categoryAction");
-                                    request.getSession().removeAttribute("dbCategory");
-                                }
-                                response.sendRedirect(request.getContextPath() + Route.DISPLAY_CATEGORIES_ROUTE);
-                            } catch (Exception e) {
+                        case Route.DISPLAY_CATEGORY_UPDATE_FORM_ROUTE:
+                            if (request.getParameter("cid") != null) {
                                 try {
-                                    recordActivity(MessageConfig.CATEGORY_OPERATION_FAILED, "Location : CategoryServlet.java | Line : 117 " + MessageConfig.CATEGORY_ERROR_2002, authUser, activityService, activity, request);
-                                    setNotification(MessageConfig.CATEGORY_OPERATION_NOTIFICATION_TITLE, MessageConfig.CATEGORY_ERROR_2002_LOCAL, "danger", request);
+                                    Category category = new Category();
+                                    category.setId(Integer.parseInt(request.getParameter("cid")));
+                                    request.getSession().setAttribute("dbCategory", new CategoryService().get(category));
+                                    request.getSession().setAttribute("categoryAction", "104");
                                     response.sendRedirect(request.getContextPath() + Route.DISPLAY_CATEGORIES_ROUTE);
-                                } catch (Exception ex) {
+                                } catch (Exception e) {
+                                    try {
+                                        recordActivity(MessageConfig.CATEGORY_OPERATION_FAILED, "Location : CategoryServlet.java | Line : 94 " + MessageConfig.CATEGORY_ERROR_2005 + " | Error : " + e.getMessage(), authUser, activityService, activity, request);
+                                        setNotification(MessageConfig.CATEGORY_OPERATION_NOTIFICATION_TITLE, MessageConfig.CATEGORY_ERROR_2005_LOCAL, "danger", request);
+                                        response.sendRedirect(request.getContextPath() + Route.DISPLAY_CATEGORIES_ROUTE);
+                                    } catch (Exception ex) {
 //                                    ex.printStackTrace();
+                                    }
+                                }
+                            } else {
+                                if (!(request.getServletPath().equals(Route.REGISTER_CATEGORY_ROUTE))) {
+                                    redirectUnauthorizedRequest("root", authUser, request, response);
                                 }
                             }
-                        } else {
+                            break;
+                        case Route.UPDATE_CATEGORY_ROUTE:
+                            if ((request.getParameter("cid") != null) && (request.getMethod().equals("POST"))) {
+                                try {
+                                    if (updateCategory(request, authUser, activityService, activity)) {
+                                        request.getSession().removeAttribute("categoryAction");
+                                        request.getSession().removeAttribute("dbCategory");
+                                    }
+                                    response.sendRedirect(request.getContextPath() + Route.DISPLAY_CATEGORIES_ROUTE);
+                                } catch (Exception e) {
+                                    try {
+                                        recordActivity(MessageConfig.CATEGORY_OPERATION_FAILED, "Location : CategoryServlet.java | Line : 117 " + MessageConfig.CATEGORY_ERROR_2002, authUser, activityService, activity, request);
+                                        setNotification(MessageConfig.CATEGORY_OPERATION_NOTIFICATION_TITLE, MessageConfig.CATEGORY_ERROR_2002_LOCAL, "danger", request);
+                                        response.sendRedirect(request.getContextPath() + Route.DISPLAY_CATEGORIES_ROUTE);
+                                    } catch (Exception ex) {
+//                                    ex.printStackTrace();
+                                    }
+                                }
+                            } else {
+                                redirectUnauthorizedRequest("root", authUser, request, response);
+                            }
+                            break;
+                        default:
                             redirectUnauthorizedRequest("root", authUser, request, response);
-                        }
-                        break;
-                    default:
-                        redirectUnauthorizedRequest("root", authUser, request, response);
-                        break;
+                            break;
+                    }
+                } else {
+                    response.sendRedirect(request.getContextPath() + Route.DISPLAY_DASHBOARD_ROUTE);
                 }
             } else {
                 redirectUnauthorizedRequest("login", null, request, response);

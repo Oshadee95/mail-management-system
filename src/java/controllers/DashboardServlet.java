@@ -52,10 +52,14 @@ public class DashboardServlet extends HttpServlet {
     }
 
     private void resolveRequest(UserInfo user, HttpServletRequest request, HttpServletResponse response) throws IOException {
-        if ((user.getRoleId().equals("P_OPERATOR")) || (user.getRoleId().equals("G_OPERATOR")) || (user.getRoleId().equals("SYS_ADMIN"))) {
-            response.sendRedirect(request.getContextPath() + Route.DISPLAY_INBOX_ROUTE);
+        if (request.getSession().getAttribute("previousRoute") != null) {
+            response.sendRedirect(request.getContextPath() + request.getSession().getAttribute("previousRoute"));
         } else {
-            response.sendRedirect(request.getContextPath() + Route.DISPLAY_MYMAIL_ROUTE);
+            if ((user.getRoleId().equals("P_OPERATOR")) || (user.getRoleId().equals("G_OPERATOR")) || (user.getRoleId().equals("SYS_ADMIN"))) {
+                response.sendRedirect(request.getContextPath() + Route.DISPLAY_INBOX_ROUTE);
+            } else {
+                response.sendRedirect(request.getContextPath() + Route.DISPLAY_MYMAIL_ROUTE);
+            }
         }
     }
 

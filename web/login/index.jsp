@@ -13,12 +13,12 @@
         <meta http-equiv="x-ua-compatible" content="ie=edge">
         <title>MMS | CP</title>
 
-<!--        <link href="img/favicon.ico" rel="apple-touch-icon" type="image/png" sizes="144x144">
-        <link href="img/favicon.ico" rel="apple-touch-icon" type="image/png" sizes="114x114">
-        <link href="img/favicon.ico" rel="apple-touch-icon" type="image/png" sizes="72x72">
-        <link href="img/favicon.ico" rel="apple-touch-icon" type="image/png">
-        <link href="img/favicon.ico" rel="icon" type="image/png">
-        <link href="img/favicon.ico" rel="shortcut icon">-->
+        <link href="layouts/img/favicon.ico" rel="apple-touch-icon" type="image/png" sizes="144x144">
+        <link href="layouts/img/favicon.ico" rel="apple-touch-icon" type="image/png" sizes="114x114">
+        <link href="layouts/img/favicon.ico" rel="apple-touch-icon" type="image/png" sizes="72x72">
+        <link href="layoutsimg/favicon.ico" rel="apple-touch-icon" type="image/png">
+        <link href="layouts/img/favicon.ico" rel="icon" type="image/png">
+        <link href="layouts/img/favicon.ico" rel="shortcut icon">
 
 
         <link type="text/css" rel="stylesheet" href="layouts/lib/css/bootstrap.css">

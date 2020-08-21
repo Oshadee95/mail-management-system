@@ -2,7 +2,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>MMS | CP</title>
+    <title>MMS | Central Province</title>
 
 
     <link href="../../layouts/img/favicon.ico" rel="apple-touch-icon" type="image/png" sizes="144x144">

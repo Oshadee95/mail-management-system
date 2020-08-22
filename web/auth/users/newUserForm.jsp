@@ -183,7 +183,7 @@
                                         </fieldset>      
                                         <div class="float-right  m-t-40 m-b-40">
                                             <button type="reset" class="btn btn-md btn-secondary d-font" id="reset"><i class="icon-reload-alt position-left"></i><%=(language.equals("si"))? Language.si_reset :  Language.en_reset%></button>&nbsp;&nbsp;
-                                            <button type="submit" name="uNForm" class="btn btn-md btn-primary d-font"><i class="icon-envelop  position-left"></i><%=(language.equals("si"))? Language.si_register :  Language.en_register%></button>
+                                            <button type="submit" name="uNForm" class="btn btn-md btn-primary d-font"><i class="icon-user-plus  position-left"></i><%=(language.equals("si"))? Language.si_register :  Language.en_register%></button>
                                         </div>
                                     </div>
                                 </form>

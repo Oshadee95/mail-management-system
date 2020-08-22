@@ -12,7 +12,6 @@
                         <div class="admin-user-info text-center">
                             <ul>
                                 <li class="username"><%=authUser.getDisplayName()%></li>
-                                <li><a href="<%=request.getContextPath()%>/Logout" class="tooltip-bottom" data-tooltip="Logout"><i class="icon-logout text-primary"></i></a></li>
                             </ul>
                         </div>
                     </div>

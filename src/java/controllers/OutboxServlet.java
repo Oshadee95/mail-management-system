@@ -103,7 +103,7 @@ public class OutboxServlet extends HttpServlet {
                         }
                         break;
                     case Route.REGISTER_OUTBOX_ROUTE:
-                         System.out.print(request.getSession().getAttribute("previousRoute"));
+                        System.out.print(request.getSession().getAttribute("previousRoute"));
                         if ((request.getParameter("rForm") != null) && (request.getMethod().equals("POST"))) {
                             try {
                                 if (replyMail(request, authUser, activityService, activity)) {
@@ -129,18 +129,11 @@ public class OutboxServlet extends HttpServlet {
                         if ((request.getParameter("mid") != null) || (request.getSession().getAttribute("selectedInbox") != null)) {
                             try {
                                 InboxInfo inbox = new InboxInfo();
-                                if (request.getSession().getAttribute("selectedInbox") != null) {
-                                    inbox = (InboxInfo) request.getSession().getAttribute("selectedInbox");
-                                } else {
-                                    inbox.setId(request.getParameter("mid"));
-                                    request.getSession().setAttribute("selectedInbox", new InboxService().get(inbox));
-                                }
-
+                                inbox.setId(request.getParameter("mid"));
+                                request.getSession().setAttribute("selectedInbox", new InboxService().get(inbox));
                                 OutboxInfo outbox = new OutboxInfo();
-                                if (request.getSession().getAttribute("selectedOutbox") == null) {
-                                    outbox.setMailId(inbox.getId());
-                                    request.getSession().setAttribute("selectedOutbox", new OutboxService().get(outbox));
-                                }
+                                outbox.setMailId(inbox.getId());
+                                request.getSession().setAttribute("selectedOutbox", new OutboxService().get(outbox));
                                 request.getRequestDispatcher("/mails/outbox/updateOutboxForm.jsp").forward(request, response);
                             } catch (Exception e) {
                                 try {
@@ -312,7 +305,7 @@ public class OutboxServlet extends HttpServlet {
     }
 
     private void redirectUnauthorizedRequest(String route, UserInfo user, HttpServletRequest request, HttpServletResponse response) throws IOException {
-        if(user != null){
+        if (user != null) {
             setNotification(MessageConfig.UNAUTHORIZED_REQUEST_NOTIFICATION_TITLE, user.getDisplayName() + MessageConfig.UNAUTHORIZED_REQUEST_NOTIFICATION, "warning", request);
         }
         switch (route) {

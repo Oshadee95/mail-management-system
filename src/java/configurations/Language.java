@@ -157,4 +157,6 @@ public class Language {
     
     public static String en_viewUser = "View User";
     public static String si_viewUser = "";
+    
+    public static String si_sinhala = "සිංහල";
 }

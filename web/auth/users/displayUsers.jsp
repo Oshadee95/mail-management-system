@@ -74,8 +74,8 @@
                                                         <li class="dropdown">
                                                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false"></a>
                                                         <ul class="dropdown-menu dropdown-menu-right">
-                                                            <a href="<%=request.getContextPath()+Route.DISPLAY_USER_UPDATE_FORM_ROUTE+"?uid="+u.getId()%>" class="dropdown-item d-font"><i class="icon-editing"></i> <%=(language.equals("si"))? Language.si_editUser:  Language.en_editUser%></a>
-                                                            <a href="<%=request.getContextPath()+Route.DISPLAY_USERS_FORM_ROUTE+"?uid="+u.getId()%>" class="dropdown-item d-font"><i class="icon-eye2"></i> <%=(language.equals("si"))? Language.si_viewUser:  Language.en_viewUser%></a>
+                                                            <a href="<%=request.getContextPath()+Route.DISPLAY_USER_UPDATE_FORM_ROUTE+"?uid="+u.getId()%>" class="dropdown-item d-font"><i class="icon-user-edit"></i> <%=(language.equals("si"))? Language.si_editUser:  Language.en_editUser%></a>
+                                                            <a href="<%=request.getContextPath()+Route.DISPLAY_USERS_FORM_ROUTE+"?uid="+u.getId()%>" class="dropdown-item d-font"><i class="icon-user-view"></i> <%=(language.equals("si"))? Language.si_viewUser:  Language.en_viewUser%></a>
                                                         </ul>
                                                         </li>
                                                     </ul>
@@ -84,8 +84,8 @@
                                                         <li class="dropdown">
                                                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false"></a>
                                                         <ul class="dropdown-menu dropdown-menu-right">
-                                                            <a href="<%=request.getContextPath()+Route.DISPLAY_USER_UPDATE_FORM_ROUTE+"?uid="+u.getId()%>" class="dropdown-item d-font"><i class="icon-editing"></i> <%=(language.equals("si"))? Language.si_editUser:  Language.en_editUser%></a>
-                                                            <a href="<%=request.getContextPath()+Route.DISPLAY_USERS_FORM_ROUTE+"?uid="+u.getId()%>" class="dropdown-item d-font"><i class="icon-eye2"></i> <%=(language.equals("si"))? Language.si_viewUser:  Language.en_viewUser%></a>
+                                                            <a href="<%=request.getContextPath()+Route.DISPLAY_USER_UPDATE_FORM_ROUTE+"?uid="+u.getId()%>" class="dropdown-item d-font"><i class="icon-user-edit"></i> <%=(language.equals("si"))? Language.si_editUser:  Language.en_editUser%></a>
+                                                            <a href="<%=request.getContextPath()+Route.DISPLAY_USERS_FORM_ROUTE+"?uid="+u.getId()%>" class="dropdown-item d-font"><i class="icon-user-view"></i> <%=(language.equals("si"))? Language.si_viewUser:  Language.en_viewUser%></a>
                                                         </ul>
                                                         </li>
                                                     </ul>

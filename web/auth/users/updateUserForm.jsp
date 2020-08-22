@@ -138,7 +138,6 @@
                                                 <label class="control-label col-lg-4 d-font">Occupation <span class="text-danger">*</span></label>
                                                 <div class="col-lg-8">
                                                     <select style="background-color: white; padding-top: 5px;" name="occupation" class="form-control d-font" aria-required="true" required>
-                                                        <option value="0">Select occupation</option>
                                                         <%
                                                             List<Occupation> occupationList = (List<Occupation>) request.getAttribute("occupationList");
                                                             for (Occupation o : occupationList) {
@@ -182,7 +181,7 @@
                                         </fieldset>
                                         <div class="float-right  m-t-40 m-b-40">
                                             <button type="reset" class="btn btn-md btn-secondary d-font" id="reset"><i class="icon-reload-alt position-left"></i><%=(language.equals("si"))? Language.si_reset :  Language.en_reset%></button>&nbsp;&nbsp;
-                                            <button type="submit" name="uid" value="<%=user.getId()%>" class="btn btn-md btn-warning d-font"><i class="icon-envelop position-left"></i><%=(language.equals("si"))? Language.si_update :  Language.en_update%></button>
+                                            <button type="submit" name="uid" value="<%=user.getId()%>" class="btn btn-md btn-warning d-font"><i class="icon-user-check position-left"></i><%=(language.equals("si"))? Language.si_update :  Language.en_update%></button>
                                         </div>
                                     </div>
                                 </form>

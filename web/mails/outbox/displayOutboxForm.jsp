@@ -28,7 +28,7 @@
                          <div class="col-lg-12 p-b-20">
                             <ul class="breadcrumb text-right">
                                 <li><a href="<%=request.getContextPath()+Route.DISPLAY_DASHBOARD_ROUTE%>"> Dashboard</a></li>
-                                <li><a href="<%=request.getContextPath()+Route.DISPLAY_INBOX_ROUTE%>"> Mails</a></li>
+                                <li><a href="<%=request.getContextPath()+Route.DISPLAY_DASHBOARD_ROUTE%>"> Mails</a></li>
                                 <li class="active">Display Mail</li>
                             </ul>
                         </div>

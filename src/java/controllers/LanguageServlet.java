@@ -45,6 +45,7 @@ public class LanguageServlet extends HttpServlet {
                     case Route.SI:
                         request.getSession().setAttribute("language", "si");
                         response.sendRedirect(request.getContextPath() + Route.DISPLAY_DASHBOARD_ROUTE);
+                        break;
                     default:
                         response.sendRedirect(request.getContextPath() + Route.LOGIN_ROUTE);
                         break;

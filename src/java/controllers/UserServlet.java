@@ -341,9 +341,10 @@ public class UserServlet extends HttpServlet {
     }
 
     private void validatePassword(HttpServletRequest request, String action, UserInfo user, UserInfo dbUser) throws Exception {
-        if ((request.getParameter("password") != null)) {
+        if ((request.getParameter("password") != null && request.getParameter("password").length() >= 6)) {
             user.setPassword(Crypto.generateSecurePassword(request.getParameter("password")));
         } else {
+             System.out.println("348");
             if (action.equals("add")) {
                 user.setPassword(Crypto.generateSecurePassword(user.getNic()));
             } else {

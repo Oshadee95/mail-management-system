@@ -67,7 +67,7 @@ public class UserServlet extends HttpServlet {
                                 try {
                                     request.setAttribute("userList", new UserService().getAll());
                                     request.getRequestDispatcher("/auth/users/displayUsers.jsp").forward(request, response);
-                                } catch (IOException | ClassNotFoundException | SQLException | ServletException e) {
+                                } catch (Exception e) {
                                     try {
                                         recordActivity(MessageConfig.USER_OPERATION_FAILED, "Location : UserServlet.java | Line : 66 " + MessageConfig.USER_ERROR_2044 + " | Error : " + e.getMessage(), authUser, activityService, activity, request);
                                         setNotification(MessageConfig.USER_OPERATION_NOTIFICATION_TITLE, MessageConfig.USER_ERROR_2044_LOCAL, "danger", request);
@@ -92,7 +92,7 @@ public class UserServlet extends HttpServlet {
                                     request.setAttribute("selectedUser", new UserService().get(uInfo));
                                     request.setAttribute("userList", new UserService().getAll());
                                     request.getRequestDispatcher("/auth/users/displayUserForm.jsp").forward(request, response);
-                                } catch (IOException | ClassNotFoundException | SQLException | ServletException e) {
+                                } catch (Exception e) {
                                     try {
                                         recordActivity(MessageConfig.USER_OPERATION_FAILED, "Location : UserServlet.java | Line : 84 " + MessageConfig.USER_ERROR_2045 + " | Error : " + e.getMessage(), authUser, activityService, activity, request);
                                         setNotification(MessageConfig.USER_OPERATION_NOTIFICATION_TITLE, MessageConfig.USER_ERROR_2045_LOCAL, "danger", request);
@@ -114,7 +114,7 @@ public class UserServlet extends HttpServlet {
                                     request.setAttribute("roleList", new RoleService().getAll());
                                     request.setAttribute("occupationList", new OccupationService().getAll());
                                     request.getRequestDispatcher("/auth/users/newUserForm.jsp").forward(request, response);
-                                } catch (IOException | ClassNotFoundException | SQLException | ServletException e) {
+                                } catch (Exception e) {
                                     try {
                                         recordActivity(MessageConfig.USER_OPERATION_FAILED, "Location : UserServlet.java | Line : 103 " + MessageConfig.USER_ERROR_2046 + " | Error : " + e.getMessage(), authUser, activityService, activity, request);
                                         setNotification(MessageConfig.USER_OPERATION_NOTIFICATION_TITLE, MessageConfig.USER_ERROR_2046_LOCAL, "danger", request);
@@ -168,7 +168,7 @@ public class UserServlet extends HttpServlet {
                                     request.setAttribute("roleList", new RoleService().getAll());
                                     request.setAttribute("occupationList", new OccupationService().getAll());
                                     request.getRequestDispatcher("/auth/users/updateUserForm.jsp").forward(request, response);
-                                } catch (IOException | ClassNotFoundException | SQLException | ServletException e) {
+                                } catch (Exception e) {
                                     try {
                                         recordActivity(MessageConfig.USER_OPERATION_FAILED, "Location : UserServlet.java | Line : 147 " + MessageConfig.USER_ERROR_2047 + " | Error : " + e.getMessage(), authUser, activityService, activity, request);
                                         setNotification(MessageConfig.USER_OPERATION_NOTIFICATION_TITLE, MessageConfig.USER_ERROR_2047_LOCAL, "danger", request);

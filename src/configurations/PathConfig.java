@@ -11,7 +11,7 @@ package configurations;
  */
 public class PathConfig {
 
-    private static final String ROOT_PATH = "/opt/tomcat/webapps/MMS/";
+    private static final String ROOT_PATH = "/opt/tomcat/webapps/MMS/resources/";
     public static final String INBOX_LETTER_UPLOAD_PATH = ROOT_PATH + "mails/inbox/";
     public static final String OUTBOX_LETTER_UPLOAD_PATH = ROOT_PATH + "mails/outbox/";
     public static final String USER_PHOTO_UPLOAD_PATH = ROOT_PATH + "avatars/";

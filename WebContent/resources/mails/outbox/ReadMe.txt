@@ -1,0 +1,1 @@
+Sent letter images are stored here

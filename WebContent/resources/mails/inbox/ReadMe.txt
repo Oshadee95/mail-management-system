@@ -1,0 +1,1 @@
+Inbox letter images are stored here

@@ -35536,9 +35536,7 @@ body>.ui-pnotify-modal-overlay {
     height: 110.9%;
     display: table;
     position: absolute;
-    background-color: #111;
-    background-image: url(../../img/login/background.jpg);
-    background: linear-gradient(rgba(17, 17, 17, 0.5), rgba(17, 17, 17, 0.5)), url(../../img/login/background.jpg);
+    background: linear-gradient(#1d2e39, #1d2e39), url(../../img/none.png);
     background-repeat: no-repeat;
     background-position: top left;
     background-size: cover

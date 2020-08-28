@@ -29,7 +29,7 @@
                     </li>
                     <%  UserInfo lUser = (UserInfo) request.getSession().getAttribute("authUser"); %>
                     <li class="dropdown user-dropdown">
-                        <a href="#" class="btn-user dropdown-toggle hidden-xs-down" data-toggle="dropdown" aria-expanded="false"><img class="rounded-circle user" src="../.../resources/avatars/<%=lUser.getPhotoURL()%>"></a>
+                        <a href="#" class="btn-user dropdown-toggle hidden-xs-down" data-toggle="dropdown" aria-expanded="false"><img src="../../resources/avatars/<%=lUser.getPhotoURL()%>" class="rounded-circle user"></a>
                         <a href="#" class="dropdown-toggle hidden-sm-up" data-toggle="dropdown"><i class="icon-more"></i></a>
                         <div class="dropdown-menu animated fadeIn no-p" style="width:10px">
                             <ul class="user-links">

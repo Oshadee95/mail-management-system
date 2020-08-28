@@ -17,9 +17,9 @@
 <html lang="en">
     <%@ include file="../../layouts/styles.jsp" %>
 
-    <body id="top" data-gr-c-s-loaded="true" cz-shortcut-listen="true" style="overflow: visible;">
+    <body id="top" data-gr-c-s-loaded="true" cz-shortcut-listen="true" style="overflow-y: auto; overflow-x: hidden">
 
-        <div id="body-wrapper" class="body-container">
+        <div id="body-wrapper" class="body-container" style="overflow: hidden !important;">
 
             <%@ include file="../../layouts/top-navigation.jsp" %>
 
@@ -52,6 +52,9 @@
                                     <div class="card-title p-t-10">
                                         <%=(language.equals("si"))? Language.si_mailUpdateForm :  Language.en_mailUpdateForm%>
                                         <img alt="" src="../../resources/avatars/<%=(inbox != null && inbox.getCollectorPhotoURL() != null) ? inbox.getCollectorPhotoURL() : ""%>" class="rounded-circle float-right" style="margin-top: 18px; max-height: 50px; height: 50px; width: 50px;">
+                                        <a class="example-image-link" href="../../resources/mails/inbox/<%=inbox.getImageURL()%>" data-lightbox="example-2" data-title="<%=inbox.getImageURL()%>">
+                                            <img src="../../resources/mails/inbox/<%=inbox.getImageURL()%>" alt="" class="rounded-circle float-right m-r-10" style="margin-top: -9px; max-height: 50px; height: 50px; width: 50px;">
+                                        </a>
                                     </div>
                                     <hr>
                                 </div>   

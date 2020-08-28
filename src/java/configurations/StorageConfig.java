@@ -10,14 +10,14 @@ package configurations;
  * @author RED-HAWK
  */
 public class StorageConfig {
-    
+
     private static final String SPACE_NAME = "";
     private static final String SPACE_REGION = "";
     private static final String SPACE_ENDPOINT = "";
-    private static final String SPACE_SECRET = "";
     private static final String SPACE_KEY = "";
+    private static final String SPACE_SECRET = "";
     private final static String SEPERATOR = "/";
-    private String folderName, fileName;
+    private String folderName, fileName, pathToLocalFile;
 
     public static String getSpaceName() {
         return SPACE_NAME;
@@ -46,8 +46,16 @@ public class StorageConfig {
     public void setFileName(String fileName) {
         this.fileName = fileName;
     }
-    
-    public String getFilePath(){
-        return this.folderName+SEPERATOR+this.fileName;
+
+    public String getFilePath() {
+        return this.folderName + SEPERATOR + this.fileName;
+    }
+
+    public void setPathToLocalFile(String pathToLocalFile) {
+        this.pathToLocalFile = pathToLocalFile;
+    }
+
+    public String getPathToLocalFile() {
+        return this.pathToLocalFile;
     }
 }

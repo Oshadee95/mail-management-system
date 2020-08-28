@@ -10,13 +10,13 @@ package configurations;
  * @author RED-HAWK
  */
 public class DBConfig {
-    
+
     private final String url = "jdbc:mysql://localhost/";
     private final String dbname = "mmdb";
     private final String unicode = "?useUnicode=yes&characterEncoding=UTF-8"; // To support sinhala characters 
     private final String username = "root";
     private final String password = "";
-
+    
     public String getUrl() {
         return url;
     }

@@ -145,7 +145,7 @@ public class UserServlet extends HttpServlet {
                                     try {
                                         recordActivity(MessageConfig.USER_OPERATION_FAILED, "Location : UserServlet.java | Line : 122 " + MessageConfig.USER_ERROR_2035 + " | Error : " + e.getMessage(), authUser, activityService, activity, request);
                                         setNotification(MessageConfig.USER_OPERATION_NOTIFICATION_TITLE, MessageConfig.USER_ERROR_2035_LOCAL, "danger", request);
-                                        response.sendRedirect(request.getContextPath() + Route.DISPLAY_USERS_ROUTE);
+                                        response.sendRedirect(request.getContextPath() + Route.DISPLAY_REGISTER_USER_FORM_ROUTE);
                                     } catch (Exception ex) {
 //                                    ex.printStackTrace();
                                     }
@@ -198,7 +198,7 @@ public class UserServlet extends HttpServlet {
                                     try {
                                         recordActivity(MessageConfig.USER_OPERATION_FAILED, "Location : UserServlet.java | Line : 169 " + MessageConfig.USER_ERROR_2039 + " | Error : " + e.getMessage(), authUser, activityService, activity, request);
                                         setNotification(MessageConfig.USER_OPERATION_NOTIFICATION_TITLE, MessageConfig.USER_ERROR_2039_LOCAL, "danger", request);
-                                        response.sendRedirect(request.getContextPath() + Route.DISPLAY_USERS_ROUTE);
+                                        response.sendRedirect(request.getContextPath() + Route.DISPLAY_USER_UPDATE_FORM_ROUTE);
                                     } catch (Exception ex) {
 //                                    ex.printStackTrace();
                                     }
@@ -344,7 +344,6 @@ public class UserServlet extends HttpServlet {
         if ((request.getParameter("password") != null && request.getParameter("password").length() >= 6)) {
             user.setPassword(Crypto.generateSecurePassword(request.getParameter("password")));
         } else {
-             System.out.println("348");
             if (action.equals("add")) {
                 user.setPassword(Crypto.generateSecurePassword(user.getNic()));
             } else {
@@ -377,7 +376,6 @@ public class UserServlet extends HttpServlet {
         Part filePart = request.getPart("avatar");
         // obtains input stream of the upload file
         InputStream inputStream = filePart.getInputStream();
-
         // Change the output path accordingly
         OutputStream output = new FileOutputStream(PathConfig.USER_PHOTO_UPLOAD_PATH + imageName);
         byte[] buffer = new byte[1024];

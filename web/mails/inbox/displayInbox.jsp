@@ -79,7 +79,7 @@
                                                             <% } else {%>
                                                                 <a href="<%=request.getContextPath()+Route.DISPLAY_OUTBOX_UPDATE_FORM_ROUTE+"?mid="+inbox.getId()%>" class="dropdown-item d-font"><i class="icon-reply-all2"></i> <%=(language.equals("si"))? Language.si_updateReply :  Language.en_updateReply%></a>
                                                             <% } %>
-                                                            <% if (inbox.getCollectorId().equals(user.getId())) {%>
+                                                            <% if (inbox.getCollectorId().equals(user.getId()) || (user.getRoleId().equals("SYS_ADMIN") || user.getRoleId().equals("GOVERNOR") || user.getRoleId().equals("P_SECRETARIAT"))) {%>
                                                                 <a href="<%=request.getContextPath()+Route.DISPLAY_INBOX_UPDATE_FORM_ROUTE+"?mid="+inbox.getId()%>" class="dropdown-item d-font"><i class="icon-editing"></i> <%=(language.equals("si"))? Language.en_editMail :  Language.en_editMail%></a>
                                                             <% }%>
                                                             <a href="<%=request.getContextPath()+Route.DISPLAY_OUTBOX_FORM_ROUTE+"?mid="+inbox.getId()%>" class="dropdown-item d-font"><i class="icon-eye2"></i> <%=(language.equals("si"))? Language.si_viewMail :  Language.en_viewMail%></a>

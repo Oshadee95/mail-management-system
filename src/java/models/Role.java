@@ -9,7 +9,7 @@ package models;
  *
  * @author Oshadee
  */
-public class Role {
+public class Role implements java.io.Serializable {
 
     private int weight;
     private String id;

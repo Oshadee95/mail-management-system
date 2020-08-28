@@ -11,7 +11,7 @@ import java.sql.Timestamp;
  *
  * @author Oshadee
  */
-public class User {
+public class User implements java.io.Serializable {
 
     private int occupationId;
     private String id, nic, fullName, displayName, office, roleId, active, password, photoURL;

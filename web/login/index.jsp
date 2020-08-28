@@ -41,11 +41,11 @@
                             <div class="form-group">
                                 <div class="input-group m-b-15 p-t-10">
                                     <div class="input-group-addon" style="background-color: #fff"><i class="icon-user" style="color: #f44455; background: #fff"></i></div>
-                                    <input type="text" class="form-control" name="username" placeholder="Username" style="border: 1px solid #ccc;border-radius: 5px;border-left: 0;border-top-left-radius: 0;border-bottom-left-radius: 0; border-left: 1px solid #ccc;">
+                                    <input type="text" class="form-control" name="username" placeholder="Username" style="border: 1px solid #ccc;border-radius: 5px;border-left: 0;border-top-left-radius: 0;border-bottom-left-radius: 0; border-left: 1px solid #ccc; padding-left: 0.75rem">
                                 </div>
                                 <div class="input-group m-b-15">
                                     <div class="input-group-addon" style="background-color: #fff"><i class="icon-key" style="color: #f44455; background: #fff"></i></div>
-                                    <input type="password" autocomplete class="form-control" name="password"  placeholder="Password" style="border: 1px solid #ccc;border-radius: 5px;border-left: 0;border-top-left-radius: 0;border-bottom-left-radius: 0; border-left: 1px solid #ccc;">
+                                    <input type="password" autocomplete class="form-control" name="password"  placeholder="Password" style="border: 1px solid #ccc;border-radius: 5px;border-left: 0;border-top-left-radius: 0;border-bottom-left-radius: 0; border-left: 1px solid #ccc; padding-left: 0.75rem">
                                 </div>
                                 <button class="btn btn-login btn-block m-t-20 m-b-15">Sign In</button>
                             </div>

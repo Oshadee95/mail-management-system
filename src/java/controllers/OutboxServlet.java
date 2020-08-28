@@ -116,7 +116,7 @@ public class OutboxServlet extends HttpServlet {
                                 try {
                                     recordActivity(MessageConfig.INBOX_OPERATION_FAILED, "Location : OutboxServlet.java | Line : 154 " + MessageConfig.OUTBOX_ERROR_2027 + " | Error : " + e.getMessage(), authUser, activityService, activity, request);
                                     setNotification(MessageConfig.INBOX_OPERATION_NOTIFICATION_TITLE, MessageConfig.OUTBOX_ERROR_2027_LOCAL, "danger", request);
-                                    redirectToRoot(request, response);
+                                    response.sendRedirect(request.getContextPath() + Route.DISPLAY_REGISTER_OUTBOX_FORM_ROUTE);
                                 } catch (Exception ex) {
 //                                    ex.printStackTrace();
                                 }
@@ -161,7 +161,7 @@ public class OutboxServlet extends HttpServlet {
                                 try {
                                     recordActivity(MessageConfig.INBOX_OPERATION_FAILED, "Location : OutboxServlet.java | Line : 154 " + MessageConfig.OUTBOX_ERROR_2027 + " | Error : " + e.getMessage(), authUser, activityService, activity, request);
                                     setNotification(MessageConfig.INBOX_OPERATION_NOTIFICATION_TITLE, MessageConfig.OUTBOX_ERROR_2027_LOCAL, "danger", request);
-                                    redirectToRoot(request, response);
+                                    response.sendRedirect(request.getContextPath() + Route.DISPLAY_OUTBOX_UPDATE_FORM_ROUTE);
                                 } catch (Exception ex) {
 //                                    ex.printStackTrace();
                                 }

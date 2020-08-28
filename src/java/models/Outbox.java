@@ -11,7 +11,7 @@ import java.sql.Timestamp;
  *
  * @author Oshadee
  */
-public class Outbox {
+public class Outbox implements java.io.Serializable {
 
     private String mailId, senderId, replyImageURL;
     private Timestamp repliedAt, updatedAt;

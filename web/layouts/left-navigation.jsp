@@ -26,7 +26,7 @@
                     <% if (!((authUser.getRoleId().equals("P_OPERATOR")) || (authUser.getRoleId().equals("G_OPERATOR")) || (authUser.getRoleId().equals("SYS_ADMIN")))) { %>
                     <li><a class="<%=(navigatedPath.equals("mymail")) ? "active" : "" %> d-nav-font" href="<%=request.getContextPath()+Route.DISPLAY_MYMAIL_ROUTE%>"><i class="icon-envelop"></i> <span>My Mail</span></a></li>    
                     <% } %>
-                    <% if (!(authUser.getRoleId().equals("G_OPERATOR")) || (authUser.getRoleId().equals("G_SECRETARIAT"))) { %>
+                    <% if (!((authUser.getRoleId().equals("G_OPERATOR")) || (authUser.getRoleId().equals("G_SECRETARIAT")))) { %>
                         <li><a class="<%=(navigatedPath.equals("categories")) ? "active" : "" %> d-nav-font" href="<%=request.getContextPath()+Route.DISPLAY_CATEGORIES_ROUTE%>"><i class="icon-three-bars"></i> <span>Categories</span></a></li>     
                     <% }%>
                     <li><a class="<%=(navigatedPath.equals("inbox")) ? "active" : "" %> d-nav-font" href="<%=request.getContextPath()+Route.DISPLAY_INBOX_ROUTE %>"><i class="icon-envelop"></i> <span>Mails</span></a></li>          

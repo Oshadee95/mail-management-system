@@ -11,7 +11,7 @@ import java.sql.Timestamp;
  *
  * @author Oshadee
  */
-public class Inbox {
+public class Inbox implements java.io.Serializable {
 
     private int categoryId;
     private String id, type, sender, content, collectorId, recipientId, imageURL, replied;

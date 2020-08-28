@@ -9,7 +9,7 @@ package models;
  *
  * @author Oshadee
  */
-public class Occupation {
+public class Occupation implements java.io.Serializable {
 
     private int id;
     private String title;

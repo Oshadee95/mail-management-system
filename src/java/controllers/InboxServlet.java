@@ -51,14 +51,14 @@ public class InboxServlet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            
+
             if (request.getSession().getAttribute("authUser") != null) {
                 UserInfo authUser = (UserInfo) request.getSession().getAttribute("authUser");
                 ActivityService activityService = new ActivityService();
                 ActivityInfo activity = new ActivityInfo();
                 request.setCharacterEncoding("UTF-8");
                 request.getSession().setAttribute("navigatedPath", "inbox");
-                
+
                 switch (request.getServletPath()) {
                     case Route.DISPLAY_INBOX_ROUTE:
                         request.getSession().setAttribute("previousRoute", Route.DISPLAY_INBOX_ROUTE);
@@ -119,7 +119,7 @@ public class InboxServlet extends HttpServlet {
                                 try {
                                     recordActivity(MessageConfig.INBOX_OPERATION_FAILED, "Location : InboxServlet.java | Line : 107 " + MessageConfig.INBOX_ERROR_2014 + " | Error : " + e.getMessage(), authUser, activityService, activity, request);
                                     setNotification(MessageConfig.INBOX_OPERATION_NOTIFICATION_TITLE, MessageConfig.INBOX_ERROR_2014_LOCAL, "danger", request);
-                                    response.sendRedirect(request.getContextPath() + Route.DISPLAY_INBOX_ROUTE);
+                                    response.sendRedirect(request.getContextPath() + Route.DISPLAY_REGISTER_INBOX_FORM_ROUTE);
                                 } catch (Exception ex) {
 //                                    ex.printStackTrace();
                                 }
@@ -143,7 +143,7 @@ public class InboxServlet extends HttpServlet {
                                         || (inbox.getCollectorId().equals(authUser.getId())
                                         && authUser.getActive().equals("false")
                                         && authUser.getRoleId().equals("P_OPERATOR"))) {
-                                    
+
                                     request.setAttribute("categoryList", new CategoryService().getAll());
                                     request.setAttribute("userList", new UserService().getAllOnLowLevel());
                                     request.getRequestDispatcher("/mails/inbox/updateInboxForm.jsp").forward(request, response);
@@ -177,7 +177,7 @@ public class InboxServlet extends HttpServlet {
                                         || (inbox.getCollectorId().equals(authUser.getId())
                                         && authUser.getActive().equals("false")
                                         && authUser.getRoleId().equals("P_OPERATOR"))) {
-                                    
+
                                     if (updateMail(request, authUser, activityService, activity)) {
                                         request.getSession().removeAttribute("selectedInbox");
                                         response.sendRedirect(request.getContextPath() + Route.DISPLAY_INBOX_ROUTE);
@@ -191,7 +191,7 @@ public class InboxServlet extends HttpServlet {
                                 try {
                                     recordActivity(MessageConfig.INBOX_OPERATION_FAILED, "Location : InboxServlet.java | Line : 154 " + MessageConfig.INBOX_ERROR_2017 + " | Error : " + e.getMessage(), authUser, activityService, activity, request);
                                     setNotification(MessageConfig.INBOX_OPERATION_NOTIFICATION_TITLE, MessageConfig.INBOX_ERROR_2017_LOCAL, "danger", request);
-                                    response.sendRedirect(request.getContextPath() + Route.DISPLAY_INBOX_ROUTE);
+                                    response.sendRedirect(request.getContextPath() + Route.DISPLAY_INBOX_UPDATE_FORM_ROUTE);
                                 } catch (Exception ex) {
 //                                    ex.printStackTrace();
                                 }
@@ -209,7 +209,7 @@ public class InboxServlet extends HttpServlet {
             }
         }
     }
-    
+
     private boolean registerMail(HttpServletRequest request, UserInfo authUser, ActivityService activityService, ActivityInfo activity) throws ClassNotFoundException, SQLException, IOException, ServletException {
         if ((request.getParameter("senderName") != null)
                 && (request.getParameter("mailType") != null)
@@ -217,7 +217,7 @@ public class InboxServlet extends HttpServlet {
                 && (request.getParameter("mailRecipient") != null)
                 && (request.getParameter("mailBrief") != null)
                 && (request.getPart("letter") != null)) {
-            
+
             Part filePart = null;
             if (request.getPart("letter") != null) {
                 // obtains the upload file part in this multipart request
@@ -227,7 +227,7 @@ public class InboxServlet extends HttpServlet {
                     return false;
                 }
             }
-            
+
             InboxInfo inbox = new InboxInfo();
             String mailId = Crypto.generateTimeStampId();
             inbox.setId(mailId);
@@ -239,14 +239,14 @@ public class InboxServlet extends HttpServlet {
             inbox.setCategoryId(Integer.parseInt(request.getParameter("mailCategory")));
             inbox.setImageURL(mailId + "-I.png"); // letter url
             request.getSession().setAttribute("submittedMail", inbox);
-            
+
             if (!(validateMailRecipient(request, "add"))) {
                 return false;
             }
             if (!(validateCategory(request, "add", authUser, inbox, activityService, activity))) {
                 return false;
             }
-            
+
             InboxService inboxService = new InboxService();
             if (inboxService.add(inbox)) {
                 if (uploadFile(mailId, filePart)) {
@@ -269,7 +269,7 @@ public class InboxServlet extends HttpServlet {
             return false;
         }
     }
-    
+
     private boolean updateMail(HttpServletRequest request, UserInfo authUser, ActivityService activityService, ActivityInfo activity) throws ClassNotFoundException, SQLException, IOException, ServletException {
         if ((request.getParameter("mid") != null)
                 && (request.getParameter("senderName") != null)
@@ -277,7 +277,7 @@ public class InboxServlet extends HttpServlet {
                 && (request.getParameter("mailCategory") != null)
                 && (request.getParameter("mailRecipient") != null)
                 && (request.getParameter("mailBrief") != null)) {
-            
+
             InboxInfo inbox = new InboxInfo();
             String mailId = request.getParameter("mid");
             inbox.setId(mailId);
@@ -287,14 +287,14 @@ public class InboxServlet extends HttpServlet {
             inbox.setCategoryId(Integer.parseInt(request.getParameter("mailCategory")));
             inbox.setContent(request.getParameter("mailBrief")); // mail brief
             request.getSession().setAttribute("selectedInbox", inbox);
-            
+
             if (!(validateMailRecipient(request, "update"))) {
                 return false;
             }
             if (!(validateCategory(request, "update", authUser, inbox, activityService, activity))) {
                 return false;
             }
-            
+
             InboxService inboxService = new InboxService();
             if (inboxService.update(inbox)) {
                 if ((request.getPart("letter") != null) && ((request.getPart("letter").getContentType().equals("image/png")) || (request.getPart("letter").getContentType().equals("image/jpeg")))) {
@@ -322,9 +322,9 @@ public class InboxServlet extends HttpServlet {
             return false;
         }
     }
-    
+
     private boolean uploadFile(String imageName, Part filePart) throws IOException, ServletException {
-        // obtains input stream of the upload file
+    	// obtains input stream of the upload file
         InputStream inputStream = filePart.getInputStream();
         // Change the output path accordingly
         OutputStream output = new FileOutputStream(PathConfig.INBOX_LETTER_UPLOAD_PATH + imageName + "-I.png");
@@ -335,7 +335,7 @@ public class InboxServlet extends HttpServlet {
         File isPhotoSaved = new File(PathConfig.INBOX_LETTER_UPLOAD_PATH + imageName + "-I.png");
         return isPhotoSaved.exists();
     }
-    
+
     private boolean validateCategory(HttpServletRequest request, String action, UserInfo user, InboxInfo inbox, ActivityService activityService, ActivityInfo activity) throws ClassNotFoundException, SQLException {
         switch (request.getParameter("mailCategory")) {
             case "0":
@@ -348,18 +348,18 @@ public class InboxServlet extends HttpServlet {
                 return true;
         }
     }
-    
+
     private boolean createNewCategory(HttpServletRequest request, UserInfo authUser, InboxInfo inbox, ActivityService activityService, ActivityInfo activity, String action) throws ClassNotFoundException, SQLException {
         if ((request.getParameter("newCategoryName") != null)
                 && (request.getParameter("newCategoryDescription") != null)
                 && (request.getParameter("newCategoryName").length() > 2)
                 && (request.getParameter("newCategoryDescription").length() > 2)) {
-            
+
             CategoryService categoryService = new CategoryService();
             Category category = new Category();
             category.setName(request.getParameter("newCategoryName"));
             category.setDescription(request.getParameter("newCategoryDescription"));
-            
+
             if (categoryService.add(category)) {
                 inbox.setCategoryId(categoryService.getLastCategory().getId()); // mail category id
                 recordActivity(MessageConfig.CATEGORY_OPERATION_SUCCESSFUL, MessageConfig.CATEGORY_SUCCESSFUULY_ADDED + " Category name : " + category.getName(), authUser, activityService, activity, request);
@@ -375,7 +375,7 @@ public class InboxServlet extends HttpServlet {
             return false;
         }
     }
-    
+
     private boolean validateMailRecipient(HttpServletRequest request, String action) {
         if (request.getParameter("mailRecipient").equals("unselected")) {
             setFieldsMissingNotification(action, request);
@@ -384,18 +384,18 @@ public class InboxServlet extends HttpServlet {
             return true;
         }
     }
-    
+
     private void recordActivity(String type, String operation, UserInfo user, ActivityService activityService, ActivityInfo activity, HttpServletRequest request) throws ClassNotFoundException, SQLException {
         activity.setUserId(user.getId());
         activity.setType(type);
         activity.setAction(operation);
         activityService.add(activity);
     }
-    
+
     private void setNotification(String title, String body, String className, HttpServletRequest request) {
         request.getSession().setAttribute("notification", new Notification(title, body, className));
     }
-    
+
     private void redirectUnauthorizedRequest(String route, UserInfo user, HttpServletRequest request, HttpServletResponse response) throws IOException {
         if (user != null) {
             setNotification(MessageConfig.UNAUTHORIZED_REQUEST_NOTIFICATION_TITLE, user.getDisplayName() + MessageConfig.UNAUTHORIZED_REQUEST_NOTIFICATION, "warning", request);
@@ -409,7 +409,7 @@ public class InboxServlet extends HttpServlet {
                 break;
         }
     }
-    
+
     private void setFieldsMissingNotification(String action, HttpServletRequest request) {
         if (action.equals("add")) {
             setNotification(MessageConfig.INBOX_OPERATION_NOTIFICATION_TITLE, MessageConfig.INBOX_ERROR_2016_LOCAL, "danger", request);

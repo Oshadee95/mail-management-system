@@ -11,7 +11,7 @@ import java.sql.Timestamp;
  *
  * @author RED-HAWK
  */
-public class Activity {
+public class Activity implements java.io.Serializable {
     
     private int id;
     private String type, userId, action;

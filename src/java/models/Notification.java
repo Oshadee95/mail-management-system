@@ -9,7 +9,7 @@ package models;
  *
  * @author RED-HAWK
  */
-public class Notification {
+public class Notification implements java.io.Serializable {
     
     private String status, outcomeDescription, className;
 

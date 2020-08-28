@@ -9,7 +9,7 @@ package models;
  *
  * @author Oshadee
  */
-public class Category {
+public class Category implements java.io.Serializable {
 
     private int id;
     private String name, description;
